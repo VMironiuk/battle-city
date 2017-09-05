@@ -3,7 +3,10 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 
-SOURCES += src/main.cpp
+SOURCES += src/main.cpp \
+    src/board.cpp \
+    src/unit.cpp \
+    src/tile.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,3 +31,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    src/board.h \
+    src/unit.h \
+    src/tile.h

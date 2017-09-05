@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/Playground.qml</file>
+        <file>qml/InformationPanel.qml</file>
+        <file>qml/Board.qml</file>
     </qresource>
 </RCC>
