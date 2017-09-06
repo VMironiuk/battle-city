@@ -9,6 +9,11 @@ Board::Board(QObject *parent) : QObject(parent)
     initialize();
 }
 
+Board::~Board()
+{
+    qDeleteAll(tiles_);
+}
+
 void Board::setWidth(int width)
 {
 //    qDebug() << Q_FUNC_INFO << width;
@@ -29,12 +34,48 @@ void Board::setHeight(int height)
     }
 }
 
-QSharedPointer<Tile> Board::tile(int row, int column) const
+Tile *Board::tile(int row, int column) const
 {
     int index = column + row * SIZE;
     if (index < 0 || index >= tiles_.size())
-        return QSharedPointer<Tile>();
+        return nullptr;
     return tiles_.at(index);
+}
+
+QQmlListProperty<Tile> Board::tiles()
+{
+    return QQmlListProperty<Tile>(this, tiles_);
+}
+
+void Board::updateTiles()
+{
+    const int tileWidth = width_ / SIZE;
+    const int tileHeight = height_ / SIZE;
+
+    for (int row = 0, currentY = 0; row != SIZE; ++row, currentY += tileHeight) {
+        for (int column =0, currentX = 0; column != SIZE; ++column, currentX += tileWidth) {
+            Tile *currentTile = tile(row, column);
+            currentTile->setWidth(tileWidth);
+            currentTile->setHeight(tileHeight);
+            currentTile->setX(currentX);
+            currentTile->setY(currentY);
+        }
+    }
+}
+
+void Board::makeMaze()
+{
+    Tile *currentTile = tile(0, 0);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+}
+
+void Board::initialize()
+{
+    fillTiles();
+    makeMaze();
+
+    connect(this, SIGNAL(widthChanged(int)), this, SLOT(updateTiles()));
+    connect(this, SIGNAL(heightChanged(int)), this, SLOT(updateTiles()));
 }
 
 void Board::fillTiles()
@@ -44,7 +85,7 @@ void Board::fillTiles()
 
     for (int row = 0, currentY = 0; row != SIZE; ++row, currentY += tileHeight) {
         for (int column =0, currentX = 0; column != SIZE; ++column, currentX += tileWidth) {
-            QSharedPointer<Tile> tile = QSharedPointer<Tile>(new Tile);
+            Tile *tile = new Tile;
             tile->setWidth(tileWidth);
             tile->setHeight(tileHeight);
             tile->setX(currentX);
@@ -53,12 +94,4 @@ void Board::fillTiles()
             tiles_.push_back(tile);
         }
     }
-}
-
-void Board::initialize()
-{
-    fillTiles();
-
-    connect(this, SIGNAL(widthChanged(int)), this, SLOT(fillTiles()));
-    connect(this, SIGNAL(heightChanged(int)), this, SLOT(fillTiles()));
 }
