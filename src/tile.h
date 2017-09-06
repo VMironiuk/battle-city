@@ -7,10 +7,10 @@ class Tile : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString imagePath READ imagePath WRITE setImagePath NOTIFY imagePathChanged)
-    Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
-    Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)
-    Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
+    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
+    Q_PROPERTY(qreal x READ x WRITE setX NOTIFY xChanged)
+    Q_PROPERTY(qreal y READ y WRITE setY NOTIFY yChanged)
 public:
     explicit Tile(QObject *parent = nullptr);
 
@@ -18,17 +18,17 @@ public slots:
     QString imagePath() const { return imagePath_; }
     void setImagePath(const QString &imagePath);
 
-    int width() const { return width_; }
-    void setWidth(int width);
+    qreal width() const { return width_; }
+    void setWidth(qreal width);
 
-    int height() const { return height_; }
-    void setHeight(int height);
+    qreal height() const { return height_; }
+    void setHeight(qreal height);
 
-    int x() const { return x_; }
-    void setX(int x);
+    qreal x() const { return x_; }
+    void setX(qreal x);
 
-    int y() const { return y_; }
-    void setY(int y);
+    qreal y() const { return y_; }
+    void setY(qreal y);
 
 signals:
     void imagePathChanged(const QString imagePath);
@@ -39,10 +39,10 @@ signals:
 
 private:
     QString imagePath_;
-    int width_ = 0;
-    int height_ = 0;
-    int x_ = 0;
-    int y_ = 0;
+    qreal width_ = 0;
+    qreal height_ = 0;
+    qreal x_ = .0;
+    qreal y_ = .0;
 };
 
 #endif // TILE_H

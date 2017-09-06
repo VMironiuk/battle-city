@@ -15,7 +15,7 @@ void Tile::setImagePath(const QString &imagePath)
     }
 }
 
-void Tile::setWidth(int width)
+void Tile::setWidth(qreal width)
 {
 //    qDebug() << Q_FUNC_INFO << width;
 
@@ -25,7 +25,7 @@ void Tile::setWidth(int width)
     }
 }
 
-void Tile::setHeight(int height)
+void Tile::setHeight(qreal height)
 {
 //    qDebug() << Q_FUNC_INFO << height;
 
@@ -35,7 +35,7 @@ void Tile::setHeight(int height)
     }
 }
 
-void Tile::setX(int x)
+void Tile::setX(qreal x)
 {
 //    qDebug() << Q_FUNC_INFO << x;
 
@@ -45,7 +45,7 @@ void Tile::setX(int x)
     }
 }
 
-void Tile::setY(int y)
+void Tile::setY(qreal y)
 {
 //    qDebug() << Q_FUNC_INFO << y;
 
