@@ -9,6 +9,6 @@ Item {
     Image {
         id: tileBackground
         anchors.fill: parent
-        source: modelData.imagePath
+        source: modelData.imageSource
     }
 }

@@ -5,8 +5,8 @@ CONFIG += c++11
 
 SOURCES += src/main.cpp \
     src/board.cpp \
-    src/unit.cpp \
-    src/tile.cpp
+    src/tile.cpp \
+    src/baseitem.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -34,5 +34,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/board.h \
-    src/unit.h \
-    src/tile.h
+    src/tile.h \
+    src/baseitem.h
