@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/obstacles/bricks.png</file>
+        <file>images/obstacles/concrete.png</file>
     </qresource>
 </RCC>

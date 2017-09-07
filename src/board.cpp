@@ -423,6 +423,345 @@ void Board::makeMaze()
 
     currentTile = tile(12, 15);
     currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 9
+    currentTile = tile(13, 4);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 4);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(13, 5);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 5);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(13, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(13, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 10
+    currentTile = tile(13, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(13, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(13, 20);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 20);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(13, 21);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(14, 21);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 11
+    currentTile = tile(17, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 2);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 3);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 11
+    currentTile = tile(17, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 6);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 7);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 12
+    currentTile = tile(15, 10);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(15, 11);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(16, 10);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(16, 11);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 10);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 11);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 10);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 11);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 10);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 11);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 10);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 11);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+
+    // Wall 13
+    currentTile = tile(16, 12);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(16, 13);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 12);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 13);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 14
+    currentTile = tile(15, 14);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(15, 15);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(16, 14);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(16, 15);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 14);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 15);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 14);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 15);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 14);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 15);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 14);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 15);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+
+    // Wall 15
+    currentTile = tile(17, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 18);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 19);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Wall 16
+    currentTile = tile(17, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(17, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(18, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(19, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(20, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(21, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(22, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 22);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    currentTile = tile(23, 23);
+    currentTile->setImagePath("qrc:/images/obstacles/bricks.png");
+
+    // Concrete walls
+    // Wall 1
+    currentTile = tile(6, 12);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    currentTile = tile(6, 13);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    currentTile = tile(7, 12);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    currentTile = tile(7, 13);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    // Wall 2
+    currentTile = tile(14, 0);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    currentTile = tile(14, 1);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    // Wall 3
+    currentTile = tile(14, 24);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
+
+    currentTile = tile(14, 25);
+    currentTile->setImagePath("qrc:/images/obstacles/concrete.png");
 }
 
 void Board::initialize()
