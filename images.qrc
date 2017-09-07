@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>images/obstacles/bricks.png</file>
         <file>images/obstacles/concrete.png</file>
+        <file>images/tanks/player/one_star_tank.png</file>
+        <file>images/tanks/player/simple_tank.png</file>
+        <file>images/tanks/player/three_stars_tank.png</file>
+        <file>images/tanks/player/two_stars_tank.png</file>
     </qresource>
 </RCC>

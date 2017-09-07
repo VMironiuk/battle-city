@@ -3,6 +3,7 @@
 #include <QQmlContext>
 
 #include "board.h"
+#include "movableitem.h"
 #include "tile.h"
 
 int main(int argc, char *argv[])
@@ -10,6 +11,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<Tile>();
+    qmlRegisterUncreatableType<MovableItem>("battlecity.movableitem", 1, 0, "MovableItem",
+                                            "Cannot register MovableItem type");
 
     Board board;
 

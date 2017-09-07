@@ -5,6 +5,10 @@ Rectangle {
         model: board.tiles
         Tile { }
     }
+    Repeater {
+        model: board.tanks
+        Tank { }
+    }
 
     onWidthChanged: {
         board.width = width

@@ -12,6 +12,7 @@ Board::Board(QObject *parent) : BaseItem(parent)
 Board::~Board()
 {
     qDeleteAll(tiles_);
+    qDeleteAll(tanks_);
 }
 
 QQmlListProperty<Tile> Board::tiles()
@@ -19,8 +20,14 @@ QQmlListProperty<Tile> Board::tiles()
     return QQmlListProperty<Tile>(this, tiles_);
 }
 
-void Board::updateTiles()
+QQmlListProperty<MovableItem> Board::tanks()
 {
+    return QQmlListProperty<MovableItem>(this, tanks_);
+}
+
+void Board::updateGeometry()
+{
+    // Tiles
     const int tileWidth = width() / SIZE;
     const int tileHeight = height() / SIZE;
 
@@ -33,18 +40,29 @@ void Board::updateTiles()
             currentTile->setY(currentY);
         }
     }
+
+    // Tanks (FOR TESTING, DELETE LATER !!!)
+    for (auto tank : tanks_) {
+        tank->setWidth(width() / SIZE * 2);
+        tank->setHeight(height() / SIZE * 2);
+
+        Tile *t = tile(24, 9);
+        tank->setX(t->x());
+        tank->setY(t->y());
+    }
 }
 
 void Board::initialize()
 {
-    fillTiles();
+    makeTiles();
     makeMaze();
+    makeTanks();
 
-    connect(this, SIGNAL(widthChanged(qreal)), this, SLOT(updateTiles()));
-    connect(this, SIGNAL(heightChanged(qreal)), this, SLOT(updateTiles()));
+    connect(this, SIGNAL(widthChanged(qreal)), this, SLOT(updateGeometry()));
+    connect(this, SIGNAL(heightChanged(qreal)), this, SLOT(updateGeometry()));
 }
 
-void Board::fillTiles()
+void Board::makeTiles()
 {
     const int tileWidth = width() / SIZE;
     const int tileHeight = height() / SIZE;
@@ -761,6 +779,21 @@ void Board::makeMaze()
 
     currentTile = tile(14, 25);
     currentTile->setImageSource("qrc:/images/obstacles/concrete.png");
+}
+
+void Board::makeTanks()
+{
+    MovableItem *tank = new MovableItem;
+    tank->setWidth(width() / SIZE * 2);
+    tank->setHeight(height() / SIZE * 2);
+
+    Tile *t = tile(24, 9);
+    tank->setX(t->x());
+    tank->setY(t->y());
+
+    tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
+
+    tanks_ << tank;
 }
 
 Tile *Board::tile(int row, int column) const
