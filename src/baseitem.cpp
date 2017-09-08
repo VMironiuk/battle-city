@@ -6,7 +6,7 @@ BaseItem::BaseItem(QObject *parent)
 
 }
 
-void BaseItem::setX(qreal x)
+void BaseItem::setX(int x)
 {
     if (x_ == x)
         return;
@@ -14,7 +14,7 @@ void BaseItem::setX(qreal x)
     emit xChanged(x_);
 }
 
-void BaseItem::setY(qreal y)
+void BaseItem::setY(int y)
 {
     if (y_ == y)
         return;
@@ -22,7 +22,7 @@ void BaseItem::setY(qreal y)
     emit yChanged(y_);
 }
 
-void BaseItem::setWidth(qreal width)
+void BaseItem::setWidth(int width)
 {
     if (width_ == width)
         return;
@@ -30,7 +30,7 @@ void BaseItem::setWidth(qreal width)
     emit widthChanged(width_);
 }
 
-void BaseItem::setHeight(qreal height)
+void BaseItem::setHeight(int height)
 {
     if (height_ == height)
         return;
@@ -38,7 +38,7 @@ void BaseItem::setHeight(qreal height)
     emit heightChanged(height_);
 }
 
-void BaseItem::setRotation(qreal rotation)
+void BaseItem::setRotation(int rotation)
 {
     if (rotation_ == rotation)
         return;

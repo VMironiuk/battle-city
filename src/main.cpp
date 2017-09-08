@@ -3,6 +3,7 @@
 #include <QQmlContext>
 
 #include "board.h"
+#include "collider.h"
 #include "movableitem.h"
 #include "tile.h"
 
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
                                             "Cannot register MovableItem type");
 
     Board board;
+    Collider::instance().setBoard(&board);
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("board", &board);

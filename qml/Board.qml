@@ -2,11 +2,11 @@ import QtQuick 2.0
 
 Rectangle {
     Repeater {
-        model: board.tiles
+        model: board.tilesProperty
         Tile { }
     }
     Repeater {
-        model: board.tanks
+        model: board.tanksProperty
         Tank { }
     }
 

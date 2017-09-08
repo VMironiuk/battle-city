@@ -10,14 +10,17 @@
 class Board : public BaseItem
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Tile> tiles READ tiles CONSTANT)
-    Q_PROPERTY(QQmlListProperty<MovableItem> tanks READ tanks CONSTANT)
+    Q_PROPERTY(QQmlListProperty<Tile> tilesProperty READ tilesProperty CONSTANT)
+    Q_PROPERTY(QQmlListProperty<MovableItem> tanksProperty READ tanksProperty CONSTANT)
 public:
     explicit Board(QObject *parent = nullptr);
     ~Board();
 
-    QQmlListProperty<Tile> tiles();
-    QQmlListProperty<MovableItem> tanks();
+    QQmlListProperty<Tile> tilesProperty();
+    QQmlListProperty<MovableItem> tanksProperty();
+
+    QList<Tile *> tiles() const { return tiles_; }
+    QList<MovableItem *> tanks() const { return tanks_; }
 
 private slots:
     void updateGeometry();

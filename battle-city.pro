@@ -7,7 +7,8 @@ SOURCES += src/main.cpp \
     src/board.cpp \
     src/tile.cpp \
     src/baseitem.cpp \
-    src/movableitem.cpp
+    src/movableitem.cpp \
+    src/collider.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -37,4 +38,5 @@ HEADERS += \
     src/board.h \
     src/tile.h \
     src/baseitem.h \
-    src/movableitem.h
+    src/movableitem.h \
+    src/collider.h
