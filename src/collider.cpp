@@ -64,49 +64,44 @@ bool Collider::isBoardCollided(MovableItem *movableItem)
 
 bool Collider::isTileCollided(MovableItem *movableItem)
 {
+    int xOffset = 0;
+    int yOffset = 0;
+
     for (Tile *tile : board_->tiles()) {
         if (!tile->isTankTraversable()) {
             switch (movableItem->direction()) {
             case MovableItem::North:
-                if (movableItem->top() > tile->top()
-                        && movableItem->top() < tile->bottom()
-                        && ((movableItem->left() > tile->left()
-                             && movableItem->left() < tile->right())
-                            || (movableItem->right() > tile->left()
-                                && movableItem->right() < tile->right()))) {
+                xOffset = movableItem->x() % tile->width();
+                if (movableItem->top() < tile->bottom() && movableItem->top() > tile->top()
+                        && ((movableItem->left() >= tile->left() && movableItem->left() < tile->right())
+                            || (movableItem->right() > tile->left() && movableItem->right() <= tile->right()))) {
                     return true;
                 }
                 break;
 
             case MovableItem::South:
-                if (movableItem->bottom() < tile->bottom()
-                        && movableItem->bottom() > tile->top()
-                        && ((movableItem->left() > tile->left()
-                             && movableItem->left() < tile->right())
-                            || (movableItem->right() > tile->left()
-                                && movableItem->right() < tile->right()))) {
+                xOffset = movableItem->x() % tile->width();
+                if (movableItem->bottom() > tile->top() && movableItem->bottom() < tile->bottom()
+                        && ((movableItem->left() >= tile->left() && movableItem->left() < tile->right())
+                            || (movableItem->right() > tile->left() && movableItem->right() <= tile->right()))) {
                     return true;
                 }
                 break;
 
             case MovableItem::West:
-                if (movableItem->left() > tile->left()
-                        && movableItem->left() < tile->right()
-                        && ((movableItem->bottom() < tile->bottom()
-                             && movableItem->bottom() > tile->top())
-                            || (movableItem->top() < tile->bottom()
-                                && movableItem->top() > tile->top()))) {
+                yOffset = movableItem->y() % tile->height();
+                if (movableItem->left() < tile->right() && movableItem->left() > tile->left()
+                        && ((movableItem->bottom() <= tile->bottom() && movableItem->bottom() > tile->top())
+                            || (movableItem->top() < tile->bottom() && movableItem->top() >= tile->top()))) {
                     return true;
                 }
                 break;
 
             case MovableItem::East:
-                if (movableItem->right() < tile->right()
-                        && movableItem->right() > tile->left()
-                        && ((movableItem->bottom() < tile->bottom()
-                             && movableItem->bottom() > tile->top())
-                            || (movableItem->top() < tile->bottom()
-                                && movableItem->top() > tile->top()))) {
+                yOffset = movableItem->y() % tile->height();
+                if (movableItem->right() > tile->left() && movableItem->right() < tile->right()
+                        && ((movableItem->bottom() <= tile->bottom() && movableItem->bottom() > tile->top())
+                            || (movableItem->top() < tile->bottom() && movableItem->top() >= tile->top()))) {
                     return true;
                 }
                 break;
@@ -116,5 +111,25 @@ bool Collider::isTileCollided(MovableItem *movableItem)
             }
         }
     }
+
+    const int tileSize = movableItem->width() / 2;
+
+    if (xOffset < tileSize / 2) {
+        xOffset = -xOffset;
+    }
+    else {
+        xOffset = tileSize - xOffset;
+    }
+
+    if (yOffset < tileSize / 2) {
+        yOffset = -yOffset;
+    }
+    else {
+        yOffset = tileSize - yOffset;
+    }
+
+    movableItem->setX(movableItem->x() + xOffset);
+    movableItem->setY(movableItem->y() + yOffset);
+
     return false;
 }

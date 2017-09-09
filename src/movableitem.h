@@ -36,7 +36,7 @@ signals:
     void directionChanged(Direction direction);
 
 private:
-    int speed_ = 1;
+    int speed_ = 4;
     Direction direction_ = None;
 };
 
