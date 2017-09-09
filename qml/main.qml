@@ -4,12 +4,10 @@ import battlecity.movableitem 1.0
 
 Window {
     visible: true
-    maximumWidth: 1110
-    minimumWidth: /*662*/1110
+    maximumWidth: 1024
+    minimumWidth: 1024
     maximumHeight: 896
-    minimumHeight: /*480*/896
-//    width: 1110
-//    height: 896
+    minimumHeight: 896
 
     Playground {
         anchors.fill: parent

@@ -9,11 +9,4 @@ Rectangle {
         model: board.tanksProperty
         Tank { }
     }
-
-    onWidthChanged: {
-        board.width = width
-    }
-    onHeightChanged: {
-        board.height = height
-    }
 }

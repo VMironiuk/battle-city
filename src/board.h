@@ -22,9 +22,6 @@ public:
     QList<Tile *> tiles() const { return tiles_; }
     QList<MovableItem *> tanks() const { return tanks_; }
 
-private slots:
-    void updateGeometry();
-
 private:
     void initialize();
     void makeTiles();

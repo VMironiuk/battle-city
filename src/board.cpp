@@ -29,32 +29,6 @@ QQmlListProperty<MovableItem> Board::tanksProperty()
     return QQmlListProperty<MovableItem>(this, tanks_);
 }
 
-void Board::updateGeometry()
-{
-    // Tiles
-    for (int row = 0, currentY = 0; row != TILE_COUNT_PER_SIDE;
-         ++row, currentY += TILE_SIZE) {
-        for (int column =0, currentX = 0; column != TILE_COUNT_PER_SIDE;
-             ++column, currentX += TILE_SIZE) {
-            Tile *currentTile = tile(row, column);
-            currentTile->setWidth(TILE_SIZE);
-            currentTile->setHeight(TILE_SIZE);
-            currentTile->setX(currentX);
-            currentTile->setY(currentY);
-        }
-    }
-
-    // Tanks (FOR TESTING, DELETE LATER !!!)
-    for (auto tank : tanks_) {
-        tank->setWidth(48);
-        tank->setHeight(48);
-
-        Tile *t = tile(24, 9);
-        tank->setX(t->x());
-        tank->setY(t->y());
-    }
-}
-
 void Board::initialize()
 {
     setWidth(BOARD_SIZE);
@@ -63,9 +37,6 @@ void Board::initialize()
     makeTiles();
     makeMaze();
     makeTanks();
-
-    connect(this, SIGNAL(widthChanged(int)), this, SLOT(updateGeometry()));
-    connect(this, SIGNAL(heightChanged(int)), this, SLOT(updateGeometry()));
 }
 
 void Board::makeTiles()
@@ -787,8 +758,8 @@ void Board::makeMaze()
 void Board::makeTanks()
 {
     MovableItem *tank = new MovableItem;
-    tank->setWidth(width() / TILE_COUNT_PER_SIDE * 2);
-    tank->setHeight(height() / TILE_COUNT_PER_SIDE * 2);
+    tank->setWidth(TILE_SIZE * 2);
+    tank->setHeight(TILE_SIZE * 2);
 
     Tile *t = tile(24, 9);
     tank->setX(t->x());
