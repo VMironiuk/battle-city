@@ -6,8 +6,6 @@ static const int TILE_SIZE = 32;
 static const int TILE_COUNT_PER_SIDE = 26;
 static const int BOARD_SIZE = TILE_SIZE * TILE_COUNT_PER_SIDE;
 
-static const int SIZE = 26;
-
 Board::Board(QObject *parent) : BaseItem(parent)
 {
     initialize();
@@ -27,6 +25,12 @@ QQmlListProperty<Tile> Board::tilesProperty()
 QQmlListProperty<MovableItem> Board::tanksProperty()
 {
     return QQmlListProperty<MovableItem>(this, tanks_);
+}
+
+void Board::update()
+{
+    for (auto tank : tanks_)
+        tank->move();
 }
 
 void Board::initialize()

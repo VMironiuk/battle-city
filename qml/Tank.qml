@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import battlecity.movableitem 1.0
 
 Item {
     id: tank
@@ -14,16 +15,27 @@ Item {
         source: modelData.imageSource
     }
 
-    Keys.onUpPressed: {
-        modelData.moveNorth()
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Up) {
+            modelData.direction = MovableItem.North
+            event.accepted = true
+         }
+         else if (event.key === Qt.Key_Down) {
+            modelData.direction = MovableItem.South
+            event.accepted = true
+         }
+         else if (event.key === Qt.Key_Left) {
+            modelData.direction = MovableItem.West
+            event.accepted = true
+         }
+         else if (event.key === Qt.Key_Right) {
+            modelData.direction = MovableItem.East
+            event.accepted = true
+         }
     }
-    Keys.onRightPressed: {
-        modelData.moveEast()
-    }
-    Keys.onDownPressed: {
-        modelData.moveSouth()
-    }
-    Keys.onLeftPressed: {
-        modelData.moveWest()
+
+    Keys.onReleased: {
+        modelData.direction = MovableItem.None
+        event.accepted = true;
     }
 }

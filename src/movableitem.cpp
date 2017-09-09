@@ -7,7 +7,43 @@
 MovableItem::MovableItem(QObject *parent)
     : BaseItem(parent)
 {
+}
 
+void MovableItem::move()
+{
+    switch (direction_) {
+    case North:
+        moveNorth();
+        break;
+    case South:
+        moveSouth();
+        break;
+    case West:
+        moveWest();
+        break;
+    case East:
+        moveEast();
+        break;
+    case None: // fall down
+    default:
+        break;
+    }
+}
+
+void MovableItem::setSpeed(int speed)
+{
+    if (speed_ == speed)
+        return;
+    speed_ = speed;
+    emit speedChanged(speed_);
+}
+
+void MovableItem::setDirection(MovableItem::Direction direction)
+{
+    if (direction_ == direction)
+        return;
+    direction_ = direction;
+    emit directionChanged(direction_);
 }
 
 void MovableItem::moveNorth()
@@ -52,20 +88,4 @@ void MovableItem::moveEast()
         return;
 
     setX(x() + speed_);
-}
-
-void MovableItem::setSpeed(int speed)
-{
-    if (speed_ == speed)
-        return;
-    speed_ = speed;
-    emit speedChanged(speed_);
-}
-
-void MovableItem::setDirection(MovableItem::Direction direction)
-{
-    if (direction_ == direction)
-        return;
-    direction_ = direction;
-    emit directionChanged(direction_);
 }

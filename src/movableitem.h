@@ -20,10 +20,7 @@ public:
 
     MovableItem(QObject *parent = nullptr);
 
-    Q_INVOKABLE void moveNorth();
-    Q_INVOKABLE void moveSouth();
-    Q_INVOKABLE void moveWest();
-    Q_INVOKABLE void moveEast();
+    void move();
 
     int speed() const { return speed_; }
     void setSpeed(int speed);
@@ -36,6 +33,11 @@ signals:
     void directionChanged(Direction direction);
 
 private:
+    void moveNorth();
+    void moveSouth();
+    void moveWest();
+    void moveEast();
+
     int speed_ = 4;
     Direction direction_ = None;
 };
