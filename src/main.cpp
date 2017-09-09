@@ -3,7 +3,6 @@
 #include <QQmlContext>
 
 #include "board.h"
-#include "collider.h"
 #include "gamecontroller.h"
 #include "movableitem.h"
 #include "tile.h"

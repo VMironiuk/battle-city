@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "board.h"
+#include "collider.h"
 
 class GameController : public QObject
 {
@@ -16,12 +17,16 @@ public:
 
     Board *board() { return &board_; }
 
+private slots:
+    void checkCollisions();
+
 private:
     GameController(QObject *parent = nullptr);
     ~GameController();
 
     Board board_;
     QTimer timer_;
+    Collider collider_;
 };
 
 #endif // GAMECONTROLLER_H

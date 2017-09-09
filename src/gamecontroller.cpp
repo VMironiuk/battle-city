@@ -1,7 +1,5 @@
 #include "gamecontroller.h"
 
-#include "collider.h"
-
 static const int TIMEOUT = 25;
 
 GameController &GameController::instance()
@@ -10,12 +8,16 @@ GameController &GameController::instance()
     return gc;
 }
 
+void GameController::checkCollisions()
+{
+    collider_.checkCollisions(&board_);
+}
+
 GameController::GameController(QObject *parent)
     : QObject(parent)
 {
-    Collider::instance().setBoard(&board_);
-
     connect(&timer_, SIGNAL(timeout()), &board_, SLOT(update()));
+    connect(&timer_, SIGNAL(timeout()), this, SLOT(checkCollisions()));
     timer_.start(TIMEOUT);
 }
 

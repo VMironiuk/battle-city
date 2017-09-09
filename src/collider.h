@@ -5,28 +5,30 @@
 
 #include "board.h"
 #include "movableitem.h"
-#include "baseitem.h"
+#include "tile.h"
 
 class Collider : public QObject
 {
+    friend class GameController;
+
     Q_OBJECT
 public:
-    static Collider &instance();
+    Collider(QObject *parent = nullptr);
     Collider(const Collider&) = delete;
     Collider &operator=(const Collider&) = delete;
 
-    Board *board() const { return board_; }
-    void setBoard(Board *board);
-
-    bool isCollided(MovableItem *movableItem);
-
 private:
-    Collider(QObject *parent = nullptr);
-    ~Collider();
-    bool isBoardCollided(MovableItem *movableItem);
-    bool isTileCollided(MovableItem *movableItem);
-
-    Board *board_;
+    void checkCollisions(Board *board);
+    void checkBoardBoundaries(Board *board);
+    void checkBoardBoundaries(Board *board, MovableItem *movableItem);
+    void checkTileBoundaries(Board *board);
+    void checkTileBoundaries(Board *board, MovableItem *movableItem);
+    void checkTileBoundaries(MovableItem *movableItem, Tile *tile);
+    void checkNorthDirection(MovableItem *movableItem, Tile *tile);
+    void checkSouthDirection(MovableItem *movableItem, Tile *tile);
+    void checkWestDirection(MovableItem *movableItem, Tile *tile);
+    void checkEastDirection(MovableItem *movableItem, Tile *tile);
+    void adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset);
 };
 
 #endif // COLLIDER_H
