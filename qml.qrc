@@ -5,6 +5,6 @@
         <file>qml/InformationPanel.qml</file>
         <file>qml/Board.qml</file>
         <file>qml/Tile.qml</file>
-        <file>qml/Tank.qml</file>
+        <file>qml/PlayerTank.qml</file>
     </qresource>
 </RCC>

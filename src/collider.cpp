@@ -13,7 +13,7 @@ void Collider::checkCollisions(Board *board)
 
 void Collider::checkBoardBoundaries(Board *board)
 {
-    QList<MovableItem *> tanks = board->tanks();
+    QList<ShootableItem *> tanks = board->playerTanks();
     for (auto tank : tanks)
         checkBoardBoundaries(board, tank);
 }
@@ -44,7 +44,7 @@ void Collider::checkBoardBoundaries(Board *board, MovableItem *movableItem)
 
 void Collider::checkTileBoundaries(Board *board)
 {
-    QList<MovableItem *> tanks = board->tanks();
+    QList<ShootableItem *> tanks = board->playerTanks();
     for (auto tank : tanks)
         checkTileBoundaries(board, tank);
 }

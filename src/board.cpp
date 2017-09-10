@@ -1,7 +1,5 @@
 #include "board.h"
 
-#include <QDebug>
-
 static const int TILE_SIZE = 32;
 static const int TILE_COUNT_PER_SIDE = 26;
 static const int BOARD_SIZE = TILE_SIZE * TILE_COUNT_PER_SIDE;
@@ -14,7 +12,7 @@ Board::Board(QObject *parent) : BaseItem(parent)
 Board::~Board()
 {
     qDeleteAll(tiles_);
-    qDeleteAll(tanks_);
+    qDeleteAll(playerTanks_);
 }
 
 QQmlListProperty<Tile> Board::tilesProperty()
@@ -22,14 +20,14 @@ QQmlListProperty<Tile> Board::tilesProperty()
     return QQmlListProperty<Tile>(this, tiles_);
 }
 
-QQmlListProperty<MovableItem> Board::tanksProperty()
+QQmlListProperty<ShootableItem> Board::playerTanksProperty()
 {
-    return QQmlListProperty<MovableItem>(this, tanks_);
+    return QQmlListProperty<ShootableItem>(this, playerTanks_);
 }
 
 void Board::update()
 {
-    for (auto tank : tanks_)
+    for (auto tank : playerTanks_)
         tank->move();
 }
 
@@ -761,7 +759,7 @@ void Board::makeMaze()
 
 void Board::makeTanks()
 {
-    MovableItem *tank = new MovableItem;
+    ShootableItem *tank = new ShootableItem;
     tank->setWidth(TILE_SIZE * 2);
     tank->setHeight(TILE_SIZE * 2);
 
@@ -771,7 +769,7 @@ void Board::makeTanks()
 
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
 
-    tanks_ << tank;
+    playerTanks_ << tank;
 }
 
 Tile *Board::tile(int row, int column) const

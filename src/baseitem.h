@@ -1,7 +1,6 @@
 #ifndef BASEITEM_H
 #define BASEITEM_H
 
-#include <QMap>
 #include <QObject>
 
 class BaseItem : public QObject

@@ -5,6 +5,7 @@
 #include "board.h"
 #include "gamecontroller.h"
 #include "movableitem.h"
+#include "shootableitem.h"
 #include "tile.h"
 
 int main(int argc, char *argv[])
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Tile>();
     qmlRegisterType<MovableItem>("battlecity.movableitem", 1, 0, "MovableItem");
+    qmlRegisterType<ShootableItem>();
 
     Board *board = GameController::instance().board();
 

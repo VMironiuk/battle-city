@@ -5,22 +5,23 @@
 
 #include "baseitem.h"
 #include "movableitem.h"
+#include "shootableitem.h"
 #include "tile.h"
 
 class Board : public BaseItem
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<Tile> tilesProperty READ tilesProperty CONSTANT)
-    Q_PROPERTY(QQmlListProperty<MovableItem> tanksProperty READ tanksProperty CONSTANT)
+    Q_PROPERTY(QQmlListProperty<ShootableItem> playerTanksProperty READ playerTanksProperty CONSTANT)
 public:
     explicit Board(QObject *parent = nullptr);
     ~Board();
 
     QQmlListProperty<Tile> tilesProperty();
-    QQmlListProperty<MovableItem> tanksProperty();
+    QQmlListProperty<ShootableItem> playerTanksProperty();
 
     QList<Tile *> tiles() const { return tiles_; }
-    QList<MovableItem *> tanks() const { return tanks_; }
+    QList<ShootableItem *> playerTanks() const { return playerTanks_; }
 
 public slots:
     void update();
@@ -33,7 +34,7 @@ private:
     Tile *tile(int row, int column) const;
 
     QList<Tile *> tiles_;
-    QList<MovableItem *> tanks_;
+    QList<ShootableItem *> playerTanks_;
 };
 
 #endif // BOARD_H

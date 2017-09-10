@@ -6,7 +6,7 @@ Rectangle {
         Tile { }
     }
     Repeater {
-        model: board.tanksProperty
-        Tank { }
+        model: board.playerTanksProperty
+        PlayerTank { }
     }
 }

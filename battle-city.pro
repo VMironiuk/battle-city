@@ -9,7 +9,8 @@ SOURCES += src/main.cpp \
     src/baseitem.cpp \
     src/movableitem.cpp \
     src/gamecontroller.cpp \
-    src/collider.cpp
+    src/collider.cpp \
+    src/shootableitem.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -41,4 +42,5 @@ HEADERS += \
     src/baseitem.h \
     src/movableitem.h \
     src/gamecontroller.h \
-    src/collider.h
+    src/collider.h \
+    src/shootableitem.h
