@@ -13,6 +13,7 @@ Board::~Board()
 {
     qDeleteAll(tiles_);
     qDeleteAll(playerTanks_);
+    qDeleteAll(projectiles_);
 }
 
 QQmlListProperty<Tile> Board::tilesProperty()
@@ -25,10 +26,23 @@ QQmlListProperty<ShootableItem> Board::playerTanksProperty()
     return QQmlListProperty<ShootableItem>(this, playerTanks_);
 }
 
+QQmlListProperty<MovableItem> Board::projectilesProperty()
+{
+    return QQmlListProperty<MovableItem>(this, projectiles_);
+}
+
 void Board::update()
 {
     for (auto tank : playerTanks_)
         tank->move();
+    for (auto projectile : projectiles_)
+        projectile->move();
+}
+
+void Board::addProjectile(MovableItem *projectile)
+{
+    projectiles_ << projectile;
+    emit projectilesPropertyChanged(projectilesProperty());
 }
 
 void Board::initialize()
@@ -770,6 +784,8 @@ void Board::makeTanks()
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
 
     playerTanks_ << tank;
+
+    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
 }
 
 Tile *Board::tile(int row, int column) const

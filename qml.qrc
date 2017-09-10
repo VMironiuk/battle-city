@@ -6,5 +6,6 @@
         <file>qml/Board.qml</file>
         <file>qml/Tile.qml</file>
         <file>qml/PlayerTank.qml</file>
+        <file>qml/Projectile.qml</file>
     </qresource>
 </RCC>
