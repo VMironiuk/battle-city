@@ -114,7 +114,7 @@ void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *proje
     QList<Tile *> tiles = board->tiles();
     for (auto tile : tiles) {
         if (!tile->isProjectileTraversable()) {
-            if (!checkHitting(projectile, tile)) {
+            if (checkHitting(projectile, tile)) {
                 board->removeProjectile(projectile);
                 if (tile->isProjectileBreakable())
                     tile->setMaterial(Tile::Free);
@@ -140,7 +140,7 @@ void Collider::checkEnemyTanksHitting(Board *board, MovableItem *projectile)
 {
     QList<ShootableItem *> tanks = board->enemyTanks();
     for (auto tank : tanks) {
-        if (!checkHitting(projectile, tank)) {
+        if (checkHitting(projectile, tank)) {
             board->removeEnemyTank(tank);
             board->removeProjectile(projectile);
             return;
@@ -152,7 +152,7 @@ void Collider::checkPlayerTanksHitting(Board *board, MovableItem *projectile)
 {
     QList<ShootableItem *> tanks = board->playerTanks();
     for (auto tank : tanks) {
-        if (!checkHitting(projectile, tank)) {
+        if (checkHitting(projectile, tank)) {
             board->removePlayerTank(tank);
             board->removeProjectile(projectile);
             return;
@@ -166,9 +166,9 @@ bool Collider::checkNorthDirectionCollision(BaseItem *source, BaseItem *target)
             && ((source->left() >= target->left() && source->left() < target->right())
                 || (source->right() > target->left() && source->right() <= target->right()))) {
         source->setY(target->bottom());
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Collider::checkSouthDirectionCollision(BaseItem *source, BaseItem *target)
@@ -177,9 +177,9 @@ bool Collider::checkSouthDirectionCollision(BaseItem *source, BaseItem *target)
             && ((source->left() >= target->left() && source->left() < target->right())
                 || (source->right() > target->left() && source->right() <= target->right()))) {
         source->setY(target->top() - source->height());
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Collider::checkWestDirectionCollision(BaseItem *source, BaseItem *target)
@@ -188,9 +188,9 @@ bool Collider::checkWestDirectionCollision(BaseItem *source, BaseItem *target)
             && ((source->bottom() <= target->bottom() && source->bottom() > target->top())
                 || (source->top() < target->bottom() && source->top() >= target->top()))) {
         source->setX(target->right());
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Collider::checkEastDirectionCollision(BaseItem *source, BaseItem *target)
@@ -199,34 +199,34 @@ bool Collider::checkEastDirectionCollision(BaseItem *source, BaseItem *target)
             && ((source->bottom() <= target->bottom() && source->bottom() > target->top())
                 || (source->top() < target->bottom() && source->top() >= target->top()))) {
         source->setX(target->left() - source->width());
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Collider::checkHitting(MovableItem *projectile, BaseItem *target)
 {
     switch (projectile->direction()) {
     case MovableItem::North:
-        if (!checkNorthDirectionCollision(projectile, target))
-            return false;
+        if (checkNorthDirectionCollision(projectile, target))
+            return true;
         break;
     case MovableItem::South:
-        if (!checkSouthDirectionCollision(projectile, target))
-            return false;
+        if (checkSouthDirectionCollision(projectile, target))
+            return true;
         break;
     case MovableItem::West:
-        if (!checkWestDirectionCollision(projectile, target))
-            return false;
+        if (checkWestDirectionCollision(projectile, target))
+            return true;
         break;
     case MovableItem::East:
-        if (!checkEastDirectionCollision(projectile, target))
-            return false;
+        if (checkEastDirectionCollision(projectile, target))
+            return true;
         break;
     default:
         break;
     }
-    return true;
+    return false;
 }
 
 void Collider::adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset)
