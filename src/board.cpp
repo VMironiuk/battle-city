@@ -782,6 +782,8 @@ void Board::makeTanks()
     tank->setY(t->y());
 
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
+    tank->setDirection(MovableItem::North);
+    tank->setMovement(false);
 
     playerTanks_ << tank;
 

@@ -9,15 +9,37 @@ ShootableItem::ShootableItem(QObject *parent)
 
 void ShootableItem::shoot()
 {
-    // TODO: just for testing, update later !!!
-    qDebug() << Q_FUNC_INFO;
     MovableItem *projectile = new MovableItem;
     projectile->setWidth(12);
     projectile->setHeight(12);
-    projectile->setX(x());
-    projectile->setY(y());
-    projectile->setDirection(MovableItem::North);
+    adjustProjectilePosition(projectile);
+    projectile->setDirection(direction());
     projectile->setRotation(rotation());
     projectile->setImageSource("qrc:/images/projectiles/projectile.png");
+    projectile->setMovement(true);
     emit shootEmitted(projectile);
+}
+
+void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
+{
+    switch (direction()) {
+    case MovableItem::North:
+        projectile->setX(left()  + width() / 2 - projectile->width() / 2);
+        projectile->setY(top() - projectile->height());
+        break;
+    case MovableItem::South:
+        projectile->setX(left()  + width() / 2 - projectile->width() / 2);
+        projectile->setY(bottom() + projectile->height());
+        break;
+    case MovableItem::West:
+        projectile->setX(left() - projectile->width());
+        projectile->setY(top() + width() / 2 - projectile->height() / 2);
+        break;
+    case MovableItem::East:
+        projectile->setX(right() + projectile->width());
+        projectile->setY(top() + width() / 2 - projectile->height() / 2);
+        break;
+    default:
+        break;
+    }
 }

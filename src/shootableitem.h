@@ -9,10 +9,13 @@ class ShootableItem : public MovableItem
 public:
     ShootableItem(QObject *parent = nullptr);
 
-    Q_INVOKABLE void shoot();
+    Q_INVOKABLE virtual void shoot();
 
 signals:
     void shootEmitted(MovableItem *projectile);
+
+private:
+    void adjustProjectilePosition(MovableItem *projectile) const;
 };
 
 #endif // SHOOTABLEITEM_H

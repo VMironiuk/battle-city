@@ -18,15 +18,19 @@ Item {
     Keys.onPressed: {
         if (event.key === Qt.Key_Up) {
             modelData.direction = MovableItem.North
+            modelData.movement = true
             event.accepted = true
         } else if (event.key === Qt.Key_Down) {
             modelData.direction = MovableItem.South
+            modelData.movement = true
             event.accepted = true
         } else if (event.key === Qt.Key_Left) {
             modelData.direction = MovableItem.West
+            modelData.movement = true
             event.accepted = true
         } else if (event.key === Qt.Key_Right) {
             modelData.direction = MovableItem.East
+            modelData.movement = true
             event.accepted = true
         } else if (event.key === Qt.Key_X) {
             modelData.shoot()
@@ -35,7 +39,7 @@ Item {
     }
 
     Keys.onReleased: {
-        modelData.direction = MovableItem.None
+        modelData.movement = false
         event.accepted = true;
     }
 }

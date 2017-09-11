@@ -8,10 +8,10 @@ class MovableItem : public BaseItem
     Q_OBJECT
     Q_PROPERTY(int speed READ speed WRITE setSpeed NOTIFY speedChanged)
     Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(bool movement READ movement WRITE setMovement NOTIFY movementChanged)
 public:
     enum Direction {
-        None,
-        North,
+        North = 1,
         South,
         West,
         East
@@ -20,7 +20,7 @@ public:
 
     MovableItem(QObject *parent = nullptr);
 
-    void move();
+    virtual void move();
 
     int speed() const { return speed_; }
     void setSpeed(int speed);
@@ -28,9 +28,13 @@ public:
     Direction direction() const { return direction_; }
     void setDirection(Direction direction);
 
+    bool movement() const { return movement_; }
+    void setMovement(bool movement);
+
 signals:
     void speedChanged(int speed);
     void directionChanged(Direction direction);
+    void movementChanged(bool movement);
 
 private:
     void moveNorth();
@@ -39,7 +43,8 @@ private:
     void moveEast();
 
     int speed_ = 4;
-    Direction direction_ = None;
+    Direction direction_ = South;
+    bool movement_ = true;
 };
 
 #endif // MOVABLEITEM_H
