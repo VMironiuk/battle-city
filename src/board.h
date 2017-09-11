@@ -26,6 +26,8 @@ public:
     QList<ShootableItem *> playerTanks() const { return playerTanks_; }
     QList<MovableItem *> projectiles() const { return projectiles_; }
 
+    void removeProjectile(MovableItem *projectile);
+
 public slots:
     void update();
 

@@ -31,6 +31,13 @@ QQmlListProperty<MovableItem> Board::projectilesProperty()
     return QQmlListProperty<MovableItem>(this, projectiles_);
 }
 
+void Board::removeProjectile(MovableItem *projectile)
+{
+    projectiles_.removeAll(projectile);
+    emit projectilesPropertyChanged(projectilesProperty());
+    delete projectile;
+}
+
 void Board::update()
 {
     for (auto tank : playerTanks_)
