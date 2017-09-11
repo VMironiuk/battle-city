@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include "baseitem.h"
 #include "board.h"
 #include "movableitem.h"
 #include "tile.h"
@@ -28,12 +29,17 @@ private:
     void checkTileBoundariesForTank(Board *board, MovableItem *tank);
     void checkTileBoundariesForTank(MovableItem *tank, Tile *tile);
     void checkTileBoundariesForProjectile(Board *board, MovableItem *projectile);
-    bool checkTileBoundariesForProjectile(MovableItem *projectile, Tile *tile);
 
-    bool checkNorthDirectionAboutTile(MovableItem *movableItem, Tile *tile);
-    bool checkSouthDirectionAboutTile(MovableItem *movableItem, Tile *tile);
-    bool checkWestDirectionAboutTile(MovableItem *movableItem, Tile *tile);
-    bool checkEastDirectionAboutTile(MovableItem *movableItem, Tile *tile);
+    void checkTanksHitting(Board *board);
+    void checkEnemyTanksHitting(Board *board, MovableItem *projectile);
+    void checkPlayerTanksHitting(Board *board, MovableItem *projectile);
+
+    bool checkNorthDirectionCollision(BaseItem *source, BaseItem *target);
+    bool checkSouthDirectionCollision(BaseItem *source, BaseItem *target);
+    bool checkWestDirectionCollision(BaseItem *source, BaseItem *target);
+    bool checkEastDirectionCollision(BaseItem *source, BaseItem *target);
+
+    bool checkHitting(MovableItem *projectile, BaseItem *target);
 
     void adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset);
 };

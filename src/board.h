@@ -12,7 +12,8 @@ class Board : public BaseItem
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<Tile> tilesProperty READ tilesProperty CONSTANT)
-    Q_PROPERTY(QQmlListProperty<ShootableItem> playerTanksProperty READ playerTanksProperty CONSTANT)
+    Q_PROPERTY(QQmlListProperty<ShootableItem> playerTanksProperty READ playerTanksProperty NOTIFY playerTanksPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<ShootableItem> enemyTanksProperty READ enemyTanksProperty NOTIFY enemyTanksPropertyChanged)
     Q_PROPERTY(QQmlListProperty<MovableItem> projectilesProperty READ projectilesProperty NOTIFY projectilesPropertyChanged)
 public:
     explicit Board(QObject *parent = nullptr);
@@ -20,18 +21,24 @@ public:
 
     QQmlListProperty<Tile> tilesProperty();
     QQmlListProperty<ShootableItem> playerTanksProperty();
+    QQmlListProperty<ShootableItem> enemyTanksProperty();
     QQmlListProperty<MovableItem> projectilesProperty();
 
     QList<Tile *> tiles() const { return tiles_; }
     QList<ShootableItem *> playerTanks() const { return playerTanks_; }
+    QList<ShootableItem *> enemyTanks() const { return enemyTanks_; }
     QList<MovableItem *> projectiles() const { return projectiles_; }
 
+    void removePlayerTank(ShootableItem *playerTank);
+    void removeEnemyTank(ShootableItem *enemyTank);
     void removeProjectile(MovableItem *projectile);
 
 public slots:
     void update();
 
 signals:
+    void playerTanksPropertyChanged(QQmlListProperty<ShootableItem>);
+    void enemyTanksPropertyChanged(QQmlListProperty<ShootableItem>);
     void projectilesPropertyChanged(QQmlListProperty<MovableItem>);
 
 private slots:
@@ -46,6 +53,7 @@ private:
 
     QList<Tile *> tiles_;
     QList<ShootableItem *> playerTanks_;
+    QList<ShootableItem *> enemyTanks_;
     QList<MovableItem *> projectiles_;
 };
 

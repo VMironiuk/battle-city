@@ -13,6 +13,7 @@ Board::~Board()
 {
     qDeleteAll(tiles_);
     qDeleteAll(playerTanks_);
+    qDeleteAll(enemyTanks_);
     qDeleteAll(projectiles_);
 }
 
@@ -26,9 +27,28 @@ QQmlListProperty<ShootableItem> Board::playerTanksProperty()
     return QQmlListProperty<ShootableItem>(this, playerTanks_);
 }
 
+QQmlListProperty<ShootableItem> Board::enemyTanksProperty()
+{
+    return QQmlListProperty<ShootableItem>(this, enemyTanks_);
+}
+
 QQmlListProperty<MovableItem> Board::projectilesProperty()
 {
     return QQmlListProperty<MovableItem>(this, projectiles_);
+}
+
+void Board::removePlayerTank(ShootableItem *playerTank)
+{
+    playerTanks_.removeAll(playerTank);
+    emit playerTanksPropertyChanged(playerTanksProperty());
+    delete playerTank;
+}
+
+void Board::removeEnemyTank(ShootableItem *enemyTank)
+{
+    enemyTanks_.removeAll(enemyTank);
+    emit enemyTanksPropertyChanged(enemyTanksProperty());
+    delete enemyTank;
 }
 
 void Board::removeProjectile(MovableItem *projectile)
@@ -780,6 +800,9 @@ void Board::makeMaze()
 
 void Board::makeTanks()
 {
+    // TODO: just for testing. Update this code later
+
+    // Player tank
     ShootableItem *tank = new ShootableItem;
     tank->setWidth(TILE_SIZE * 2);
     tank->setHeight(TILE_SIZE * 2);
@@ -791,8 +814,58 @@ void Board::makeTanks()
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
     tank->setDirection(MovableItem::North);
     tank->setMovement(false);
+    tank->setProperty("battleCitySide", "player");
 
     playerTanks_ << tank;
+
+    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+
+    // Enemy tanks
+    // 1
+    tank = new ShootableItem;
+    tank->setWidth(TILE_SIZE * 2);
+    tank->setHeight(TILE_SIZE * 2);
+
+    t = tile(0, 0);
+    tank->setX(t->x());
+    tank->setY(t->y());
+
+    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
+    tank->setProperty("battleCitySide", "enemy");
+
+    enemyTanks_ << tank;
+
+    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+
+    // 2
+    tank = new ShootableItem;
+    tank->setWidth(TILE_SIZE * 2);
+    tank->setHeight(TILE_SIZE * 2);
+
+    t = tile(0, 12);
+    tank->setX(t->x());
+    tank->setY(t->y());
+
+    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
+    tank->setProperty("battleCitySide", "enemy");
+
+    enemyTanks_ << tank;
+
+    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+
+    // 3
+    tank = new ShootableItem;
+    tank->setWidth(TILE_SIZE * 2);
+    tank->setHeight(TILE_SIZE * 2);
+
+    t = tile(0, 24);
+    tank->setX(t->x());
+    tank->setY(t->y());
+
+    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
+    tank->setProperty("battleCitySide", "enemy");
+
+    enemyTanks_ << tank;
 
     connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
 }

@@ -17,6 +17,7 @@ void ShootableItem::shoot()
     projectile->setRotation(rotation());
     projectile->setImageSource("qrc:/images/projectiles/projectile.png");
     projectile->setMovement(true);
+    projectile->setProperty("battleCitySide", property("battleCitySide").toString());
     emit shootEmitted(projectile);
 }
 

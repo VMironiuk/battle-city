@@ -10,6 +10,10 @@ Rectangle {
         PlayerTank { }
     }
     Repeater {
+        model: board.enemyTanksProperty
+        EnemyTank { }
+    }
+    Repeater {
         model: board.projectilesProperty
         Projectile { }
     }
