@@ -77,14 +77,10 @@ void Collider::checkTileBoundaries(Board *board)
         checkTileBoundariesForTank(board, tank);
 
     QList<MovableItem *> projectiles = board->projectiles();
-    QList<MovableItem *> projectilesToRemove;
     for (auto projectile : projectiles) {
         if (!checkTileBoundariesForProjectile(board, projectile))
-            projectilesToRemove << projectile;
+            board->removeProjectile(projectile);
     }
-
-    for (auto projectile : projectilesToRemove)
-        board->removeProjectile(projectile);
 }
 
 void Collider::checkTileBoundariesForTank(Board *board, MovableItem *movableItem)
