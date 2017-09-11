@@ -11,6 +11,8 @@ void Collider::checkCollisions(Board *board)
     checkTileBoundaries(board);
     checkTanksHitting(board);
     checkTanksCollisions(board);
+    checkEagleHitting(board);
+    checkEagleBoundaries(board);
 }
 
 void Collider::checkBoardBoundaries(Board *board)
@@ -173,6 +175,28 @@ void Collider::checkTanksCollisions(Board *board)
             }
         }
     }
+}
+
+void Collider::checkEagleHitting(Board *board)
+{
+    BaseItem *eagle = board->eagle();
+    QList<MovableItem *> projectiles = board->projectiles();
+    for (auto projectile : projectiles) {
+        if (checkCollision(projectile, eagle)) {
+            eagle->setImageSource("qrc:/images/eagles/destroyed_eagle.png");
+            board->removeProjectile(projectile);
+            return;
+        }
+    }
+}
+
+void Collider::checkEagleBoundaries(Board *board)
+{
+    BaseItem *eagle = board->eagle();
+    QList<ShootableItem *> allTanks = board->playerTanks();
+    allTanks += board->enemyTanks();
+    for (auto tank : allTanks)
+        checkCollision(tank, eagle);
 }
 
 bool Collider::checkNorthDirectionCollision(BaseItem *source, BaseItem *target)
