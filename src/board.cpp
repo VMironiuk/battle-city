@@ -128,6 +128,14 @@ void Board::makeMaze()
     currentTile = tile(23, 13);
     currentTile->setMaterial(Tile::Bricks);
 
+    // Eagle in the base
+//    eagle_ = new BaseItem;
+    eagle_.setWidth(TILE_SIZE * 2);
+    eagle_.setHeight(TILE_SIZE * 2);
+    eagle_.setX(tile(24, 12)->x());
+    eagle_.setY(tile(24, 12)->y());
+    eagle_.setImageSource("qrc:/images/eagles/normal_eagle.png");
+
     // Wall 1
     currentTile = tile(2, 2);
     currentTile->setMaterial(Tile::Bricks);

@@ -15,6 +15,7 @@ class Board : public BaseItem
     Q_PROPERTY(QQmlListProperty<ShootableItem> playerTanksProperty READ playerTanksProperty NOTIFY playerTanksPropertyChanged)
     Q_PROPERTY(QQmlListProperty<ShootableItem> enemyTanksProperty READ enemyTanksProperty NOTIFY enemyTanksPropertyChanged)
     Q_PROPERTY(QQmlListProperty<MovableItem> projectilesProperty READ projectilesProperty NOTIFY projectilesPropertyChanged)
+    Q_PROPERTY(BaseItem* eagle READ eagle CONSTANT)
 public:
     explicit Board(QObject *parent = nullptr);
     ~Board();
@@ -23,6 +24,7 @@ public:
     QQmlListProperty<ShootableItem> playerTanksProperty();
     QQmlListProperty<ShootableItem> enemyTanksProperty();
     QQmlListProperty<MovableItem> projectilesProperty();
+    BaseItem *eagle() { return &eagle_; }
 
     QList<Tile *> tiles() const { return tiles_; }
     QList<ShootableItem *> playerTanks() const { return playerTanks_; }
@@ -55,6 +57,7 @@ private:
     QList<ShootableItem *> playerTanks_;
     QList<ShootableItem *> enemyTanks_;
     QList<MovableItem *> projectiles_;
+    BaseItem eagle_;
 };
 
 #endif // BOARD_H

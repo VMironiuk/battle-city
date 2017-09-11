@@ -1,6 +1,8 @@
 import QtQuick 2.0
 
 Rectangle {
+    Eagle { }
+
     Repeater {
         model: board.tilesProperty
         Tile { }

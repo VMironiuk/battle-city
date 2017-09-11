@@ -8,5 +8,6 @@
         <file>qml/PlayerTank.qml</file>
         <file>qml/Projectile.qml</file>
         <file>qml/EnemyTank.qml</file>
+        <file>qml/Eagle.qml</file>
     </qresource>
 </RCC>

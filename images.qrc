@@ -8,5 +8,7 @@
         <file>images/tanks/player/two_stars_tank.png</file>
         <file>images/projectiles/projectile.png</file>
         <file>images/tanks/enemy/simple_tank.png</file>
+        <file>images/eagles/destroyed_eagle.png</file>
+        <file>images/eagles/normal_eagle.png</file>
     </qresource>
 </RCC>
