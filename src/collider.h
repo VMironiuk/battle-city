@@ -34,12 +34,14 @@ private:
     void checkEnemyTanksHitting(Board *board, MovableItem *projectile);
     void checkPlayerTanksHitting(Board *board, MovableItem *projectile);
 
+    void checkTanksCollisions(Board *board);
+
     bool checkNorthDirectionCollision(BaseItem *source, BaseItem *target);
     bool checkSouthDirectionCollision(BaseItem *source, BaseItem *target);
     bool checkWestDirectionCollision(BaseItem *source, BaseItem *target);
     bool checkEastDirectionCollision(BaseItem *source, BaseItem *target);
 
-    bool checkHitting(MovableItem *projectile, BaseItem *target);
+    bool checkCollision(MovableItem *movable, BaseItem *target);
 
     void adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset);
 };

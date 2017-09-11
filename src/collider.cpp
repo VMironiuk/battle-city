@@ -10,6 +10,7 @@ void Collider::checkCollisions(Board *board)
     checkBoardBoundaries(board);
     checkTileBoundaries(board);
     checkTanksHitting(board);
+    checkTanksCollisions(board);
 }
 
 void Collider::checkBoardBoundaries(Board *board)
@@ -114,7 +115,7 @@ void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *proje
     QList<Tile *> tiles = board->tiles();
     for (auto tile : tiles) {
         if (!tile->isProjectileTraversable()) {
-            if (checkHitting(projectile, tile)) {
+            if (checkCollision(projectile, tile)) {
                 board->removeProjectile(projectile);
                 if (tile->isProjectileBreakable())
                     tile->setMaterial(Tile::Free);
@@ -140,7 +141,7 @@ void Collider::checkEnemyTanksHitting(Board *board, MovableItem *projectile)
 {
     QList<ShootableItem *> tanks = board->enemyTanks();
     for (auto tank : tanks) {
-        if (checkHitting(projectile, tank)) {
+        if (checkCollision(projectile, tank)) {
             board->removeEnemyTank(tank);
             board->removeProjectile(projectile);
             return;
@@ -152,10 +153,24 @@ void Collider::checkPlayerTanksHitting(Board *board, MovableItem *projectile)
 {
     QList<ShootableItem *> tanks = board->playerTanks();
     for (auto tank : tanks) {
-        if (checkHitting(projectile, tank)) {
+        if (checkCollision(projectile, tank)) {
             board->removePlayerTank(tank);
             board->removeProjectile(projectile);
             return;
+        }
+    }
+}
+
+void Collider::checkTanksCollisions(Board *board)
+{
+    QList<ShootableItem *> allTanks = board->playerTanks();
+    allTanks += board->enemyTanks();
+    for (int i = 0; i != allTanks.size(); ++i) {
+        for (int j = 0; j != allTanks.size(); ++j) {
+            if (i != j) {
+                if (checkCollision(allTanks.at(i), allTanks.at(j)))
+                    break;
+            }
         }
     }
 }
@@ -204,23 +219,23 @@ bool Collider::checkEastDirectionCollision(BaseItem *source, BaseItem *target)
     return false;
 }
 
-bool Collider::checkHitting(MovableItem *projectile, BaseItem *target)
+bool Collider::checkCollision(MovableItem *movable, BaseItem *target)
 {
-    switch (projectile->direction()) {
+    switch (movable->direction()) {
     case MovableItem::North:
-        if (checkNorthDirectionCollision(projectile, target))
+        if (checkNorthDirectionCollision(movable, target))
             return true;
         break;
     case MovableItem::South:
-        if (checkSouthDirectionCollision(projectile, target))
+        if (checkSouthDirectionCollision(movable, target))
             return true;
         break;
     case MovableItem::West:
-        if (checkWestDirectionCollision(projectile, target))
+        if (checkWestDirectionCollision(movable, target))
             return true;
         break;
     case MovableItem::East:
-        if (checkEastDirectionCollision(projectile, target))
+        if (checkEastDirectionCollision(movable, target))
             return true;
         break;
     default:
