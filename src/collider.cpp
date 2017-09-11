@@ -22,51 +22,37 @@ void Collider::checkBoardBoundaries(Board *board)
         checkBoardBoundariesForProjectile(board, projectile);
 }
 
-void Collider::checkBoardBoundariesForTank(Board *board, MovableItem *movableItem)
+void Collider::checkBoardBoundariesForTank(Board *board, MovableItem *tank)
 {
-    switch (movableItem->direction()) {
+    switch (tank->direction()) {
     case MovableItem::North:
-        if (movableItem->top() <= board->y())
-            movableItem->setY(board->y());
+        if (tank->top() <= board->y())
+            tank->setY(board->y());
         break;
     case MovableItem::South:
-        if (board->height() <= movableItem->bottom())
-            movableItem->setY(board->height() - movableItem->height());
+        if (board->height() <= tank->bottom())
+            tank->setY(board->height() - tank->height());
         break;
     case MovableItem::West:
-        if (movableItem->left() <= board->x())
-            movableItem->setX(board->x());
+        if (tank->left() <= board->x())
+            tank->setX(board->x());
         break;
     case MovableItem::East:
-        if (board->width() <= movableItem->right())
-            movableItem->setX(board->width() - movableItem->width());
+        if (board->width() <= tank->right())
+            tank->setX(board->width() - tank->width());
         break;
     default:
         break;
     }
 }
 
-void Collider::checkBoardBoundariesForProjectile(Board *board, MovableItem *movableItem)
+void Collider::checkBoardBoundariesForProjectile(Board *board, MovableItem *projectile)
 {
-    switch (movableItem->direction()) {
-    case MovableItem::North:
-        if (movableItem->top() <= board->y())
-            board->removeProjectile(movableItem);
-        break;
-    case MovableItem::South:
-        if (board->height() <= movableItem->bottom())
-            board->removeProjectile(movableItem);
-        break;
-    case MovableItem::West:
-        if (movableItem->left() <= board->x())
-            board->removeProjectile(movableItem);
-        break;
-    case MovableItem::East:
-        if (board->width() <= movableItem->right())
-            board->removeProjectile(movableItem);
-        break;
-    default:
-        break;
+    if (projectile->top() <= board->y()
+            || board->height() <= projectile->bottom()
+            || projectile->left() <= board->x()
+            || board->width() <= projectile->right()) {
+        board->removeProjectile(projectile);
     }
 }
 

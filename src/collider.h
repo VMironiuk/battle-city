@@ -21,8 +21,8 @@ private:
     void checkCollisions(Board *board);
 
     void checkBoardBoundaries(Board *board);
-    void checkBoardBoundariesForTank(Board *board, MovableItem *movableItem);
-    void checkBoardBoundariesForProjectile(Board *board, MovableItem *movableItem);
+    void checkBoardBoundariesForTank(Board *board, MovableItem *tank);
+    void checkBoardBoundariesForProjectile(Board *board, MovableItem *projectile);
 
     void checkTileBoundaries(Board *board);
     void checkTileBoundariesForTank(Board *board, MovableItem *movableItem);
