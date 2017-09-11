@@ -63,98 +63,92 @@ void Collider::checkTileBoundaries(Board *board)
         checkTileBoundariesForTank(board, tank);
 
     QList<MovableItem *> projectiles = board->projectiles();
-    for (auto projectile : projectiles) {
-        if (!checkTileBoundariesForProjectile(board, projectile))
-            board->removeProjectile(projectile);
-    }
+    for (auto projectile : projectiles)
+        checkTileBoundariesForProjectile(board, projectile);
 }
 
-void Collider::checkTileBoundariesForTank(Board *board, MovableItem *movableItem)
+void Collider::checkTileBoundariesForTank(Board *board, MovableItem *tank)
 {
     QList<Tile *> tiles = board->tiles();
     for (auto tile : tiles) {
         if (!tile->isTankTraversable())
-            checkTileBoundariesForTank(movableItem, tile);
+            checkTileBoundariesForTank(tank, tile);
     }
 }
 
-void Collider::checkTileBoundariesForTank(MovableItem *movableItem, Tile *tile)
+void Collider::checkTileBoundariesForTank(MovableItem *tank, Tile *tile)
 {
     int xOffset = 0;
     int yOffset = 0;
 
-    switch (movableItem->direction()) {
+    switch (tank->direction()) {
     case MovableItem::North:
-        xOffset = movableItem->x() % tile->width();
-        checkNorthDirection(movableItem, tile);
+        xOffset = tank->x() % tile->width();
+        checkNorthDirectionAboutTile(tank, tile);
         break;
 
     case MovableItem::South:
-        xOffset = movableItem->x() % tile->width();
-        checkSouthDirection(movableItem, tile);
+        xOffset = tank->x() % tile->width();
+        checkSouthDirectionAboutTile(tank, tile);
         break;
 
     case MovableItem::West:
-        yOffset = movableItem->y() % tile->height();
-        checkWestDirection(movableItem, tile);
+        yOffset = tank->y() % tile->height();
+        checkWestDirectionAboutTile(tank, tile);
         break;
 
     case MovableItem::East:
-        yOffset = movableItem->y() % tile->height();
-        checkEastDirection(movableItem, tile);
+        yOffset = tank->y() % tile->height();
+        checkEastDirectionAboutTile(tank, tile);
         break;
 
     default:
         break;
     }
-    adjustMovableItemPos(movableItem, tile, xOffset, yOffset);
+    adjustMovableItemPos(tank, tile, xOffset, yOffset);
 }
 
-bool Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *movableItem)
+void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *projectile)
 {
     QList<Tile *> tiles = board->tiles();
     for (auto tile : tiles) {
-        if (!tile->isTankTraversable()) {
-            if (!checkTileBoundariesForProjectile(movableItem, tile)) {
-                if (tile->material() == Tile::Bricks)
+        if (!tile->isProjectileTraversable()) {
+            if (!checkTileBoundariesForProjectile(projectile, tile)) {
+                board->removeProjectile(projectile);
+                if (tile->isProjectileBreakable())
                     tile->setMaterial(Tile::Free);
-                return false;
+                return;
             }
         }
     }
-    return true;
 }
 
-bool Collider::checkTileBoundariesForProjectile(MovableItem *movableItem, Tile *tile)
+bool Collider::checkTileBoundariesForProjectile(MovableItem *projectile, Tile *tile)
 {
-    switch (movableItem->direction()) {
+    switch (projectile->direction()) {
     case MovableItem::North:
-        if (!checkNorthDirection(movableItem, tile))
+        if (!checkNorthDirectionAboutTile(projectile, tile))
             return false;
         break;
-
     case MovableItem::South:
-        if (!checkSouthDirection(movableItem, tile))
+        if (!checkSouthDirectionAboutTile(projectile, tile))
             return false;
         break;
-
     case MovableItem::West:
-        if (!checkWestDirection(movableItem, tile))
+        if (!checkWestDirectionAboutTile(projectile, tile))
             return false;
         break;
-
     case MovableItem::East:
-        if (!checkEastDirection(movableItem, tile))
+        if (!checkEastDirectionAboutTile(projectile, tile))
             return false;
         break;
-
     default:
         break;
     }
     return true;
 }
 
-bool Collider::checkNorthDirection(MovableItem *movableItem, Tile *tile)
+bool Collider::checkNorthDirectionAboutTile(MovableItem *movableItem, Tile *tile)
 {
     if (movableItem->top() < tile->bottom() && movableItem->top() > tile->top()
             && ((movableItem->left() >= tile->left() && movableItem->left() < tile->right())
@@ -165,7 +159,7 @@ bool Collider::checkNorthDirection(MovableItem *movableItem, Tile *tile)
     return true;
 }
 
-bool Collider::checkSouthDirection(MovableItem *movableItem, Tile *tile)
+bool Collider::checkSouthDirectionAboutTile(MovableItem *movableItem, Tile *tile)
 {
     if (movableItem->bottom() > tile->top() && movableItem->bottom() < tile->bottom()
             && ((movableItem->left() >= tile->left() && movableItem->left() < tile->right())
@@ -176,7 +170,7 @@ bool Collider::checkSouthDirection(MovableItem *movableItem, Tile *tile)
     return true;
 }
 
-bool Collider::checkWestDirection(MovableItem *movableItem, Tile *tile)
+bool Collider::checkWestDirectionAboutTile(MovableItem *movableItem, Tile *tile)
 {
     if (movableItem->left() < tile->right() && movableItem->left() > tile->left()
             && ((movableItem->bottom() <= tile->bottom() && movableItem->bottom() > tile->top())
@@ -187,7 +181,7 @@ bool Collider::checkWestDirection(MovableItem *movableItem, Tile *tile)
     return true;
 }
 
-bool Collider::checkEastDirection(MovableItem *movableItem, Tile *tile)
+bool Collider::checkEastDirectionAboutTile(MovableItem *movableItem, Tile *tile)
 {
     if (movableItem->right() > tile->left() && movableItem->right() < tile->right()
             && ((movableItem->bottom() <= tile->bottom() && movableItem->bottom() > tile->top())

@@ -19,8 +19,8 @@ public:
     explicit Tile(QObject *parent = nullptr);
 
     bool isTankTraversable() const;
-    bool isBombTraversable() const;
-    bool isBombBreakable() const;
+    bool isProjectileTraversable() const;
+    bool isProjectileBreakable() const;
 
     Material material() const { return material_; }
     void setMaterial(Material material);

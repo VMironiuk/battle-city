@@ -25,15 +25,16 @@ private:
     void checkBoardBoundariesForProjectile(Board *board, MovableItem *projectile);
 
     void checkTileBoundaries(Board *board);
-    void checkTileBoundariesForTank(Board *board, MovableItem *movableItem);
-    void checkTileBoundariesForTank(MovableItem *movableItem, Tile *tile);
-    bool checkTileBoundariesForProjectile(Board *board, MovableItem *movableItem);
-    bool checkTileBoundariesForProjectile(MovableItem *movableItem, Tile *tile);
+    void checkTileBoundariesForTank(Board *board, MovableItem *tank);
+    void checkTileBoundariesForTank(MovableItem *tank, Tile *tile);
+    void checkTileBoundariesForProjectile(Board *board, MovableItem *projectile);
+    bool checkTileBoundariesForProjectile(MovableItem *projectile, Tile *tile);
 
-    bool checkNorthDirection(MovableItem *movableItem, Tile *tile);
-    bool checkSouthDirection(MovableItem *movableItem, Tile *tile);
-    bool checkWestDirection(MovableItem *movableItem, Tile *tile);
-    bool checkEastDirection(MovableItem *movableItem, Tile *tile);
+    bool checkNorthDirectionAboutTile(MovableItem *movableItem, Tile *tile);
+    bool checkSouthDirectionAboutTile(MovableItem *movableItem, Tile *tile);
+    bool checkWestDirectionAboutTile(MovableItem *movableItem, Tile *tile);
+    bool checkEastDirectionAboutTile(MovableItem *movableItem, Tile *tile);
+
     void adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset);
 };
 

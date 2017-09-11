@@ -11,12 +11,12 @@ bool Tile::isTankTraversable() const
     return material_ & (Free | Bush);
 }
 
-bool Tile::isBombTraversable() const
+bool Tile::isProjectileTraversable() const
 {
     return material_ & (Free | Bush | Ice | Water);
 }
 
-bool Tile::isBombBreakable() const
+bool Tile::isProjectileBreakable() const
 {
     // TODO: handle concrete for three stars tank's bomb
     return material_ & Bricks;
