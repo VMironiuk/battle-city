@@ -2,6 +2,7 @@
 #define SHOOTABLEITEM_H
 
 #include "movableitem.h"
+#include "delay.h"
 
 class ShootableItem : public MovableItem
 {
@@ -11,11 +12,15 @@ public:
 
     Q_INVOKABLE virtual void shoot();
 
+    void setShootDelayInterval(int interval);
+
 signals:
     void shootEmitted(MovableItem *projectile);
 
 private:
     void adjustProjectilePosition(MovableItem *projectile) const;
+
+    Delay shootDelay_;
 };
 
 #endif // SHOOTABLEITEM_H

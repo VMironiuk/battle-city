@@ -1,6 +1,6 @@
 #include "shootableitem.h"
 
-#include <QDebug>
+#include <QVariant>
 
 ShootableItem::ShootableItem(QObject *parent)
     : MovableItem(parent)
@@ -9,16 +9,27 @@ ShootableItem::ShootableItem(QObject *parent)
 
 void ShootableItem::shoot()
 {
+    if (!shootDelay_.isExpired())
+        return;
+
     MovableItem *projectile = new MovableItem;
-    projectile->setWidth(12);
-    projectile->setHeight(12);
+    projectile->setWidth(14);
+    projectile->setHeight(14);
     adjustProjectilePosition(projectile);
     projectile->setDirection(direction());
     projectile->setRotation(rotation());
     projectile->setImageSource("qrc:/images/projectiles/projectile.png");
     projectile->setMovement(true);
     projectile->setProperty("battleCitySide", property("battleCitySide").toString());
+    projectile->setSpeed(10);
     emit shootEmitted(projectile);
+
+    shootDelay_.setup();
+}
+
+void ShootableItem::setShootDelayInterval(int interval)
+{
+    shootDelay_.setInterval(interval);
 }
 
 void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
