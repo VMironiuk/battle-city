@@ -12,5 +12,6 @@
         <file>images/eagles/normal_eagle.png</file>
         <file>images/explosions/projectile_explosion.gif</file>
         <file>images/explosions/tank_explosion.gif</file>
+        <file>images/control_panel/enemy_marker.png</file>
     </qresource>
 </RCC>

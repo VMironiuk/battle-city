@@ -10,5 +10,6 @@
         <file>qml/EnemyTank.qml</file>
         <file>qml/Eagle.qml</file>
         <file>qml/Explosion.qml</file>
+        <file>qml/EnemyMarker.qml</file>
     </qresource>
 </RCC>

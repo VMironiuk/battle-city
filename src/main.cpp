@@ -3,6 +3,7 @@
 #include <QQmlContext>
 
 #include "board.h"
+#include "informationpanel.h"
 #include "gamecontroller.h"
 #include "movableitem.h"
 #include "shootableitem.h"
@@ -18,9 +19,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<BaseItem>();
 
     Board *board = GameController::instance().board();
+    InformationPanel *informationPanel = GameController::instance().informationPanel();
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("board", board);
+    engine.rootContext()->setContextProperty("informationPanel", informationPanel);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

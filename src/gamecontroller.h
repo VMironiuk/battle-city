@@ -6,6 +6,7 @@
 
 #include "board.h"
 #include "collider.h"
+#include "informationpanel.h"
 
 class GameController : public QObject
 {
@@ -16,6 +17,7 @@ public:
     GameController &operator=(const GameController&) = delete;
 
     Board *board() { return &board_; }
+    InformationPanel *informationPanel() { return &informationPanel_; }
 
 private slots:
     void checkCollisions();
@@ -25,6 +27,7 @@ private:
     ~GameController();
 
     Board board_;
+    InformationPanel informationPanel_;
     QTimer timer_;
     Collider collider_;
 };

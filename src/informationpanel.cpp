@@ -1,0 +1,59 @@
+#include "informationpanel.h"
+
+InformationPanel::InformationPanel(QObject *parent)
+    : BaseItem(parent)
+{
+    // TODO: for testing, delete later
+    for (int i = 0; i != 20; ++i) {
+        BaseItem *marker = new BaseItem;
+        marker->setImageSource("qrc:/images/control_panel/enemy_marker.png");
+        enemyMarkers_ << marker;
+    }
+
+    maxEnemiesCount_ = enemyMarkers_.count();
+}
+
+InformationPanel::~InformationPanel()
+{
+    qDeleteAll(enemyMarkers_);
+}
+
+void InformationPanel::setStageNo(int stageNo)
+{
+    if (stageNo_ == stageNo)
+        return;
+    stageNo_ = stageNo;
+    emit stageNoChanged(stageNo_);
+}
+
+void InformationPanel::setLivesCount(int livesCount)
+{
+    if (livesCount_ == livesCount)
+        return;
+    livesCount_ = livesCount;
+    emit livesCountChanged(livesCount_);
+}
+
+void InformationPanel::setMaxEnemiesCount(int maxEnemiesCount)
+{
+    if (maxEnemiesCount_ == maxEnemiesCount)
+        return;
+    maxEnemiesCount_ = maxEnemiesCount;
+    emit maxEnemiesCountChanged(maxEnemiesCount_);
+}
+
+QQmlListProperty<BaseItem> InformationPanel::enemyMarkersProperty()
+{
+    return QQmlListProperty<BaseItem>(this, enemyMarkers_);
+}
+
+void InformationPanel::removeEnemyMarker()
+{
+    if (enemyMarkers_.isEmpty())
+        return;
+
+    BaseItem *marker = enemyMarkers_.last();
+    enemyMarkers_.removeLast();
+    emit enemyMarkersPropertyChanged(enemyMarkersProperty());
+    delete marker;
+}

@@ -7,8 +7,11 @@ Rectangle {
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: 32
-        spacing: 0
+        anchors.topMargin: 32
+        anchors.leftMargin: 32
+        anchors.bottomMargin: 32
+        anchors.rightMargin: 0
+        spacing: 32
 
         Board {
             color: "black"
@@ -16,8 +19,6 @@ Rectangle {
             Layout.fillHeight: true
         }
         InformationPanel {
-            border.width: 1
-            color: playground.color
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.minimumWidth: 128
