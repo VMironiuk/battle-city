@@ -60,8 +60,10 @@ void Board::removeProjectile(MovableItem *projectile)
 
 void Board::update()
 {
-    for (auto tank : playerTanks_)
+    for (auto tank : playerTanks_) {
         tank->move();
+        tank->shoot();
+    }
     for (auto projectile : projectiles_)
         projectile->move();
 }
@@ -822,6 +824,7 @@ void Board::makeTanks()
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
     tank->setDirection(MovableItem::North);
     tank->setMovement(false);
+    tank->setShooting(false);
     tank->setProperty("battleCitySide", "player");
 
     playerTanks_ << tank;

@@ -9,6 +9,9 @@ ShootableItem::ShootableItem(QObject *parent)
 
 void ShootableItem::shoot()
 {
+    if (!shooting_)
+        return;
+
     if (!shootDelay_.isExpired())
         return;
 
@@ -30,6 +33,14 @@ void ShootableItem::shoot()
 void ShootableItem::setShootDelayInterval(int interval)
 {
     shootDelay_.setInterval(interval);
+}
+
+void ShootableItem::setShooting(bool shooting)
+{
+    if (shooting_ == shooting)
+        return;
+    shooting_ = shooting;
+    emit shootingChanged(shooting_);
 }
 
 void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const

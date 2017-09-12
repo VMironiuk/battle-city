@@ -19,27 +19,37 @@ Item {
         if (event.key === Qt.Key_Up) {
             modelData.direction = MovableItem.North
             modelData.movement = true
-            event.accepted = true
         } else if (event.key === Qt.Key_Down) {
             modelData.direction = MovableItem.South
             modelData.movement = true
-            event.accepted = true
         } else if (event.key === Qt.Key_Left) {
             modelData.direction = MovableItem.West
             modelData.movement = true
-            event.accepted = true
         } else if (event.key === Qt.Key_Right) {
             modelData.direction = MovableItem.East
             modelData.movement = true
-            event.accepted = true
-        } else if (event.key === Qt.Key_X) {
-            modelData.shoot()
-            event.accepted = true
+        }
+
+        if (event.key === Qt.Key_X) {
+            modelData.shooting = true
         }
     }
 
     Keys.onReleased: {
-        modelData.movement = false
-        event.accepted = true;
+        if (event.key === Qt.Key_Up) {
+            modelData.movement = false
+        }
+        if (event.key === Qt.Key_Down) {
+            modelData.movement = false
+        }
+        if (event.key === Qt.Key_Left) {
+            modelData.movement = false
+        }
+        if (event.key === Qt.Key_Right) {
+            modelData.movement = false
+        }
+        if (event.key === Qt.Key_X) {
+            modelData.shooting = false
+        }
     }
 }
