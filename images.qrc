@@ -10,5 +10,7 @@
         <file>images/tanks/enemy/simple_tank.png</file>
         <file>images/eagles/destroyed_eagle.png</file>
         <file>images/eagles/normal_eagle.png</file>
+        <file>images/explosions/projectile_explosion.gif</file>
+        <file>images/explosions/tank_explosion.gif</file>
     </qresource>
 </RCC>
