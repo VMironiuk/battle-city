@@ -19,4 +19,8 @@ Rectangle {
         model: board.projectilesProperty
         Projectile { }
     }
+    Repeater {
+        model: board.explosionsProperty
+        Explosion { }
+    }
 }

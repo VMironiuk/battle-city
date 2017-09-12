@@ -183,8 +183,8 @@ void Collider::checkEagleHitting(Board *board)
     QList<MovableItem *> projectiles = board->projectiles();
     for (auto projectile : projectiles) {
         if (checkCollision(projectile, eagle)) {
-            eagle->setImageSource("qrc:/images/eagles/destroyed_eagle.png");
             board->removeProjectile(projectile);
+            board->destroyEagle(eagle);
             return;
         }
     }

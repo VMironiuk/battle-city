@@ -15,6 +15,7 @@ Board::~Board()
     qDeleteAll(playerTanks_);
     qDeleteAll(enemyTanks_);
     qDeleteAll(projectiles_);
+    qDeleteAll(explosions_);
 }
 
 QQmlListProperty<Tile> Board::tilesProperty()
@@ -37,8 +38,17 @@ QQmlListProperty<MovableItem> Board::projectilesProperty()
     return QQmlListProperty<MovableItem>(this, projectiles_);
 }
 
+QQmlListProperty<BaseItem> Board::explosionsProperty()
+{
+    return QQmlListProperty<BaseItem>(this, explosions_);
+}
+
 void Board::removePlayerTank(ShootableItem *playerTank)
 {
+    int x = playerTank->x() - playerTank->width() / 6;
+    int y = playerTank->y() - playerTank->height() / 6;
+    makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
+
     playerTanks_.removeAll(playerTank);
     emit playerTanksPropertyChanged(playerTanksProperty());
     delete playerTank;
@@ -46,6 +56,10 @@ void Board::removePlayerTank(ShootableItem *playerTank)
 
 void Board::removeEnemyTank(ShootableItem *enemyTank)
 {
+    int x = enemyTank->x() - enemyTank->width() / 6;
+    int y = enemyTank->y() - enemyTank->height() / 6;
+    makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
+
     enemyTanks_.removeAll(enemyTank);
     emit enemyTanksPropertyChanged(enemyTanksProperty());
     delete enemyTank;
@@ -53,9 +67,29 @@ void Board::removeEnemyTank(ShootableItem *enemyTank)
 
 void Board::removeProjectile(MovableItem *projectile)
 {
+    int x = projectile->x() - projectile->width();
+    int y = projectile->y() - projectile->height();
+    makeExplosion(x, y, 44, 44, "qrc:/images/explosions/projectile_explosion.gif");
+
     projectiles_.removeAll(projectile);
     emit projectilesPropertyChanged(projectilesProperty());
     delete projectile;
+}
+
+void Board::removeExplosion(BaseItem *explosion)
+{
+    explosions_.removeAll(explosion);
+    emit explosionsPropertyChanged(explosionsProperty());
+    delete explosion;
+}
+
+void Board::destroyEagle(BaseItem *eagle)
+{
+    int x = eagle->x() - eagle->width() / 6;
+    int y = eagle->y() - eagle->height() / 6;
+    makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
+
+    eagle->setImageSource("qrc:/images/eagles/destroyed_eagle.png");
 }
 
 void Board::update()
@@ -72,6 +106,13 @@ void Board::addProjectile(MovableItem *projectile)
 {
     projectiles_ << projectile;
     emit projectilesPropertyChanged(projectilesProperty());
+}
+
+void Board::onExplosionTimeout()
+{
+    BaseItem *explosion = qobject_cast<BaseItem *>(sender());
+    if (explosion)
+        removeExplosion(explosion);
 }
 
 void Board::initialize()
@@ -879,6 +920,19 @@ void Board::makeTanks()
     enemyTanks_ << tank;
 
     connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+}
+
+void Board::makeExplosion(int x, int y, int w, int h, const QString &image)
+{
+    BaseItem *explosion = new BaseItem;
+    explosion->setX(x);
+    explosion->setY(y);
+    explosion->setWidth(w);
+    explosion->setHeight(h);
+    explosion->setImageSource(image);
+    explosions_ << explosion;
+    emit explosionsPropertyChanged(explosionsProperty());
+    connect(explosion, SIGNAL(imageSourceChanged(QString)), this, SLOT(onExplosionTimeout()));
 }
 
 Tile *Board::tile(int row, int column) const

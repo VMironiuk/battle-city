@@ -9,5 +9,6 @@
         <file>qml/Projectile.qml</file>
         <file>qml/EnemyTank.qml</file>
         <file>qml/Eagle.qml</file>
+        <file>qml/Explosion.qml</file>
     </qresource>
 </RCC>

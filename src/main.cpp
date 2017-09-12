@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Tile>();
     qmlRegisterType<MovableItem>("battlecity.movableitem", 1, 0, "MovableItem");
     qmlRegisterType<ShootableItem>();
+    qmlRegisterType<BaseItem>();
 
     Board *board = GameController::instance().board();
 

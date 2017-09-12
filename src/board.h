@@ -15,6 +15,7 @@ class Board : public BaseItem
     Q_PROPERTY(QQmlListProperty<ShootableItem> playerTanksProperty READ playerTanksProperty NOTIFY playerTanksPropertyChanged)
     Q_PROPERTY(QQmlListProperty<ShootableItem> enemyTanksProperty READ enemyTanksProperty NOTIFY enemyTanksPropertyChanged)
     Q_PROPERTY(QQmlListProperty<MovableItem> projectilesProperty READ projectilesProperty NOTIFY projectilesPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<BaseItem> explosionsProperty READ explosionsProperty NOTIFY explosionsPropertyChanged)
     Q_PROPERTY(BaseItem* eagle READ eagle CONSTANT)
 public:
     explicit Board(QObject *parent = nullptr);
@@ -24,6 +25,7 @@ public:
     QQmlListProperty<ShootableItem> playerTanksProperty();
     QQmlListProperty<ShootableItem> enemyTanksProperty();
     QQmlListProperty<MovableItem> projectilesProperty();
+    QQmlListProperty<BaseItem> explosionsProperty();
     BaseItem *eagle() { return &eagle_; }
 
     QList<Tile *> tiles() const { return tiles_; }
@@ -34,6 +36,8 @@ public:
     void removePlayerTank(ShootableItem *playerTank);
     void removeEnemyTank(ShootableItem *enemyTank);
     void removeProjectile(MovableItem *projectile);
+    void removeExplosion(BaseItem *explosion);
+    void destroyEagle(BaseItem *eagle);
 
 public slots:
     void update();
@@ -42,21 +46,25 @@ signals:
     void playerTanksPropertyChanged(QQmlListProperty<ShootableItem>);
     void enemyTanksPropertyChanged(QQmlListProperty<ShootableItem>);
     void projectilesPropertyChanged(QQmlListProperty<MovableItem>);
+    void explosionsPropertyChanged(QQmlListProperty<BaseItem>);
 
 private slots:
     void addProjectile(MovableItem *projectile);
+    void onExplosionTimeout();
 
 private:
     void initialize();
     void makeTiles();
     void makeMaze();
     void makeTanks();
+    void makeExplosion(int x, int y, int w, int h, const QString &image);
     Tile *tile(int row, int column) const;
 
     QList<Tile *> tiles_;
     QList<ShootableItem *> playerTanks_;
     QList<ShootableItem *> enemyTanks_;
     QList<MovableItem *> projectiles_;
+    QList<BaseItem *> explosions_;
     BaseItem eagle_;
 };
 
