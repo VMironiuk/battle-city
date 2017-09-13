@@ -26,12 +26,17 @@ private:
     GameController(QObject *parent = nullptr);
     ~GameController();
 
+    void setupRespawns();
     void setupBoard();
+    void setupPlayerTank();
+    void setupEnemyTanks();
 
     Board board_;
     InformationPanel informationPanel_;
     QTimer timer_;
     Collider collider_;
+    QPair<int, int> playerRespawn_;
+    QList<QPair<int, int>> enemyRespawns_;
 };
 
 #endif // GAMECONTROLLER_H

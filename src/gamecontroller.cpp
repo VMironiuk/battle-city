@@ -1,6 +1,9 @@
 #include "gamecontroller.h"
 
 static const int TIMEOUT = 25;
+static const int BOARD_ROWS = 26;
+static const int BOARD_COLS = 26;
+static const int BOARD_TILE_SIZE = 32;
 
 GameController &GameController::instance()
 {
@@ -14,9 +17,17 @@ void GameController::checkCollisions()
 }
 
 GameController::GameController(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      board_(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)
 {
+    setupRespawns();
     setupBoard();
+    setupPlayerTank();
+    setupEnemyTanks();
+
+    int respawnX = enemyRespawns_.at(1).first;
+    int respawnY = enemyRespawns_.at(1).second;
+    board_.addEnemyTank(respawnX, respawnY, informationPanel_.nextTank());
 
     connect(&timer_, SIGNAL(timeout()), &board_, SLOT(update()));
     connect(&timer_, SIGNAL(timeout()), this, SLOT(checkCollisions()));
@@ -25,6 +36,15 @@ GameController::GameController(QObject *parent)
 
 GameController::~GameController()
 {
+}
+
+void GameController::setupRespawns()
+{
+    playerRespawn_  = QPair<int, int>(24, 9);
+
+    enemyRespawns_ << QPair<int, int>(0, 0);
+    enemyRespawns_ << QPair<int, int>(0, 12);
+    enemyRespawns_ << QPair<int, int>(0, 24);
 }
 
 void GameController::setupBoard()
@@ -285,7 +305,35 @@ void GameController::setupBoard()
     board_.setupTile(14, 0, Tile::Concrete);
     board_.setupTile(14, 1, Tile::Concrete);
 
-    //    // Wall 3
+    // Wall 3
     board_.setupTile(14, 24, Tile::Concrete);
     board_.setupTile(14, 25, Tile::Concrete);
+}
+
+void GameController::setupPlayerTank()
+{
+    ShootableItem *tank = new ShootableItem;
+    tank->setWidth(BOARD_TILE_SIZE * 2);
+    tank->setHeight(BOARD_TILE_SIZE * 2);
+    tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
+    tank->setDirection(MovableItem::North);
+    tank->setMovement(false);
+    tank->setShooting(false);
+    tank->setProperty("battleCitySide", "player");
+
+    board_.addPlayerTank(playerRespawn_.first, playerRespawn_.second, tank);
+}
+
+void GameController::setupEnemyTanks()
+{
+    // TODO: read tanks information from XML instead hardcoding
+    for (int i = 0; i != 20; ++i) {
+        ShootableItem *tank = new ShootableItem;
+        tank->setWidth(BOARD_TILE_SIZE * 2);
+        tank->setHeight(BOARD_TILE_SIZE * 2);
+        tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
+        tank->setProperty("battleCitySide", "enemy");
+
+        informationPanel_.addTank(tank);
+    }
 }

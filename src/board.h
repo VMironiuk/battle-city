@@ -18,7 +18,7 @@ class Board : public BaseItem
     Q_PROPERTY(QQmlListProperty<BaseItem> explosionsProperty READ explosionsProperty NOTIFY explosionsPropertyChanged)
     Q_PROPERTY(BaseItem* eagle READ eagle CONSTANT)
 public:
-    explicit Board(QObject *parent = nullptr);
+    explicit Board(int rows, int cols, int tileSize, QObject *parent = nullptr);
     ~Board();
 
     QQmlListProperty<Tile> tilesProperty();
@@ -40,6 +40,8 @@ public:
     void destroyEagle(BaseItem *eagle);
 
     void setupTile(int row, int column, Tile::Material material);
+    void addPlayerTank(int row, int column, ShootableItem *tank);
+    void addEnemyTank(int row, int column, ShootableItem *tank);
 
 public slots:
     void update();
@@ -68,6 +70,10 @@ private:
     QList<MovableItem *> projectiles_;
     QList<BaseItem *> explosions_;
     BaseItem eagle_;
+
+    int rowCount_;
+    int colCount_;
+    int tileSize_;
 };
 
 #endif // BOARD_H

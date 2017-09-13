@@ -1,10 +1,10 @@
 #include "board.h"
 
-static const int TILE_SIZE = 32;
-static const int TILE_COUNT_PER_SIDE = 26;
-static const int BOARD_SIZE = TILE_SIZE * TILE_COUNT_PER_SIDE;
-
-Board::Board(QObject *parent) : BaseItem(parent)
+Board::Board(int rows, int cols, int tileSize, QObject *parent)
+    : BaseItem(parent),
+      rowCount_(rows),
+      colCount_(cols),
+      tileSize_(tileSize)
 {
     initialize();
 }
@@ -94,8 +94,35 @@ void Board::destroyEagle(BaseItem *eagle)
 
 void Board::setupTile(int row, int column, Tile::Material material)
 {
+    Q_ASSERT(row >= 0 && row < rowCount_);
+    Q_ASSERT(column >= 0 && column < colCount_);
+
     Tile *tile = this->tile(row, column);
     tile->setMaterial(material);
+}
+
+void Board::addPlayerTank(int row, int column, ShootableItem *tank)
+{
+    Tile *tile = this->tile(row, column);
+    tank->setX(tile->x());
+    tank->setY(tile->y());
+    playerTanks_ << tank;
+
+    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+
+    emit playerTanksPropertyChanged(playerTanksProperty());
+}
+
+void Board::addEnemyTank(int row, int column, ShootableItem *tank)
+{
+    Tile *tile = this->tile(row, column);
+    tank->setX(tile->x());
+    tank->setY(tile->y());
+    enemyTanks_ << tank;
+
+    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+
+    emit enemyTanksPropertyChanged(enemyTanksProperty());
 }
 
 void Board::update()
@@ -123,8 +150,8 @@ void Board::onExplosionTimeout()
 
 void Board::initialize()
 {
-    setWidth(BOARD_SIZE);
-    setHeight(BOARD_SIZE);
+    setWidth(tileSize_ * colCount_);
+    setHeight(tileSize_ * rowCount_);
 
     makeTiles();
     makeBase();
@@ -133,13 +160,13 @@ void Board::initialize()
 
 void Board::makeTiles()
 {
-    for (int row = 0, currentY = 0; row != TILE_COUNT_PER_SIDE;
-         ++row, currentY += TILE_SIZE) {
-        for (int column =0, currentX = 0; column != TILE_COUNT_PER_SIDE;
-             ++column, currentX += TILE_SIZE) {
+    for (int row = 0, currentY = 0; row != rowCount_;
+         ++row, currentY += tileSize_) {
+        for (int column =0, currentX = 0; column != colCount_;
+             ++column, currentX += tileSize_) {
             Tile *tile = new Tile;
-            tile->setWidth(TILE_SIZE);
-            tile->setHeight(TILE_SIZE);
+            tile->setWidth(tileSize_);
+            tile->setHeight(tileSize_);
             tile->setX(currentX);
             tile->setY(currentY);
 
@@ -169,8 +196,8 @@ void Board::makeBase()
     currentTile = tile(23, 13);
     currentTile->setMaterial(Tile::Bricks);
 
-    eagle_.setWidth(TILE_SIZE * 2);
-    eagle_.setHeight(TILE_SIZE * 2);
+    eagle_.setWidth(tileSize_ * 2);
+    eagle_.setHeight(tileSize_ * 2);
     eagle_.setX(tile(24, 12)->x());
     eagle_.setY(tile(24, 12)->y());
     eagle_.setImageSource("qrc:/images/eagles/normal_eagle.png");
@@ -180,40 +207,24 @@ void Board::makeTanks()
 {
     // TODO: just for testing. Update this code later
 
-    // Player tank
-    ShootableItem *tank = new ShootableItem;
-    tank->setWidth(TILE_SIZE * 2);
-    tank->setHeight(TILE_SIZE * 2);
+//    ShootableItem *tank = new ShootableItem;
 
-    Tile *t = tile(24, 9);
-    tank->setX(t->x());
-    tank->setY(t->y());
+//    Tile *t/* = tile(24, 9)*/ = 0;
+//    // Enemy tank
+//    tank = new ShootableItem;
+//    tank->setWidth(tileSize_ * 2);
+//    tank->setHeight(tileSize_ * 2);
 
-    tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
-    tank->setDirection(MovableItem::North);
-    tank->setMovement(false);
-    tank->setShooting(false);
-    tank->setProperty("battleCitySide", "player");
+//    t = tile(0, 12);
+//    tank->setX(t->x());
+//    tank->setY(t->y());
 
-    playerTanks_ << tank;
+//    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
+//    tank->setProperty("battleCitySide", "enemy");
 
-    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+//    enemyTanks_ << tank;
 
-    // Enemy tank
-    tank = new ShootableItem;
-    tank->setWidth(TILE_SIZE * 2);
-    tank->setHeight(TILE_SIZE * 2);
-
-    t = tile(0, 12);
-    tank->setX(t->x());
-    tank->setY(t->y());
-
-    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-    tank->setProperty("battleCitySide", "enemy");
-
-    enemyTanks_ << tank;
-
-    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
+//    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
 }
 
 void Board::makeExplosion(int x, int y, int w, int h, const QString &image)
@@ -231,7 +242,7 @@ void Board::makeExplosion(int x, int y, int w, int h, const QString &image)
 
 Tile *Board::tile(int row, int column) const
 {
-    int index = column + row * TILE_COUNT_PER_SIDE;
+    int index = column + row * colCount_;
     if (index < 0 || index >= tiles_.size())
         return nullptr;
     return tiles_.at(index);

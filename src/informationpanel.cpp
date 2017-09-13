@@ -3,19 +3,12 @@
 InformationPanel::InformationPanel(QObject *parent)
     : BaseItem(parent)
 {
-    // TODO: for testing, delete later
-    for (int i = 0; i != 20; ++i) {
-        BaseItem *marker = new BaseItem;
-        marker->setImageSource("qrc:/images/control_panel/enemy_marker.png");
-        enemyMarkers_ << marker;
-    }
-
-    maxEnemiesCount_ = enemyMarkers_.count();
 }
 
 InformationPanel::~InformationPanel()
 {
     qDeleteAll(enemyMarkers_);
+    qDeleteAll(tanks_);
 }
 
 void InformationPanel::setStageNo(int stageNo)
@@ -42,9 +35,32 @@ void InformationPanel::setMaxEnemiesCount(int maxEnemiesCount)
     emit maxEnemiesCountChanged(maxEnemiesCount_);
 }
 
+ShootableItem *InformationPanel::nextTank()
+{
+    if (tanks_.isEmpty())
+        return nullptr;
+    removeEnemyMarker();
+    return tanks_.dequeue();
+}
+
+void InformationPanel::addTank(ShootableItem *tank)
+{
+    tanks_.enqueue(tank);
+    createEnemyMarker();
+}
+
 QQmlListProperty<BaseItem> InformationPanel::enemyMarkersProperty()
 {
     return QQmlListProperty<BaseItem>(this, enemyMarkers_);
+}
+
+void InformationPanel::createEnemyMarker()
+{
+    BaseItem *marker = new BaseItem;
+    marker->setImageSource("qrc:/images/control_panel/enemy_marker.png");
+    enemyMarkers_ << marker;
+    maxEnemiesCount_ = enemyMarkers_.count();
+    emit enemyMarkersPropertyChanged(enemyMarkersProperty());
 }
 
 void InformationPanel::removeEnemyMarker()

@@ -2,8 +2,10 @@
 #define INFORMATIONPANEL_H
 
 #include <QQmlListProperty>
+#include <QQueue>
 
 #include "baseitem.h"
+#include "shootableitem.h"
 
 class InformationPanel : public BaseItem
 {
@@ -25,6 +27,9 @@ public:
     int maxEnemiesCount() const { return maxEnemiesCount_; }
     void setMaxEnemiesCount(int maxEnemiesCount);
 
+    ShootableItem *nextTank();
+    void addTank(ShootableItem *tank);
+
     QQmlListProperty<BaseItem> enemyMarkersProperty();
 
 signals:
@@ -34,12 +39,14 @@ signals:
     void enemyMarkersPropertyChanged(QQmlListProperty<BaseItem>);
 
 private:
+    void createEnemyMarker();
     void removeEnemyMarker();
 
     int stageNo_ = 1;
     int livesCount_ = 2;
     int maxEnemiesCount_ = 0;
     QList<BaseItem *> enemyMarkers_;
+    QQueue<ShootableItem *> tanks_;
 };
 
 #endif // INFORMATIONPANEL_H
