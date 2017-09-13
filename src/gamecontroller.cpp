@@ -1,7 +1,8 @@
 #include "gamecontroller.h"
 
 #include <QTimerEvent>
-#include <QTime>
+
+#include <random>
 
 static const int GAME_TIMEOUT = 25;
 static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
@@ -356,10 +357,10 @@ void GameController::moveEnemyTankToBoard()
     if (!informationPanel_.hasNextTank())
         return;
 
-    QTime time = QTime::currentTime();
-    uint seed = static_cast<uint>(time.msec()) + informationPanel_.maxEnemiesCount();
-    qsrand(seed);
-    int index = qrand() % ((high + 1) - low) + low;
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(low, high);
+    int index = dist(rng);
 
     int respawnX = enemyRespawns_.at(index).first;
     int respawnY = enemyRespawns_.at(index).second;
