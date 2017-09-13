@@ -54,18 +54,18 @@ void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
     switch (direction()) {
     case MovableItem::North:
         projectile->setX(left()  + width() / 2 - projectile->width() / 2);
-        projectile->setY(top() - projectile->height());
+        projectile->setY(top());
         break;
     case MovableItem::South:
         projectile->setX(left()  + width() / 2 - projectile->width() / 2);
-        projectile->setY(bottom() + projectile->height());
+        projectile->setY(bottom());
         break;
     case MovableItem::West:
-        projectile->setX(left() - projectile->width());
+        projectile->setX(left());
         projectile->setY(top() + width() / 2 - projectile->height() / 2);
         break;
     case MovableItem::East:
-        projectile->setX(right() + projectile->width());
+        projectile->setX(right());
         projectile->setY(top() + width() / 2 - projectile->height() / 2);
         break;
     default:

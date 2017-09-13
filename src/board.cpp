@@ -872,45 +872,12 @@ void Board::makeTanks()
 
     connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
 
-    // Enemy tanks
-    // 1
-    tank = new ShootableItem;
-    tank->setWidth(TILE_SIZE * 2);
-    tank->setHeight(TILE_SIZE * 2);
-
-    t = tile(0, 0);
-    tank->setX(t->x());
-    tank->setY(t->y());
-
-    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-    tank->setProperty("battleCitySide", "enemy");
-
-    enemyTanks_ << tank;
-
-    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
-
-    // 2
+    // Enemy tank
     tank = new ShootableItem;
     tank->setWidth(TILE_SIZE * 2);
     tank->setHeight(TILE_SIZE * 2);
 
     t = tile(0, 12);
-    tank->setX(t->x());
-    tank->setY(t->y());
-
-    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-    tank->setProperty("battleCitySide", "enemy");
-
-    enemyTanks_ << tank;
-
-    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
-
-    // 3
-    tank = new ShootableItem;
-    tank->setWidth(TILE_SIZE * 2);
-    tank->setHeight(TILE_SIZE * 2);
-
-    t = tile(0, 24);
     tank->setX(t->x());
     tank->setY(t->y());
 
