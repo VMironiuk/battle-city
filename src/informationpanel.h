@@ -27,6 +27,7 @@ public:
     int maxEnemiesCount() const { return maxEnemiesCount_; }
     void setMaxEnemiesCount(int maxEnemiesCount);
 
+    bool hasNextTank() const;
     ShootableItem *nextTank();
     void addTank(ShootableItem *tank);
 

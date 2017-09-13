@@ -353,6 +353,9 @@ void GameController::moveEnemyTankToBoard()
     static const int high = enemyRespawns_.count() - 1;
     static const int low = 0;
 
+    if (!informationPanel_.hasNextTank())
+        return;
+
     QTime time = QTime::currentTime();
     uint seed = static_cast<uint>(time.msec()) + informationPanel_.maxEnemiesCount();
     qsrand(seed);

@@ -35,6 +35,11 @@ void InformationPanel::setMaxEnemiesCount(int maxEnemiesCount)
     emit maxEnemiesCountChanged(maxEnemiesCount_);
 }
 
+bool InformationPanel::hasNextTank() const
+{
+    return !tanks_.isEmpty();
+}
+
 ShootableItem *InformationPanel::nextTank()
 {
     if (tanks_.isEmpty())
