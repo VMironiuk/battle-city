@@ -26,6 +26,8 @@ private:
     GameController(QObject *parent = nullptr);
     ~GameController();
 
+    void setupBoard();
+
     Board board_;
     InformationPanel informationPanel_;
     QTimer timer_;

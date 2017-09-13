@@ -39,6 +39,8 @@ public:
     void removeExplosion(BaseItem *explosion);
     void destroyEagle(BaseItem *eagle);
 
+    void setupTile(int row, int column, Tile::Material material);
+
 public slots:
     void update();
 
@@ -55,7 +57,7 @@ private slots:
 private:
     void initialize();
     void makeTiles();
-    void makeMaze();
+    void makeBase();
     void makeTanks();
     void makeExplosion(int x, int y, int w, int h, const QString &image);
     Tile *tile(int row, int column) const;
