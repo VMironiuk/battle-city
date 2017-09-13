@@ -1,6 +1,10 @@
 #include "gamecontroller.h"
 
-static const int TIMEOUT = 25;
+#include <QTimerEvent>
+#include <QTime>
+
+static const int GAME_TIMEOUT = 25;
+static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
 static const int BOARD_ROWS = 26;
 static const int BOARD_COLS = 26;
 static const int BOARD_TILE_SIZE = 32;
@@ -11,9 +15,14 @@ GameController &GameController::instance()
     return gc;
 }
 
-void GameController::checkCollisions()
+void GameController::timerEvent(QTimerEvent *event)
 {
-    collider_.checkCollisions(&board_);
+    if (gameRythmId_ == event->timerId()) {
+        board_.update();
+        checkCollisions();
+    } else if (enemyTankAppearRythmId_ == event->timerId()) {
+        moveEnemyTankToBoard();
+    }
 }
 
 GameController::GameController(QObject *parent)
@@ -24,18 +33,19 @@ GameController::GameController(QObject *parent)
     setupBoard();
     setupPlayerTank();
     setupEnemyTanks();
+    moveEnemyTankToBoard();
 
-    int respawnX = enemyRespawns_.at(1).first;
-    int respawnY = enemyRespawns_.at(1).second;
-    board_.addEnemyTank(respawnX, respawnY, informationPanel_.nextTank());
-
-    connect(&timer_, SIGNAL(timeout()), &board_, SLOT(update()));
-    connect(&timer_, SIGNAL(timeout()), this, SLOT(checkCollisions()));
-    timer_.start(TIMEOUT);
+    gameRythmId_ = startTimer(GAME_TIMEOUT);
+    enemyTankAppearRythmId_ = startTimer(ENEMY_TANK_APPEAR_TIMEOUT);
 }
 
 GameController::~GameController()
 {
+}
+
+void GameController::checkCollisions()
+{
+    collider_.checkCollisions(&board_);
 }
 
 void GameController::setupRespawns()
@@ -336,4 +346,19 @@ void GameController::setupEnemyTanks()
 
         informationPanel_.addTank(tank);
     }
+}
+
+void GameController::moveEnemyTankToBoard()
+{
+    static const int high = enemyRespawns_.count() - 1;
+    static const int low = 0;
+
+    QTime time = QTime::currentTime();
+    uint seed = static_cast<uint>(time.msec()) + informationPanel_.maxEnemiesCount();
+    qsrand(seed);
+    int index = qrand() % ((high + 1) - low) + low;
+
+    int respawnX = enemyRespawns_.at(index).first;
+    int respawnY = enemyRespawns_.at(index).second;
+    board_.addEnemyTank(respawnX, respawnY, informationPanel_.nextTank());
 }

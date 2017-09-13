@@ -2,7 +2,6 @@
 #define GAMECONTROLLER_H
 
 #include <QObject>
-#include <QTimer>
 
 #include "board.h"
 #include "collider.h"
@@ -19,24 +18,28 @@ public:
     Board *board() { return &board_; }
     InformationPanel *informationPanel() { return &informationPanel_; }
 
-private slots:
-    void checkCollisions();
+protected:
+    void timerEvent(QTimerEvent *event);
 
 private:
     GameController(QObject *parent = nullptr);
     ~GameController();
 
+    void checkCollisions();
     void setupRespawns();
     void setupBoard();
     void setupPlayerTank();
     void setupEnemyTanks();
+    void moveEnemyTankToBoard();
 
     Board board_;
     InformationPanel informationPanel_;
-    QTimer timer_;
     Collider collider_;
     QPair<int, int> playerRespawn_;
     QList<QPair<int, int>> enemyRespawns_;
+
+    int gameRythmId_;
+    int enemyTankAppearRythmId_;
 };
 
 #endif // GAMECONTROLLER_H
