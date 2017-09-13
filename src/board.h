@@ -60,7 +60,6 @@ private:
     void initialize();
     void makeTiles();
     void makeBase();
-    void makeTanks();
     void makeExplosion(int x, int y, int w, int h, const QString &image);
     Tile *tile(int row, int column) const;
 

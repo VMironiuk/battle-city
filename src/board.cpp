@@ -155,7 +155,6 @@ void Board::initialize()
 
     makeTiles();
     makeBase();
-    makeTanks();
 }
 
 void Board::makeTiles()
@@ -201,30 +200,6 @@ void Board::makeBase()
     eagle_.setX(tile(24, 12)->x());
     eagle_.setY(tile(24, 12)->y());
     eagle_.setImageSource("qrc:/images/eagles/normal_eagle.png");
-}
-
-void Board::makeTanks()
-{
-    // TODO: just for testing. Update this code later
-
-//    ShootableItem *tank = new ShootableItem;
-
-//    Tile *t/* = tile(24, 9)*/ = 0;
-//    // Enemy tank
-//    tank = new ShootableItem;
-//    tank->setWidth(tileSize_ * 2);
-//    tank->setHeight(tileSize_ * 2);
-
-//    t = tile(0, 12);
-//    tank->setX(t->x());
-//    tank->setY(t->y());
-
-//    tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-//    tank->setProperty("battleCitySide", "enemy");
-
-//    enemyTanks_ << tank;
-
-//    connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
 }
 
 void Board::makeExplosion(int x, int y, int w, int h, const QString &image)
