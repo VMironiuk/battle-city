@@ -2,7 +2,6 @@
 #define SHOOTABLEITEM_H
 
 #include "movableitem.h"
-#include "delay.h"
 
 class ShootableItem : public MovableItem
 {
@@ -13,8 +12,6 @@ public:
 
     virtual void shoot();
 
-    void setShootDelayInterval(int interval);
-
     bool shooting() const { return shooting_; }
     void setShooting(bool shooting);
 
@@ -22,11 +19,15 @@ signals:
     void shootEmitted(MovableItem *projectile);
     void shootingChanged(bool shooting);
 
+private slots:
+    void charge();
+    void uncharge();
+
 private:
     void adjustProjectilePosition(MovableItem *projectile) const;
 
-    Delay shootDelay_;
     bool shooting_ = true;
+    bool charge_ = true;
 };
 
 #endif // SHOOTABLEITEM_H

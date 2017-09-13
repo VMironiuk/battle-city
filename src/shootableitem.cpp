@@ -9,10 +9,10 @@ ShootableItem::ShootableItem(QObject *parent)
 
 void ShootableItem::shoot()
 {
-    if (!shooting_)
+    if (!charge_)
         return;
 
-    if (!shootDelay_.isExpired())
+    if (!shooting_)
         return;
 
     MovableItem *projectile = new MovableItem;
@@ -27,12 +27,8 @@ void ShootableItem::shoot()
     projectile->setSpeed(10);
     emit shootEmitted(projectile);
 
-    shootDelay_.setup();
-}
-
-void ShootableItem::setShootDelayInterval(int interval)
-{
-    shootDelay_.setInterval(interval);
+    uncharge();
+    connect(projectile, SIGNAL(destroyed(QObject*)), this, SLOT(charge()));
 }
 
 void ShootableItem::setShooting(bool shooting)
@@ -41,6 +37,16 @@ void ShootableItem::setShooting(bool shooting)
         return;
     shooting_ = shooting;
     emit shootingChanged(shooting_);
+}
+
+void ShootableItem::charge()
+{
+    charge_ = true;
+}
+
+void ShootableItem::uncharge()
+{
+    charge_ = false;
 }
 
 void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const

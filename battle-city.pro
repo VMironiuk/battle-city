@@ -11,7 +11,6 @@ SOURCES += src/main.cpp \
     src/gamecontroller.cpp \
     src/collider.cpp \
     src/shootableitem.cpp \
-    src/delay.cpp \
     src/informationpanel.cpp
 
 RESOURCES += qml.qrc \
@@ -46,5 +45,4 @@ HEADERS += \
     src/gamecontroller.h \
     src/collider.h \
     src/shootableitem.h \
-    src/delay.h \
     src/informationpanel.h
