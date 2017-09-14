@@ -16,8 +16,8 @@ public:
     GameController(const GameController&) = delete;
     GameController &operator=(const GameController&) = delete;
 
-    Board *board() { return &board_; }
-    InformationPanel *informationPanel() { return &informationPanel_; }
+    Board *board() { return board_; }
+    InformationPanel *informationPanel() { return informationPanel_; }
 
 protected:
     void timerEvent(QTimerEvent *event);
@@ -36,8 +36,8 @@ private:
     void setupEnemyTanks();
     void moveEnemyTankToBoard();
 
-    Board board_;
-    InformationPanel informationPanel_;
+    Board *board_;
+    InformationPanel *informationPanel_;
     Collider collider_;
     QPair<int, int> playerRespawn_;
     QList<QPair<int, int>> enemyRespawns_;
