@@ -7,7 +7,7 @@ EnemyDriver::EnemyDriver(ShootableItem *tank, QObject *parent)
       tank_(tank)
 {
     tank_->setMovement(true);
-    tank->setShooting(true);
+    tank->setShooting(/*true*/false);
     tank_->setDirection(MovableItem::South);
 
     previousTankPositionX_ = tank_->x();
@@ -18,7 +18,6 @@ EnemyDriver::EnemyDriver(ShootableItem *tank, QObject *parent)
 
 void EnemyDriver::update()
 {
-    qDebug() << Q_FUNC_INFO;
     // TODO: just for testing, find better solution
     switch (tank_->direction()) {
     case MovableItem::North:

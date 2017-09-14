@@ -12,10 +12,12 @@ SOURCES += src/main.cpp \
     src/collider.cpp \
     src/shootableitem.cpp \
     src/informationpanel.cpp \
-    src/enemydriver.cpp
+    src/enemydriver.cpp \
+    src/bcsreader.cpp
 
 RESOURCES += qml.qrc \
-    images.qrc
+    images.qrc \
+    stages.qrc
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -47,4 +49,5 @@ HEADERS += \
     src/collider.h \
     src/shootableitem.h \
     src/informationpanel.h \
-    src/enemydriver.h
+    src/enemydriver.h \
+    src/bcsreader.h

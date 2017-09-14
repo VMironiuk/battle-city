@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>stages/stage1.xml</file>
+    </qresource>
+</RCC>

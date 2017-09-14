@@ -10,6 +10,8 @@
 
 class GameController : public QObject
 {
+    friend class BCSReader;
+
     Q_OBJECT
 public:
     static GameController &instance();
@@ -38,6 +40,8 @@ private:
     void setupPlayerTank();
     void setupEnemyTanks();
     void moveEnemyTankToBoard();
+    void setStageNo(int stageNo);
+    void setTile(int row, int column, Tile::Material material);
 
     Board *board_;
     InformationPanel *informationPanel_;
