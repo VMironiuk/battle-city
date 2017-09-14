@@ -38,6 +38,13 @@ void GameController::removeEnemyDriver()
     driver->deleteLater();
 }
 
+void GameController::admitDefeat()
+{
+    killTimer(gameRythmId_);
+    killTimer(enemyTankAppearRythmId_);
+    killTimer(enemyDriverRythmId_);
+}
+
 GameController::GameController(QObject *parent)
     : QObject(parent),
       board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
@@ -52,6 +59,8 @@ GameController::GameController(QObject *parent)
     gameRythmId_ = startTimer(GAME_TIMEOUT);
     enemyTankAppearRythmId_ = startTimer(ENEMY_TANK_APPEAR_TIMEOUT);
     enemyDriverRythmId_ = startTimer(ENEMY_DRIVER_TIMEOUT);
+
+    connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
 }
 
 GameController::~GameController()
@@ -360,7 +369,7 @@ void GameController::setupPlayerTank()
 void GameController::setupEnemyTanks()
 {
     // TODO: read tanks information from XML instead hardcoding
-    for (int i = 0; i != 20; ++i) {
+    for (int i = 0; i != 2; ++i) {
         ShootableItem *tank = new ShootableItem;
         tank->setWidth(BOARD_TILE_SIZE * 2);
         tank->setHeight(BOARD_TILE_SIZE * 2);

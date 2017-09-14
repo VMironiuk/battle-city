@@ -88,8 +88,8 @@ void Board::destroyEagle(BaseItem *eagle)
     int x = eagle->x() - eagle->width() / 6;
     int y = eagle->y() - eagle->height() / 6;
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
-
     eagle->setImageSource("qrc:/images/eagles/destroyed_eagle.png");
+    emit eagleDestroyed();
 }
 
 void Board::setupTile(int row, int column, Tile::Material material)

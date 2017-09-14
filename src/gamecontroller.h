@@ -24,6 +24,7 @@ protected:
 
 private slots:
     void removeEnemyDriver();
+    void admitDefeat();
 
 private:
     GameController(QObject *parent = nullptr);
