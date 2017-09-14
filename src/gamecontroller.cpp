@@ -6,6 +6,7 @@
 
 static const int GAME_TIMEOUT = 25;
 static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
+static const int ENEMY_DRIVER_TIMEOUT = 1000;
 static const int BOARD_ROWS = 26;
 static const int BOARD_COLS = 26;
 static const int BOARD_TILE_SIZE = 32;
@@ -23,6 +24,8 @@ void GameController::timerEvent(QTimerEvent *event)
         checkCollisions();
     } else if (enemyTankAppearRythmId_ == event->timerId()) {
         moveEnemyTankToBoard();
+    } else if (enemyDriverRythmId_ == event->timerId()) {
+        updateEnemyDrivers();
     }
 }
 
@@ -48,6 +51,7 @@ GameController::GameController(QObject *parent)
 
     gameRythmId_ = startTimer(GAME_TIMEOUT);
     enemyTankAppearRythmId_ = startTimer(ENEMY_TANK_APPEAR_TIMEOUT);
+    enemyDriverRythmId_ = startTimer(ENEMY_DRIVER_TIMEOUT);
 }
 
 GameController::~GameController()
@@ -59,6 +63,12 @@ GameController::~GameController()
 void GameController::checkCollisions()
 {
     collider_.checkCollisions(board_);
+}
+
+void GameController::updateEnemyDrivers()
+{
+    for (auto driver : enemyDrivers_)
+        driver->update();
 }
 
 void GameController::setupRespawns()

@@ -30,6 +30,7 @@ private:
     ~GameController();
 
     void checkCollisions();
+    void updateEnemyDrivers();
     void setupRespawns();
     void setupBoard();
     void setupPlayerTank();
@@ -44,6 +45,7 @@ private:
     QList<EnemyDriver *> enemyDrivers_;
     int gameRythmId_;
     int enemyTankAppearRythmId_;
+    int enemyDriverRythmId_;
 };
 
 #endif // GAMECONTROLLER_H

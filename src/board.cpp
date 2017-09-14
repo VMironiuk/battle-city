@@ -131,6 +131,10 @@ void Board::update()
         tank->move();
         tank->shoot();
     }
+    for (auto tank : enemyTanks_) {
+        tank->move();
+        tank->shoot();
+    }
     for (auto projectile : projectiles_)
         projectile->move();
 }

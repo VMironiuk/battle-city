@@ -17,8 +17,12 @@ void Collider::checkCollisions(Board *board)
 
 void Collider::checkBoardBoundaries(Board *board)
 {
-    QList<ShootableItem *> tanks = board->playerTanks();
-    for (auto tank : tanks)
+    QList<ShootableItem *> playerTanks = board->playerTanks();
+    for (auto tank : playerTanks)
+        checkBoardBoundariesForTank(board, tank);
+
+    QList<ShootableItem *> enemyTanks = board->enemyTanks();
+    for (auto tank : enemyTanks)
         checkBoardBoundariesForTank(board, tank);
 
     QList<MovableItem *> projectiles = board->projectiles();
@@ -62,8 +66,12 @@ void Collider::checkBoardBoundariesForProjectile(Board *board, MovableItem *proj
 
 void Collider::checkTileBoundaries(Board *board)
 {
-    QList<ShootableItem *> tanks = board->playerTanks();
-    for (auto tank : tanks)
+    QList<ShootableItem *> playerTanks = board->playerTanks();
+    for (auto tank : playerTanks)
+        checkTileBoundariesForTank(board, tank);
+
+    QList<ShootableItem *> enemyTanks = board->enemyTanks();
+    for (auto tank : enemyTanks)
         checkTileBoundariesForTank(board, tank);
 
     QList<MovableItem *> projectiles = board->projectiles();

@@ -20,6 +20,8 @@ private:
     void update();
 
     ShootableItem *tank_;
+    int previousTankPositionX_;
+    int previousTankPositionY_;
 };
 
 #endif // ENEMYDRIVER_H

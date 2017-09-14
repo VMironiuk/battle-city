@@ -42,8 +42,8 @@ private:
     void moveWest();
     void moveEast();
 
-    int speed_ = 4;
-    Direction direction_ = South;
+    int speed_ = 3;
+    Direction direction_ = North;
     bool movement_ = true;
 };
 
