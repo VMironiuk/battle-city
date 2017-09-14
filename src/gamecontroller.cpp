@@ -6,7 +6,7 @@
 
 static const int GAME_TIMEOUT = 25;
 static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
-static const int ENEMY_DRIVER_TIMEOUT = 1000;
+static const int ENEMY_DRIVER_TIMEOUT = 100;
 static const int BOARD_ROWS = 26;
 static const int BOARD_COLS = 26;
 static const int BOARD_TILE_SIZE = 32;
@@ -45,6 +45,17 @@ void GameController::admitDefeat()
     killTimer(enemyDriverRythmId_);
 }
 
+void GameController::onPlayerTankDestroyed()
+{
+    if (informationPanel_->livesCount() == 0) {
+        admitDefeat();
+        return;
+    }
+
+    informationPanel_->setLivesCount(informationPanel_->livesCount() - 1);
+    setupPlayerTank();
+}
+
 GameController::GameController(QObject *parent)
     : QObject(parent),
       board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
@@ -61,6 +72,7 @@ GameController::GameController(QObject *parent)
     enemyDriverRythmId_ = startTimer(ENEMY_DRIVER_TIMEOUT);
 
     connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
+    connect(board_, SIGNAL(playerTankDestroyed()), this, SLOT(onPlayerTankDestroyed()));
 }
 
 GameController::~GameController()

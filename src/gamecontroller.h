@@ -25,6 +25,7 @@ protected:
 private slots:
     void removeEnemyDriver();
     void admitDefeat();
+    void onPlayerTankDestroyed();
 
 private:
     GameController(QObject *parent = nullptr);

@@ -52,6 +52,7 @@ signals:
     void projectilesPropertyChanged(QQmlListProperty<MovableItem>);
     void explosionsPropertyChanged(QQmlListProperty<BaseItem>);
     void eagleDestroyed();
+    void playerTankDestroyed();
 
 private slots:
     void addProjectile(MovableItem *projectile);

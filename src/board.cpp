@@ -52,6 +52,7 @@ void Board::removePlayerTank(ShootableItem *playerTank)
     playerTanks_.removeOne(playerTank);
     emit playerTanksPropertyChanged(playerTanksProperty());
     delete playerTank;
+    emit playerTankDestroyed();
 }
 
 void Board::removeEnemyTank(ShootableItem *enemyTank)
