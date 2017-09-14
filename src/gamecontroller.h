@@ -5,6 +5,7 @@
 
 #include "board.h"
 #include "collider.h"
+#include "enemydriver.h"
 #include "informationpanel.h"
 
 class GameController : public QObject
@@ -20,6 +21,9 @@ public:
 
 protected:
     void timerEvent(QTimerEvent *event);
+
+private slots:
+    void removeEnemyDriver();
 
 private:
     GameController(QObject *parent = nullptr);
@@ -37,7 +41,7 @@ private:
     Collider collider_;
     QPair<int, int> playerRespawn_;
     QList<QPair<int, int>> enemyRespawns_;
-
+    QList<EnemyDriver *> enemyDrivers_;
     int gameRythmId_;
     int enemyTankAppearRythmId_;
 };

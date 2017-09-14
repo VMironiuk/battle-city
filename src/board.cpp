@@ -49,7 +49,7 @@ void Board::removePlayerTank(ShootableItem *playerTank)
     int y = playerTank->y() - playerTank->height() / 6;
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
 
-    playerTanks_.removeAll(playerTank);
+    playerTanks_.removeOne(playerTank);
     emit playerTanksPropertyChanged(playerTanksProperty());
     delete playerTank;
 }
@@ -60,7 +60,7 @@ void Board::removeEnemyTank(ShootableItem *enemyTank)
     int y = enemyTank->y() - enemyTank->height() / 6;
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
 
-    enemyTanks_.removeAll(enemyTank);
+    enemyTanks_.removeOne(enemyTank);
     emit enemyTanksPropertyChanged(enemyTanksProperty());
     delete enemyTank;
 }
@@ -71,14 +71,14 @@ void Board::removeProjectile(MovableItem *projectile)
     int y = projectile->y() - projectile->height();
     makeExplosion(x, y, 44, 44, "qrc:/images/explosions/projectile_explosion.gif");
 
-    projectiles_.removeAll(projectile);
+    projectiles_.removeOne(projectile);
     emit projectilesPropertyChanged(projectilesProperty());
     delete projectile;
 }
 
 void Board::removeExplosion(BaseItem *explosion)
 {
-    explosions_.removeAll(explosion);
+    explosions_.removeOne(explosion);
     emit explosionsPropertyChanged(explosionsProperty());
     delete explosion;
 }

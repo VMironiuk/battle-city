@@ -11,7 +11,8 @@ SOURCES += src/main.cpp \
     src/gamecontroller.cpp \
     src/collider.cpp \
     src/shootableitem.cpp \
-    src/informationpanel.cpp
+    src/informationpanel.cpp \
+    src/enemydriver.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -45,4 +46,5 @@ HEADERS += \
     src/gamecontroller.h \
     src/collider.h \
     src/shootableitem.h \
-    src/informationpanel.h
+    src/informationpanel.h \
+    src/enemydriver.h

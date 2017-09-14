@@ -1,6 +1,7 @@
 #include "gamecontroller.h"
 
 #include <QTimerEvent>
+#include <QDebug>
 
 #include <random>
 
@@ -24,6 +25,16 @@ void GameController::timerEvent(QTimerEvent *event)
     } else if (enemyTankAppearRythmId_ == event->timerId()) {
         moveEnemyTankToBoard();
     }
+}
+
+void GameController::removeEnemyDriver()
+{
+    EnemyDriver *driver = qobject_cast<EnemyDriver *>(sender());
+    if (driver == nullptr)
+        return;
+    qDebug() << Q_FUNC_INFO;
+    enemyDrivers_.removeOne(driver);
+    driver->deleteLater();
 }
 
 GameController::GameController(QObject *parent)
@@ -364,5 +375,10 @@ void GameController::moveEnemyTankToBoard()
 
     int respawnX = enemyRespawns_.at(index).first;
     int respawnY = enemyRespawns_.at(index).second;
-    board_.addEnemyTank(respawnX, respawnY, informationPanel_.nextTank());
+
+    ShootableItem *tank = informationPanel_.nextTank();
+    EnemyDriver *driver = new EnemyDriver(tank);
+    connect(driver, SIGNAL(wannaDie()), this, SLOT(removeEnemyDriver()));
+    enemyDrivers_ << driver;
+    board_.addEnemyTank(respawnX, respawnY, tank);
 }
