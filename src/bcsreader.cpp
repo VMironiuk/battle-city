@@ -1,6 +1,6 @@
 #include "bcsreader.h"
 
-#include "constants.h"
+#include "global.h"
 
 BCSReader::BCSReader(GameController *controller)
     : controller_(controller)

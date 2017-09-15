@@ -4,10 +4,8 @@
 #include <QFile>
 #include <QTimerEvent>
 
-#include <random>
-
 #include "bcsreader.h"
-#include "constants.h"
+#include "global.h"
 
 static const int GAME_TIMEOUT = 25;
 static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
@@ -142,11 +140,7 @@ void GameController::moveEnemyTankToBoard()
     if (!informationPanel_->hasNextTank())
         return;
 
-    std::mt19937 rng;
-    rng.seed(std::random_device()());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(low, high);
-    int index = dist(rng);
-
+    int index = randomNumber(low, high);
     int respawnX = enemyRespawns_.at(index).first;
     int respawnY = enemyRespawns_.at(index).second;
 

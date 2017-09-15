@@ -14,7 +14,7 @@ SOURCES += src/main.cpp \
     src/informationpanel.cpp \
     src/enemydriver.cpp \
     src/bcsreader.cpp \
-    src/constants.cpp
+    src/global.cpp
 
 RESOURCES += qml.qrc \
     images.qrc \
@@ -52,4 +52,4 @@ HEADERS += \
     src/informationpanel.h \
     src/enemydriver.h \
     src/bcsreader.h \
-    src/constants.h
+    src/global.h

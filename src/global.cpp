@@ -1,7 +1,8 @@
-#include "constants.h"
+#include "global.h"
+
+#include <random>
 
 namespace Constants {
-
 namespace Property {
 const char *Belligerent = "belligerent";
 } // Constants::Properties
@@ -41,3 +42,11 @@ const char *Armored = "armored";
 } // Constants::EnemyTank::Type
 } // Constants::EnemyTank
 } // Constants
+
+int randomNumber(int min, int max)
+{
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(min, max);
+    return dist(rng);
+}

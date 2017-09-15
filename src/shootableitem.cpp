@@ -2,7 +2,7 @@
 
 #include <QVariant>
 
-#include "constants.h"
+#include "global.h"
 
 ShootableItem::ShootableItem(QObject *parent)
     : MovableItem(parent)

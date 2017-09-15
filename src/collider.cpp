@@ -1,6 +1,6 @@
 #include "collider.h"
 
-#include "constants.h"
+#include "global.h"
 
 Collider::Collider(QObject *parent)
     : QObject(parent)

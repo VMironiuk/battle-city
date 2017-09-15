@@ -1,8 +1,7 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
 namespace Constants {
-
 namespace Property {
 extern const char *Belligerent;
 } // Constants::Properties
@@ -43,4 +42,6 @@ extern const char *Armored;
 } // Constants::EnemyTank
 } // Constants
 
-#endif // CONSTANTS_H
+int randomNumber(int min, int max);
+
+#endif // GLOBAL_H
