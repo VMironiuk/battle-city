@@ -201,8 +201,26 @@ void Collider::checkTanksCollisions(Board *board)
     for (int i = 0; i != allTanks.size(); ++i) {
         for (int j = 0; j != allTanks.size(); ++j) {
             if (i != j) {
-                if (checkCollision(allTanks.at(i), allTanks.at(j)))
+                if (checkCollision(allTanks.at(i), allTanks.at(j))) {
+                    // TODO: just for testing, delete later
+                    if (allTanks.at(i)->property("battleCitySide") == "enemy"
+                            && allTanks.at(j)->property("battleCitySide") == "enemy") {
+                        if (allTanks.at(i)->direction() == MovableItem::North
+                                && allTanks.at(j)->direction() == MovableItem::South) {
+                            allTanks.at(i)->setDirection(MovableItem::South);
+                        } else if (allTanks.at(i)->direction() == MovableItem::South
+                                   && allTanks.at(j)->direction() == MovableItem::North) {
+                            allTanks.at(i)->setDirection(MovableItem::North);
+                        } else if (allTanks.at(i)->direction() == MovableItem::West
+                                   && allTanks.at(j)->direction() == MovableItem::East) {
+                            allTanks.at(i)->setDirection(MovableItem::East);
+                        } else if (allTanks.at(i)->direction() == MovableItem::East
+                                   && allTanks.at(j)->direction() == MovableItem::West) {
+                            allTanks.at(i)->setDirection(MovableItem::West);
+                        }
+                    }
                     break;
+                }
             }
         }
     }
