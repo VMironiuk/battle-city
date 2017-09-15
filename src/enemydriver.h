@@ -2,6 +2,7 @@
 #define ENEMYDRIVER_H
 
 #include <QObject>
+#include <QTime>
 
 #include "shootableitem.h"
 
@@ -18,10 +19,14 @@ signals:
 
 private:
     void update();
+    void moveRandomly();
+    void moveToPlayer();
+    void moveToEagle();
 
     ShootableItem *tank_;
     int previousTankPositionX_;
     int previousTankPositionY_;
+    QTime movementPeriodTime_;
 };
 
 #endif // ENEMYDRIVER_H
