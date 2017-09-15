@@ -25,7 +25,25 @@ void ShootableItem::shoot()
     projectile->setImageSource("qrc:/images/projectiles/projectile.png");
     projectile->setMovement(true);
     projectile->setProperty("battleCitySide", property("battleCitySide").toString());
-    projectile->setSpeed(10);
+
+    switch (shotMode_) {
+    case SlowShot:
+        projectile->setSpeed(10);
+        break;
+    case FastShot:
+        projectile->setSpeed(20);
+        break;
+    case BurstShot:
+        projectile->setSpeed(10);
+        break;
+    case PowerfulShot:
+        projectile->setSpeed(10);
+        projectile->setProperty("powerful", true);
+        break;
+    default:
+        break;
+    }
+
     emit shootEmitted(projectile);
 
     uncharge();
@@ -48,6 +66,14 @@ void ShootableItem::setChargingInterval(int chargingInterval)
     emit chargingIntervalChanged(chargingInterval_);
 }
 
+void ShootableItem::setShotMode(ShootableItem::ShotMode shotMode)
+{
+    if (shotMode_ == shotMode)
+        return;
+    shotMode_ = shotMode;
+    emit shotModeChanged(shotMode_);
+}
+
 void ShootableItem::charge()
 {
     charge_ = true;
@@ -64,18 +90,18 @@ void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
     switch (direction()) {
     case MovableItem::North:
         projectile->setX(left()  + width() / 2 - projectile->width() / 2);
-        projectile->setY(top());
+        projectile->setY(top() + projectile->height());
         break;
     case MovableItem::South:
         projectile->setX(left()  + width() / 2 - projectile->width() / 2);
-        projectile->setY(bottom());
+        projectile->setY(bottom() - projectile->height());
         break;
     case MovableItem::West:
-        projectile->setX(left());
+        projectile->setX(left() + projectile->width());
         projectile->setY(top() + width() / 2 - projectile->height() / 2);
         break;
     case MovableItem::East:
-        projectile->setX(right());
+        projectile->setX(right() - projectile->width());
         projectile->setY(top() + width() / 2 - projectile->height() / 2);
         break;
     default:
@@ -85,5 +111,7 @@ void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
 
 bool ShootableItem::charged() const
 {
+    if (shotMode_ == BurstShot)
+        return chargingTime_.elapsed() > 250;
     return charge_ && chargingTime_.elapsed() > chargingInterval_;
 }

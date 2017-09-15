@@ -126,9 +126,10 @@ void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *proje
     for (auto tile : tiles) {
         if (!tile->isProjectileTraversable()) {
             if (checkCollision(projectile, tile)) {
-                board->removeProjectile(projectile);
-                if (tile->isProjectileBreakable())
+                if (tile->isProjectileBreakable()
+                        || projectile->property("powerful").toBool())
                     tile->setMaterial(Tile::Free);
+                board->removeProjectile(projectile);
                 return;
             }
         }
