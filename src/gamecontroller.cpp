@@ -127,6 +127,7 @@ void GameController::setupPlayerTank()
     tank->setMovement(false);
     tank->setShooting(false);
     tank->setProperty("battleCitySide", "player");
+    tank->setChargingInterval(250);
 
     board_->addPlayerTank(playerRespawn_.first, playerRespawn_.second, tank);
 }

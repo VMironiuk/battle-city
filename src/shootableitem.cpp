@@ -5,14 +5,15 @@
 ShootableItem::ShootableItem(QObject *parent)
     : MovableItem(parent)
 {
+    chargingTime_.start();
 }
 
 void ShootableItem::shoot()
 {
-    if (!charge_)
+    if (!shooting_)
         return;
 
-    if (!shooting_)
+    if (!charged())
         return;
 
     MovableItem *projectile = new MovableItem;
@@ -39,6 +40,14 @@ void ShootableItem::setShooting(bool shooting)
     emit shootingChanged(shooting_);
 }
 
+void ShootableItem::setChargingInterval(int chargingInterval)
+{
+    if (chargingInterval_ == chargingInterval)
+        return;
+    chargingInterval_ = chargingInterval;
+    emit chargingIntervalChanged(chargingInterval_);
+}
+
 void ShootableItem::charge()
 {
     charge_ = true;
@@ -47,6 +56,7 @@ void ShootableItem::charge()
 void ShootableItem::uncharge()
 {
     charge_ = false;
+    chargingTime_.restart();
 }
 
 void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
@@ -71,4 +81,9 @@ void ShootableItem::adjustProjectilePosition(MovableItem *projectile) const
     default:
         break;
     }
+}
+
+bool ShootableItem::charged() const
+{
+    return charge_ && chargingTime_.elapsed() > chargingInterval_;
 }
