@@ -1,5 +1,7 @@
 #include "bcsreader.h"
 
+#include "constants.h"
+
 BCSReader::BCSReader(GameController *controller)
     : controller_(controller)
 {
@@ -126,28 +128,32 @@ void BCSReader::readTank()
     Q_ASSERT(xml_.isStartElement() && xml_.name() == "tank");
 
     ShootableItem *tank = new ShootableItem;
-    tank->setProperty("battleCitySide", "enemy");
+    tank->setProperty(Constants::Property::Belligerent, Constants::Belligerent::Enemy);
 
     while (xml_.readNextStartElement()) {
-        if (xml_.name() == "type") {
+        if (xml_.name() == Constants::EnemyTank::Property::Type) {
             QString type = readTankType();
-            if (type == "usual") {
+            if (type == Constants::EnemyTank::Type::Usual) {
                 tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-                tank->setProperty("enemyTankType", "usual");
-            } else if (type == "armored_troop_carrier") {
+                tank->setProperty(Constants::EnemyTank::Property::Type,
+                                  Constants::EnemyTank::Type::Usual);
+            } else if (type == Constants::EnemyTank::Type::TroopCarrier) {
                 tank->setImageSource("qrc:/images/tanks/enemy/fast.png");
                 tank->setSpeed(6);
-                tank->setProperty("enemyTankType", "armored_troop_carrier");
-            } else if (type == "bursting") {
+                tank->setProperty(Constants::EnemyTank::Property::Type,
+                                  Constants::EnemyTank::Type::TroopCarrier);
+            } else if (type == Constants::EnemyTank::Type::Bursting) {
                 tank->setImageSource("qrc:/images/tanks/enemy/bursting.png");
                 tank->setShotMode(ShootableItem::BurstShot);
-                tank->setProperty("enemyTankType", "bursting");
-            } else if (type == "armored") {
+                tank->setProperty(Constants::EnemyTank::Property::Type,
+                                  Constants::EnemyTank::Type::Bursting);
+            } else if (type == Constants::EnemyTank::Type::Armored) {
                 tank->setImageSource("qrc:/images/tanks/enemy/armored.png");
-                tank->setProperty("enemyTankType", "armored");
+                tank->setProperty(Constants::EnemyTank::Property::Type,
+                                  Constants::EnemyTank::Type::Armored);
             }
-        } else if (xml_.name() == "strength") {
-            tank->setProperty("strength", readTankStrength());
+        } else if (xml_.name() == Constants::EnemyTank::Property::Strength) {
+            tank->setProperty(Constants::EnemyTank::Property::Strength, readTankStrength());
         } else {
             xml_.skipCurrentElement();
         }

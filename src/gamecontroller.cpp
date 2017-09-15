@@ -7,6 +7,7 @@
 #include <random>
 
 #include "bcsreader.h"
+#include "constants.h"
 
 static const int GAME_TIMEOUT = 25;
 static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
@@ -125,9 +126,10 @@ void GameController::setupPlayerTank()
     tank->setDirection(MovableItem::North);
     tank->setMovement(false);
     tank->setShooting(false);
-    tank->setProperty("battleCitySide", "player");
     tank->setChargingInterval(250);
-    tank->setProperty("improvement", "no_stars");
+    tank->setProperty(Constants::Property::Belligerent, Constants::Belligerent::Player);
+    tank->setProperty(Constants::PlayerTank::Property::Improvement,
+                      Constants::PlayerTank::Improvement::NoStars);
 
     board_->addPlayerTank(playerRespawn_.first, playerRespawn_.second, tank);
 }
@@ -174,16 +176,22 @@ void GameController::addEnemyTank(ShootableItem *tank)
 
 void GameController::improvePlayerTank(ShootableItem *tank)
 {
-    if (tank->property("improvement").toString() == "no_stars") {
-        tank->setProperty("improvement", "one_star");
+    if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
+            == Constants::PlayerTank::Improvement::NoStars) {
+        tank->setProperty(Constants::PlayerTank::Property::Improvement,
+                          Constants::PlayerTank::Improvement::OneStar);
         tank->setImageSource("qrc:/images/tanks/player/one_star_tank.png");
         tank->setShotMode(ShootableItem::FastShot);
-    } else if (tank->property("improvement").toString() == "one_star") {
-        tank->setProperty("improvement", "two_stars");
+    } else if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
+               == Constants::PlayerTank::Improvement::OneStar) {
+        tank->setProperty(Constants::PlayerTank::Property::Improvement,
+                          Constants::PlayerTank::Improvement::TwoStars);
         tank->setImageSource("qrc:/images/tanks/player/two_stars_tank.png");
         tank->setShotMode(ShootableItem::BurstShot);
-    } else if (tank->property("improvement").toString() == "two_stars") {
-        tank->setProperty("improvement", "three_stars");
+    } else if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
+               == Constants::PlayerTank::Improvement::TwoStars) {
+        tank->setProperty(Constants::PlayerTank::Property::Improvement,
+                          Constants::PlayerTank::Improvement::ThreeStars);
         tank->setImageSource("qrc:/images/tanks/player/three_stars_tank.png");
         tank->setShotMode(ShootableItem::PowerfulShot);
     }

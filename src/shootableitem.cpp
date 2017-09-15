@@ -2,6 +2,8 @@
 
 #include <QVariant>
 
+#include "constants.h"
+
 ShootableItem::ShootableItem(QObject *parent)
     : MovableItem(parent)
 {
@@ -24,7 +26,8 @@ void ShootableItem::shoot()
     projectile->setRotation(rotation());
     projectile->setImageSource("qrc:/images/projectiles/projectile.png");
     projectile->setMovement(true);
-    projectile->setProperty("battleCitySide", property("battleCitySide").toString());
+    projectile->setProperty(Constants::Property::Belligerent,
+                            property(Constants::Property::Belligerent).toString());
 
     switch (shotMode_) {
     case SlowShot:
@@ -38,7 +41,7 @@ void ShootableItem::shoot()
         break;
     case PowerfulShot:
         projectile->setSpeed(20);
-        projectile->setProperty("powerful", true);
+        projectile->setProperty(Constants::Projectile::Property::Powerful, true);
         break;
     default:
         break;

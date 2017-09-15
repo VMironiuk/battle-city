@@ -13,7 +13,8 @@ SOURCES += src/main.cpp \
     src/shootableitem.cpp \
     src/informationpanel.cpp \
     src/enemydriver.cpp \
-    src/bcsreader.cpp
+    src/bcsreader.cpp \
+    src/constants.cpp
 
 RESOURCES += qml.qrc \
     images.qrc \
@@ -50,4 +51,5 @@ HEADERS += \
     src/shootableitem.h \
     src/informationpanel.h \
     src/enemydriver.h \
-    src/bcsreader.h
+    src/bcsreader.h \
+    src/constants.h

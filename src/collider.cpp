@@ -1,5 +1,7 @@
 #include "collider.h"
 
+#include "constants.h"
+
 Collider::Collider(QObject *parent)
     : QObject(parent)
 {
@@ -127,7 +129,8 @@ void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *proje
         if (!tile->isProjectileTraversable()) {
             if (checkCollision(projectile, tile)) {
                 if (tile->isProjectileBreakable()
-                        || projectile->property("powerful").toBool())
+                        || projectile->property(Constants::Projectile::Property::Powerful)
+                        .toBool())
                     tile->setMaterial(Tile::Free);
                 board->removeProjectile(projectile);
                 return;
@@ -140,9 +143,11 @@ void Collider::checkTanksHitting(Board *board)
 {
     QList<MovableItem *> projectiles = board->projectiles();
     for (auto projectile : projectiles) {
-        if (projectile->property("battleCitySide").toString() == "player") {
+        if (projectile->property(Constants::Property::Belligerent).toString()
+                == Constants::Belligerent::Player) {
             checkEnemyTanksHitting(board, projectile);
-        } else if (projectile->property("battleCitySide").toString() == "enemy") {
+        } else if (projectile->property(Constants::Property::Belligerent).toString()
+                   == Constants::Belligerent::Enemy) {
             checkPlayerTanksHitting(board, projectile);
         }
     }
@@ -153,21 +158,23 @@ void Collider::checkEnemyTanksHitting(Board *board, MovableItem *projectile)
     QList<ShootableItem *> tanks = board->enemyTanks();
     for (auto tank : tanks) {
         if (checkCollision(projectile, tank)) {
-            if (tank->property("enemyTankType").toString() == "armored") {
-                const int strength = tank->property("strength").toInt();
+            if (tank->property(Constants::EnemyTank::Property::Type).toString()
+                    == Constants::EnemyTank::Type::Armored) {
+                const int strength = tank->property(Constants::EnemyTank::Property::Strength)
+                        .toInt();
                 switch (strength) {
                 case 3:
-                    tank->setProperty("strength", strength - 1);
+                    tank->setProperty(Constants::EnemyTank::Property::Strength, strength - 1);
                     tank->setImageSource("qrc:/images/tanks/enemy/armored_1_hit.png");
                     board->removeProjectile(projectile);
                     return;
                 case 2:
-                    tank->setProperty("strength", strength - 1);
+                    tank->setProperty(Constants::EnemyTank::Property::Strength, strength - 1);
                     tank->setImageSource("qrc:/images/tanks/enemy/armored_2_hit.png");
                     board->removeProjectile(projectile);
                     return;
                 case 1:
-                    tank->setProperty("strength", strength - 1);
+                    tank->setProperty(Constants::EnemyTank::Property::Strength, strength - 1);
                     tank->setImageSource("qrc:/images/tanks/enemy/armored_3_hit.png");
                     board->removeProjectile(projectile);
                     return;
@@ -203,8 +210,10 @@ void Collider::checkTanksCollisions(Board *board)
             if (i != j) {
                 if (checkCollision(allTanks.at(i), allTanks.at(j))) {
                     // TODO: just for testing, delete later
-                    if (allTanks.at(i)->property("battleCitySide") == "enemy"
-                            && allTanks.at(j)->property("battleCitySide") == "enemy") {
+                    if (allTanks.at(i)->property(Constants::Property::Belligerent)
+                            == Constants::Belligerent::Enemy
+                            && allTanks.at(j)->property(Constants::Property::Belligerent)
+                            == Constants::Belligerent::Enemy) {
                         if (allTanks.at(i)->direction() == MovableItem::North
                                 && allTanks.at(j)->direction() == MovableItem::South) {
                             allTanks.at(i)->setDirection(MovableItem::South);
