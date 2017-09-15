@@ -135,7 +135,7 @@ void GameController::setupPlayerTank()
 void GameController::setupEnemyTanks()
 {
     // TODO: read tanks information from XML instead hardcoding
-    for (int i = 0; i != 2; ++i) {
+    for (int i = 0; i != 20; ++i) {
         ShootableItem *tank = new ShootableItem;
         tank->setWidth(BOARD_TILE_SIZE * 2);
         tank->setHeight(BOARD_TILE_SIZE * 2);

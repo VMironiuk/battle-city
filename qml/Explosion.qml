@@ -12,7 +12,7 @@ Item {
     }
 
     Timer {
-        interval: 200
+        interval: 50
         running: true
         repeat: false
 
