@@ -42,6 +42,7 @@ private:
     void moveEnemyTankToBoard();
     void setStageNo(int stageNo);
     void setTile(int row, int column, Tile::Material material);
+    void improvePlayerTank(ShootableItem *tank);
 
     Board *board_;
     InformationPanel *informationPanel_;

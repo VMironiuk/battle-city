@@ -128,6 +128,7 @@ void GameController::setupPlayerTank()
     tank->setShooting(false);
     tank->setProperty("battleCitySide", "player");
     tank->setChargingInterval(250);
+    tank->setProperty("improvement", "no_stars");
 
     board_->addPlayerTank(playerRespawn_.first, playerRespawn_.second, tank);
 }
@@ -177,4 +178,21 @@ void GameController::setStageNo(int stageNo)
 void GameController::setTile(int row, int column, Tile::Material material)
 {
     board_->setupTile(row, column, material);
+}
+
+void GameController::improvePlayerTank(ShootableItem *tank)
+{
+    if (tank->property("improvement").toString() == "no_stars") {
+        tank->setProperty("improvement", "one_star");
+        tank->setImageSource("qrc:/images/tanks/player/one_star_tank.png");
+        tank->setShotMode(ShootableItem::FastShot);
+    } else if (tank->property("improvement").toString() == "one_star") {
+        tank->setProperty("improvement", "two_stars");
+        tank->setImageSource("qrc:/images/tanks/player/two_stars_tank.png");
+        tank->setShotMode(ShootableItem::BurstShot);
+    } else if (tank->property("improvement").toString() == "two_stars") {
+        tank->setProperty("improvement", "three_stars");
+        tank->setImageSource("qrc:/images/tanks/player/three_stars_tank.png");
+        tank->setShotMode(ShootableItem::PowerfulShot);
+    }
 }

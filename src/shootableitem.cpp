@@ -34,10 +34,10 @@ void ShootableItem::shoot()
         projectile->setSpeed(20);
         break;
     case BurstShot:
-        projectile->setSpeed(10);
+        projectile->setSpeed(20);
         break;
     case PowerfulShot:
-        projectile->setSpeed(10);
+        projectile->setSpeed(20);
         projectile->setProperty("powerful", true);
         break;
     default:
