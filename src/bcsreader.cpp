@@ -41,8 +41,8 @@ bool BCSReader::readBSC()
     while (xml_.readNextStartElement()) {
         if (xml_.name() == "tile")
             readTile();
-//        else if (xml_.name() == "tank")
-//            readTank();
+        else if (xml_.name() == "tank")
+            readTank();
         else
             xml_.skipCurrentElement();
     }
@@ -123,5 +123,54 @@ Tile::Material BCSReader::readTileMaterial()
 
 void BCSReader::readTank()
 {
-    // TODO:
+    Q_ASSERT(xml_.isStartElement() && xml_.name() == "tank");
+
+    ShootableItem *tank = new ShootableItem;
+    tank->setProperty("battleCitySide", "enemy");
+
+    while (xml_.readNextStartElement()) {
+        if (xml_.name() == "type") {
+            QString type = readTankType();
+            if (type == "usual") {
+                tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
+                tank->setProperty("enemyTankType", "usual");
+            } else if (type == "armored_troop_carrier") {
+                tank->setImageSource("qrc:/images/tanks/enemy/fast.png");
+                tank->setSpeed(6);
+                tank->setProperty("enemyTankType", "armored_troop_carrier");
+            } else if (type == "bursting") {
+                tank->setImageSource("qrc:/images/tanks/enemy/bursting.png");
+                tank->setShotMode(ShootableItem::BurstShot);
+                tank->setProperty("enemyTankType", "bursting");
+            } else if (type == "armored") {
+                tank->setImageSource("qrc:/images/tanks/enemy/armored.png");
+                tank->setProperty("enemyTankType", "armored");
+            }
+        } else if (xml_.name() == "strength") {
+            tank->setProperty("strength", readTankStrength());
+        } else {
+            xml_.skipCurrentElement();
+        }
+    }
+
+    controller_->addEnemyTank(tank);
+}
+
+QString BCSReader::readTankType()
+{
+    Q_ASSERT(xml_.isStartElement() && xml_.name() == "type");
+
+    return xml_.readElementText();
+}
+
+int BCSReader::readTankStrength()
+{
+    Q_ASSERT(xml_.isStartElement() && xml_.name() == "strength");
+
+    bool ok;
+    int strength = xml_.readElementText().toInt(&ok);
+
+    Q_ASSERT(ok);
+
+    return strength;
 }

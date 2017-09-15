@@ -23,6 +23,8 @@ private:
     int readTileColumn();
     Tile::Material readTileMaterial();
     void readTank();
+    QString readTankType();
+    int readTankStrength();
 
     GameController *controller_;
     QXmlStreamReader xml_;

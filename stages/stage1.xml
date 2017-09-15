@@ -1082,5 +1082,21 @@
       <column>25</column>
       <material>8</material>
     </tile>
+    <tank>
+      <type>usual</type>
+      <strength>0</strength>
+    </tank>
+    <tank>
+      <type>armored_troop_carrier</type>
+      <strength>0</strength>
+    </tank>
+    <tank>
+      <type>bursting</type>
+      <strength>0</strength>
+    </tank>
+    <tank>
+      <type>armored</type>
+      <strength>3</strength>
+    </tank>
   </stage>
 </bcs>

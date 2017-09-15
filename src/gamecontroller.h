@@ -36,12 +36,12 @@ private:
     void checkCollisions();
     void updateEnemyDrivers();
     void setupRespawns();
-    void setupBoard();
+    void setupStage();
     void setupPlayerTank();
-    void setupEnemyTanks();
     void moveEnemyTankToBoard();
     void setStageNo(int stageNo);
     void setTile(int row, int column, Tile::Material material);
+    void addEnemyTank(ShootableItem *tank);
     void improvePlayerTank(ShootableItem *tank);
 
     Board *board_;

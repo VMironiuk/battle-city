@@ -15,5 +15,8 @@
         <file>images/control_panel/enemy_marker.png</file>
         <file>images/control_panel/flag.png</file>
         <file>images/control_panel/player_marker.png</file>
+        <file>images/tanks/enemy/fast.png</file>
+        <file>images/tanks/enemy/bursting.png</file>
+        <file>images/tanks/enemy/armored.png</file>
     </qresource>
 </RCC>

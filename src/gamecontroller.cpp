@@ -66,9 +66,8 @@ GameController::GameController(QObject *parent)
       informationPanel_(new InformationPanel)
 {
     setupRespawns();
-    setupBoard();
+    setupStage();
     setupPlayerTank();
-    setupEnemyTanks();
     moveEnemyTankToBoard();
 
     gameRythmId_ = startTimer(GAME_TIMEOUT);
@@ -105,7 +104,7 @@ void GameController::setupRespawns()
     enemyRespawns_ << QPair<int, int>(0, 24);
 }
 
-void GameController::setupBoard()
+void GameController::setupStage()
 {
     QFile stageFile(":/stages/stage1.xml");
     if (!stageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -133,20 +132,6 @@ void GameController::setupPlayerTank()
     board_->addPlayerTank(playerRespawn_.first, playerRespawn_.second, tank);
 }
 
-void GameController::setupEnemyTanks()
-{
-    // TODO: read tanks information from XML instead hardcoding
-    for (int i = 0; i != 20; ++i) {
-        ShootableItem *tank = new ShootableItem;
-        tank->setWidth(BOARD_TILE_SIZE * 2);
-        tank->setHeight(BOARD_TILE_SIZE * 2);
-        tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-        tank->setProperty("battleCitySide", "enemy");
-
-        informationPanel_->addTank(tank);
-    }
-}
-
 void GameController::moveEnemyTankToBoard()
 {
     static const int high = enemyRespawns_.count() - 1;
@@ -164,6 +149,8 @@ void GameController::moveEnemyTankToBoard()
     int respawnY = enemyRespawns_.at(index).second;
 
     ShootableItem *tank = informationPanel_->nextTank();
+    tank->setWidth(BOARD_TILE_SIZE * 2);
+    tank->setHeight(BOARD_TILE_SIZE * 2);
     EnemyDriver *driver = new EnemyDriver(tank);
     connect(driver, SIGNAL(wannaDie()), this, SLOT(removeEnemyDriver()));
     enemyDrivers_ << driver;
@@ -178,6 +165,11 @@ void GameController::setStageNo(int stageNo)
 void GameController::setTile(int row, int column, Tile::Material material)
 {
     board_->setupTile(row, column, material);
+}
+
+void GameController::addEnemyTank(ShootableItem *tank)
+{
+    informationPanel_->addTank(tank);
 }
 
 void GameController::improvePlayerTank(ShootableItem *tank)
