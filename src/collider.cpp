@@ -153,6 +153,28 @@ void Collider::checkEnemyTanksHitting(Board *board, MovableItem *projectile)
     QList<ShootableItem *> tanks = board->enemyTanks();
     for (auto tank : tanks) {
         if (checkCollision(projectile, tank)) {
+            if (tank->property("enemyTankType").toString() == "armored") {
+                const int strength = tank->property("strength").toInt();
+                switch (strength) {
+                case 3:
+                    tank->setProperty("strength", strength - 1);
+                    tank->setImageSource("qrc:/images/tanks/enemy/armored_1_hit.png");
+                    board->removeProjectile(projectile);
+                    return;
+                case 2:
+                    tank->setProperty("strength", strength - 1);
+                    tank->setImageSource("qrc:/images/tanks/enemy/armored_2_hit.png");
+                    board->removeProjectile(projectile);
+                    return;
+                case 1:
+                    tank->setProperty("strength", strength - 1);
+                    tank->setImageSource("qrc:/images/tanks/enemy/armored_3_hit.png");
+                    board->removeProjectile(projectile);
+                    return;
+                case 0:
+                default: break;
+                }
+            }
             board->removeEnemyTank(tank);
             board->removeProjectile(projectile);
             return;

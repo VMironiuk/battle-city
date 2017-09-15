@@ -18,5 +18,8 @@
         <file>images/tanks/enemy/fast.png</file>
         <file>images/tanks/enemy/bursting.png</file>
         <file>images/tanks/enemy/armored.png</file>
+        <file>images/tanks/enemy/armored_1_hit.png</file>
+        <file>images/tanks/enemy/armored_2_hit.png</file>
+        <file>images/tanks/enemy/armored_3_hit.png</file>
     </qresource>
 </RCC>
