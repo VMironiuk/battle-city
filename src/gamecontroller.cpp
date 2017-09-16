@@ -108,24 +108,34 @@ void GameController::onHideBonusRequest()
 void GameController::onBonusReached(ShootableItem *playerTank,
                                     Constants::Bonus::BonusType bonusType)
 {
+    static const int bonusValue = 500;
     switch (bonusType) {
     case Constants::Bonus::Grenade:
-        // TODO: add implementation
+        gameResult_.appendPoints(bonusValue);
+        board_->removeAllEnemyTanks();
         break;
     case Constants::Bonus::Helmet:
+        gameResult_.appendPoints(bonusValue);
         // TODO: add implementation
+        qDebug() << "This bonus not implemented yet";
         break;
     case Constants::Bonus::Shovel:
+        gameResult_.appendPoints(bonusValue);
         // TODO: add implementation
+        qDebug() << "This bonus not implemented yet";
         break;
     case Constants::Bonus::Star:
+        gameResult_.appendPoints(bonusValue);
         improvePlayerTank(playerTank);
         break;
     case Constants::Bonus::Tank:
+        gameResult_.appendPoints(bonusValue);
         informationPanel_->setLivesCount(informationPanel_->livesCount() + 1);
         break;
     case Constants::Bonus::Timer:
+        gameResult_.appendPoints(bonusValue);
         // TODO: add implementation
+        qDebug() << "This bonus not implemented yet";
         break;
     default:
         break;

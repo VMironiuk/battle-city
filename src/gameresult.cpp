@@ -18,3 +18,8 @@ void GameResult::accumulate(int value)
     ++totalTanks_;
     totalPoints_ += value;
 }
+
+void GameResult::appendPoints(int value)
+{
+    totalPoints_ += value;
+}

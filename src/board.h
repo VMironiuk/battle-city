@@ -39,6 +39,7 @@ public:
 
     void removePlayerTank(ShootableItem *playerTank);
     void removeEnemyTank(ShootableItem *enemyTank);
+    void removeAllEnemyTanks();
     void removeProjectile(MovableItem *projectile);
     void removeExplosion(BaseItem *explosion);
     void removeBonus(BaseItem *bonus);

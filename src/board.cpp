@@ -73,6 +73,15 @@ void Board::removeEnemyTank(ShootableItem *enemyTank)
     delete enemyTank;
 }
 
+void Board::removeAllEnemyTanks()
+{
+    while (!enemyTanks_.isEmpty()) {
+        auto tank = enemyTanks_.last();
+        tank->setProperty(Constants::EnemyTank::Property::Value, 0);
+        removeEnemyTank(tank);
+    }
+}
+
 void Board::removeProjectile(MovableItem *projectile)
 {
     int x = projectile->x() - projectile->width();

@@ -11,6 +11,7 @@ public:
     GameResult();
 
     void accumulate(int value);
+    void appendPoints(int value);
 
 private:
     QMap<TankValue, TanksCount> stageResults_;
