@@ -1085,82 +1085,102 @@
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>usual</type>
       <strength>0</strength>
+      <value>100</value>
     </tank>
     <tank>
       <type>armored_troop_carrier</type>
       <strength>0</strength>
+      <value>200</value>
     </tank>
     <tank>
       <type>armored_troop_carrier</type>
       <strength>0</strength>
+      <value>200</value>
     </tank>
   </stage>
 </bcs>

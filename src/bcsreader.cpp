@@ -154,6 +154,8 @@ void BCSReader::readTank()
             }
         } else if (xml_.name() == Constants::EnemyTank::Property::Strength) {
             tank->setProperty(Constants::EnemyTank::Property::Strength, readTankStrength());
+        } else if (xml_.name() == Constants::EnemyTank::Property::Value) {
+            tank->setProperty(Constants::EnemyTank::Property::Value, readTankValue());
         } else {
             xml_.skipCurrentElement();
         }
@@ -179,4 +181,16 @@ int BCSReader::readTankStrength()
     Q_ASSERT(ok);
 
     return strength;
+}
+
+int BCSReader::readTankValue()
+{
+    Q_ASSERT(xml_.isStartElement() && xml_.name() == "value");
+
+    bool ok;
+    int value = xml_.readElementText().toInt(&ok);
+
+    Q_ASSERT(ok);
+
+    return value;
 }

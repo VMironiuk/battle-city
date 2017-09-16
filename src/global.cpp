@@ -33,6 +33,7 @@ namespace EnemyTank {
 namespace Property {
 const char *Type = "type";
 const char *Strength = "strength";
+const char *Value = "value";
 } // Constants::EnemyTank::Properties
 namespace Type {
 const char *Usual = "usual";

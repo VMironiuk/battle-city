@@ -25,6 +25,7 @@ private:
     void readTank();
     QString readTankType();
     int readTankStrength();
+    int readTankValue();
 
     GameController *controller_;
     QXmlStreamReader xml_;

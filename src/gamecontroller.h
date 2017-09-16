@@ -6,6 +6,7 @@
 #include "board.h"
 #include "collider.h"
 #include "enemydriver.h"
+#include "gameresult.h"
 #include "informationpanel.h"
 
 class GameController : public QObject
@@ -28,6 +29,7 @@ private slots:
     void removeEnemyDriver();
     void admitDefeat();
     void onPlayerTankDestroyed();
+    void onEnemyTankDestroyed(int tankValue);
 
 private:
     GameController(QObject *parent = nullptr);
@@ -53,6 +55,7 @@ private:
     int gameRythmId_;
     int enemyTankAppearRythmId_;
     int enemyDriverRythmId_;
+    GameResult gameResult_;
 };
 
 #endif // GAMECONTROLLER_H

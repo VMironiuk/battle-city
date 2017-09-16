@@ -59,6 +59,11 @@ void GameController::onPlayerTankDestroyed()
     setupPlayerTank();
 }
 
+void GameController::onEnemyTankDestroyed(int tankValue)
+{
+    gameResult_.accumulate(tankValue);
+}
+
 GameController::GameController(QObject *parent)
     : QObject(parent),
       board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
@@ -75,6 +80,7 @@ GameController::GameController(QObject *parent)
 
     connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
     connect(board_, SIGNAL(playerTankDestroyed()), this, SLOT(onPlayerTankDestroyed()));
+    connect(board_, SIGNAL(enemyTankDestroyed(int)), this, SLOT(onEnemyTankDestroyed(int)));
 }
 
 GameController::~GameController()

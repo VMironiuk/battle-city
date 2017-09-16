@@ -1,5 +1,7 @@
 #include "board.h"
 
+#include "global.h"
+
 Board::Board(int rows, int cols, int tileSize, QObject *parent)
     : BaseItem(parent),
       rowCount_(rows),
@@ -63,6 +65,7 @@ void Board::removeEnemyTank(ShootableItem *enemyTank)
 
     enemyTanks_.removeOne(enemyTank);
     emit enemyTanksPropertyChanged(enemyTanksProperty());
+    emit enemyTankDestroyed(enemyTank->property(Constants::EnemyTank::Property::Value).toInt());
     delete enemyTank;
 }
 
