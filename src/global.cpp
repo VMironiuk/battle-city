@@ -10,6 +10,11 @@ namespace Belligerent {
 const char *Enemy = "enemy";
 const char *Player = "player";
 } // Constants::Belligerent
+namespace Bonus {
+namespace Property {
+const char *Type = "type";
+} // Constants::Bonus::Property
+} // Constants::Bonus
 
 namespace Projectile {
 namespace Property {

@@ -9,6 +9,19 @@ namespace Belligerent {
 extern const char *Enemy;
 extern const char *Player;
 } // Constants::Belligerent
+namespace Bonus {
+namespace Property {
+extern const char *Type;
+} // Constants::Bonus::Property
+enum BonusType {
+    Grenade,
+    Helmet,
+    Shovel,
+    Star,
+    Tank,
+    Timer
+};
+} // Constants::Bonus
 
 namespace Projectile {
 namespace Property {

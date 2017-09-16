@@ -39,6 +39,8 @@ private:
     void checkEagleHitting(Board *board);
     void checkEagleBoundaries(Board *board);
 
+    void checkBonusBoundaries(Board *board);
+
     bool checkNorthDirectionCollision(BaseItem *source, BaseItem *target);
     bool checkSouthDirectionCollision(BaseItem *source, BaseItem *target);
     bool checkWestDirectionCollision(BaseItem *source, BaseItem *target);

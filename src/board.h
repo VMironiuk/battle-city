@@ -4,6 +4,7 @@
 #include <QQmlListProperty>
 
 #include "baseitem.h"
+#include "global.h"
 #include "movableitem.h"
 #include "shootableitem.h"
 #include "tile.h"
@@ -16,6 +17,7 @@ class Board : public BaseItem
     Q_PROPERTY(QQmlListProperty<ShootableItem> enemyTanksProperty READ enemyTanksProperty NOTIFY enemyTanksPropertyChanged)
     Q_PROPERTY(QQmlListProperty<MovableItem> projectilesProperty READ projectilesProperty NOTIFY projectilesPropertyChanged)
     Q_PROPERTY(QQmlListProperty<BaseItem> explosionsProperty READ explosionsProperty NOTIFY explosionsPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<BaseItem> bonusesProperty READ bonusesProperty NOTIFY bonusesPropertyChanged)
     Q_PROPERTY(BaseItem* eagle READ eagle CONSTANT)
 public:
     explicit Board(int rows, int cols, int tileSize, QObject *parent = nullptr);
@@ -26,22 +28,29 @@ public:
     QQmlListProperty<ShootableItem> enemyTanksProperty();
     QQmlListProperty<MovableItem> projectilesProperty();
     QQmlListProperty<BaseItem> explosionsProperty();
+    QQmlListProperty<BaseItem> bonusesProperty();
     BaseItem *eagle() { return &eagle_; }
 
     QList<Tile *> tiles() const { return tiles_; }
     QList<ShootableItem *> playerTanks() const { return playerTanks_; }
     QList<ShootableItem *> enemyTanks() const { return enemyTanks_; }
     QList<MovableItem *> projectiles() const { return projectiles_; }
+    QList<BaseItem *> bonuses() const { return bonuses_; }
 
     void removePlayerTank(ShootableItem *playerTank);
     void removeEnemyTank(ShootableItem *enemyTank);
     void removeProjectile(MovableItem *projectile);
     void removeExplosion(BaseItem *explosion);
+    void removeBonus(BaseItem *bonus);
+    void removeFirstBonus();
     void destroyEagle(BaseItem *eagle);
 
     void setupTile(int row, int column, Tile::Material material);
     void addPlayerTank(int row, int column, ShootableItem *tank);
     void addEnemyTank(int row, int column, ShootableItem *tank);
+    void addBonus(int row, int column, BaseItem *bonus);
+
+    void onBonusReached(ShootableItem *playerTank, BaseItem *bonus);
 
 public slots:
     void update();
@@ -51,9 +60,11 @@ signals:
     void enemyTanksPropertyChanged(QQmlListProperty<ShootableItem>);
     void projectilesPropertyChanged(QQmlListProperty<MovableItem>);
     void explosionsPropertyChanged(QQmlListProperty<BaseItem>);
+    void bonusesPropertyChanged(QQmlListProperty<BaseItem>);
     void eagleDestroyed();
     void playerTankDestroyed();
     void enemyTankDestroyed(int tankValue);
+    void bonusReached(ShootableItem *playerTank, Constants::Bonus::BonusType bonusType);
 
 private slots:
     void addProjectile(MovableItem *projectile);
@@ -71,6 +82,7 @@ private:
     QList<ShootableItem *> enemyTanks_;
     QList<MovableItem *> projectiles_;
     QList<BaseItem *> explosions_;
+    QList<BaseItem *> bonuses_;
     BaseItem eagle_;
 
     int rowCount_;

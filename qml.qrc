@@ -11,5 +11,6 @@
         <file>qml/Eagle.qml</file>
         <file>qml/Explosion.qml</file>
         <file>qml/EnemyMarker.qml</file>
+        <file>qml/Bonus.qml</file>
     </qresource>
 </RCC>

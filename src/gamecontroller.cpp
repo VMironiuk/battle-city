@@ -64,6 +64,74 @@ void GameController::onEnemyTankDestroyed(int tankValue)
     gameResult_.accumulate(tankValue);
 }
 
+void GameController::onShowBonusRequest()
+{
+    BaseItem *bonus = new BaseItem;
+    Constants::Bonus::BonusType bonusType
+            = static_cast<Constants::Bonus::BonusType>(randomNumber(0, 5));
+    bonus->setProperty(Constants::Bonus::Property::Type, bonusType);
+
+    switch (bonusType) {
+    case Constants::Bonus::Grenade:
+        bonus->setImageSource("qrc:/images/bonuses/grenade.png");
+        break;
+    case Constants::Bonus::Helmet:
+        bonus->setImageSource("qrc:/images/bonuses/helmet.png");
+        break;
+    case Constants::Bonus::Shovel:
+        bonus->setImageSource("qrc:/images/bonuses/shovel.png");
+        break;
+    case Constants::Bonus::Star:
+        bonus->setImageSource("qrc:/images/bonuses/star.png");
+        break;
+    case Constants::Bonus::Tank:
+        bonus->setImageSource("qrc:/images/bonuses/tank.png");
+        break;
+    case Constants::Bonus::Timer:
+        bonus->setImageSource("qrc:/images/bonuses/timer.png");
+        break;
+    default:
+        // TODO: error occurs
+        break;
+    }
+
+    int row = randomNumber(0, 21);
+    int column = randomNumber(0, 24);
+    board_->addBonus(row, column, bonus);
+}
+
+void GameController::onHideBonusRequest()
+{
+    board_->removeFirstBonus();
+}
+
+void GameController::onBonusReached(ShootableItem *playerTank,
+                                    Constants::Bonus::BonusType bonusType)
+{
+    switch (bonusType) {
+    case Constants::Bonus::Grenade:
+        // TODO: add implementation
+        break;
+    case Constants::Bonus::Helmet:
+        // TODO: add implementation
+        break;
+    case Constants::Bonus::Shovel:
+        // TODO: add implementation
+        break;
+    case Constants::Bonus::Star:
+        improvePlayerTank(playerTank);
+        break;
+    case Constants::Bonus::Tank:
+        informationPanel_->setLivesCount(informationPanel_->livesCount() + 1);
+        break;
+    case Constants::Bonus::Timer:
+        // TODO: add implementation
+        break;
+    default:
+        break;
+    }
+}
+
 GameController::GameController(QObject *parent)
     : QObject(parent),
       board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
@@ -81,6 +149,10 @@ GameController::GameController(QObject *parent)
     connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
     connect(board_, SIGNAL(playerTankDestroyed()), this, SLOT(onPlayerTankDestroyed()));
     connect(board_, SIGNAL(enemyTankDestroyed(int)), this, SLOT(onEnemyTankDestroyed(int)));
+    connect(board_, SIGNAL(bonusReached(ShootableItem*,Constants::Bonus::BonusType)),
+            this, SLOT(onBonusReached(ShootableItem*,Constants::Bonus::BonusType)));
+    connect(&bonusTimer_, SIGNAL(showBonusRequest()), this, SLOT(onShowBonusRequest()));
+    connect(&bonusTimer_, SIGNAL(hideBonusRequest()), this, SLOT(onHideBonusRequest()));
 }
 
 GameController::~GameController()

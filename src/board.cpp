@@ -1,7 +1,5 @@
 #include "board.h"
 
-#include "global.h"
-
 Board::Board(int rows, int cols, int tileSize, QObject *parent)
     : BaseItem(parent),
       rowCount_(rows),
@@ -18,6 +16,7 @@ Board::~Board()
     qDeleteAll(enemyTanks_);
     qDeleteAll(projectiles_);
     qDeleteAll(explosions_);
+    qDeleteAll(bonuses_);
 }
 
 QQmlListProperty<Tile> Board::tilesProperty()
@@ -43,6 +42,11 @@ QQmlListProperty<MovableItem> Board::projectilesProperty()
 QQmlListProperty<BaseItem> Board::explosionsProperty()
 {
     return QQmlListProperty<BaseItem>(this, explosions_);
+}
+
+QQmlListProperty<BaseItem> Board::bonusesProperty()
+{
+    return QQmlListProperty<BaseItem>(this, bonuses_);
 }
 
 void Board::removePlayerTank(ShootableItem *playerTank)
@@ -87,6 +91,23 @@ void Board::removeExplosion(BaseItem *explosion)
     delete explosion;
 }
 
+void Board::removeBonus(BaseItem *bonus)
+{
+    bonuses_.removeOne(bonus);
+    emit bonusesPropertyChanged(bonusesProperty());
+    delete bonus;
+}
+
+void Board::removeFirstBonus()
+{
+    if (bonuses_.isEmpty())
+        return;
+    auto bonus = bonuses_.first();
+    bonuses_.removeFirst();
+    emit bonusesPropertyChanged(bonusesProperty());
+    delete bonus;
+}
+
 void Board::destroyEagle(BaseItem *eagle)
 {
     int x = eagle->x() - eagle->width() / 6;
@@ -127,6 +148,28 @@ void Board::addEnemyTank(int row, int column, ShootableItem *tank)
     connect(tank, SIGNAL(shootEmitted(MovableItem*)), this, SLOT(addProjectile(MovableItem*)));
 
     emit enemyTanksPropertyChanged(enemyTanksProperty());
+}
+
+void Board::addBonus(int row, int column, BaseItem *bonus)
+{
+    Tile *tile = this->tile(row, column);
+    bonus->setX(tile->x());
+    bonus->setY(tile->y());
+    bonus->setWidth(tileSize_ * 2);
+    bonus->setHeight(tileSize_ * 2);
+    bonuses_ << bonus;
+
+    emit bonusesPropertyChanged(bonusesProperty());
+}
+
+void Board::onBonusReached(ShootableItem *playerTank, BaseItem *bonus)
+{
+    Constants::Bonus::BonusType bonusType
+            = static_cast<Constants::Bonus::BonusType>(
+                bonus->property(Constants::Bonus::Property::Type).toInt());
+
+    emit bonusReached(playerTank, bonusType);
+    removeBonus(bonus);
 }
 
 void Board::update()

@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "board.h"
+#include "bonustimer.h"
 #include "collider.h"
 #include "enemydriver.h"
 #include "gameresult.h"
@@ -30,6 +31,9 @@ private slots:
     void admitDefeat();
     void onPlayerTankDestroyed();
     void onEnemyTankDestroyed(int tankValue);
+    void onShowBonusRequest();
+    void onHideBonusRequest();
+    void onBonusReached(ShootableItem *playerTank, Constants::Bonus::BonusType bonusType);
 
 private:
     GameController(QObject *parent = nullptr);
@@ -56,6 +60,7 @@ private:
     int enemyTankAppearRythmId_;
     int enemyDriverRythmId_;
     GameResult gameResult_;
+    BonusTimer bonusTimer_;
 };
 
 #endif // GAMECONTROLLER_H

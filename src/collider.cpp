@@ -15,6 +15,7 @@ void Collider::checkCollisions(Board *board)
     checkTanksCollisions(board);
     checkEagleHitting(board);
     checkEagleBoundaries(board);
+    checkBonusBoundaries(board);
 }
 
 void Collider::checkBoardBoundaries(Board *board)
@@ -255,6 +256,18 @@ void Collider::checkEagleBoundaries(Board *board)
     allTanks += board->enemyTanks();
     for (auto tank : allTanks)
         checkCollision(tank, eagle);
+}
+
+void Collider::checkBonusBoundaries(Board *board)
+{
+    QList<ShootableItem *> tanks = board->playerTanks();
+    for (auto tank : tanks) {
+        QList<BaseItem *> bonuses = board->bonuses();
+        for (auto bonus : bonuses) {
+            if (checkCollision(tank, bonus))
+                board->onBonusReached(tank, bonus);
+        }
+    }
 }
 
 bool Collider::checkNorthDirectionCollision(BaseItem *source, BaseItem *target)

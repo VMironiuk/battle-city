@@ -15,7 +15,8 @@ SOURCES += src/main.cpp \
     src/enemydriver.cpp \
     src/bcsreader.cpp \
     src/global.cpp \
-    src/gameresult.cpp
+    src/gameresult.cpp \
+    src/bonustimer.cpp
 
 RESOURCES += qml.qrc \
     images.qrc \
@@ -54,4 +55,5 @@ HEADERS += \
     src/enemydriver.h \
     src/bcsreader.h \
     src/global.h \
-    src/gameresult.h
+    src/gameresult.h \
+    src/bonustimer.h

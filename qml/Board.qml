@@ -23,4 +23,8 @@ Rectangle {
         model: board.explosionsProperty
         Explosion { }
     }
+    Repeater {
+        model: board.bonusesProperty
+        Bonus { }
+    }
 }
