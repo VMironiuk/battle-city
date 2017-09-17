@@ -37,12 +37,16 @@ public:
     QList<MovableItem *> projectiles() const { return projectiles_; }
     QList<BaseItem *> bonuses() const { return bonuses_; }
 
+    void clear();
     void removePlayerTank(ShootableItem *playerTank);
     void removeEnemyTank(ShootableItem *enemyTank);
     void removeAllEnemyTanks();
     void removeProjectile(MovableItem *projectile);
+    void removeAllProjectiles();
     void removeExplosion(BaseItem *explosion);
+    void removeAllExplosions();
     void removeBonus(BaseItem *bonus);
+    void removeAllBonuses();
     void removeFirstBonus();
     void destroyEagle(BaseItem *eagle);
 
@@ -52,6 +56,8 @@ public:
     void addBonus(int row, int column, BaseItem *bonus);
 
     void onBonusReached(ShootableItem *playerTank, BaseItem *bonus);
+
+    void updatePlayerTankPos(int row, int column);
 
 public slots:
     void update();

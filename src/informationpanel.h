@@ -18,6 +18,8 @@ public:
     explicit InformationPanel(QObject *parent = nullptr);
     ~InformationPanel();
 
+    void clear();
+
     int stageNo() const { return stageNo_; }
     void setStageNo(int stageNo);
 
@@ -33,6 +35,8 @@ public:
 
     QQmlListProperty<BaseItem> enemyMarkersProperty();
 
+    bool isEmpty() const { return enemyMarkers_.isEmpty(); }
+
 signals:
     void stageNoChanged(int stageNo);
     void livesCountChanged(int livesCount);
@@ -42,6 +46,7 @@ signals:
 private:
     void createEnemyMarker();
     void removeEnemyMarker();
+    void removeAllEnemyMarkers();
 
     int stageNo_ = 1;
     int livesCount_ = 2;

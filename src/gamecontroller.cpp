@@ -20,11 +20,58 @@ GameController &GameController::instance()
     return gc;
 }
 
+void GameController::setWon(bool won)
+{
+    if (won_ == won)
+        return;
+    won_ = won;
+    emit wonChanged(won_);
+}
+
+void GameController::setupStage()
+{
+    QFile stageFile(":/stages/stage1.xml");
+    if (!stageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Cannot open stage file";
+        return;
+    }
+
+    BCSReader battleCityStageReader(this);
+    battleCityStageReader.read(&stageFile);
+
+    moveEnemyTankToBoard();
+    if (board_->playerTanks().isEmpty())
+          setupPlayerTank();
+    else
+        board_->updatePlayerTankPos(playerRespawn_.first, playerRespawn_.second);
+}
+
+void GameController::startStage()
+{
+    gameRythmId_ = startTimer(GAME_TIMEOUT);
+    enemyTankAppearRythmId_ = startTimer(ENEMY_TANK_APPEAR_TIMEOUT);
+    enemyDriverRythmId_ = startTimer(ENEMY_DRIVER_TIMEOUT);
+}
+
+void GameController::stopStage()
+{
+    killTimer(gameRythmId_);
+    killTimer(enemyTankAppearRythmId_);
+    killTimer(enemyDriverRythmId_);
+}
+
+void GameController::freeStage()
+{
+    board_->clear();
+    informationPanel_->clear();
+}
+
 void GameController::timerEvent(QTimerEvent *event)
 {
     if (gameRythmId_ == event->timerId()) {
         board_->update();
         checkCollisions();
+        checkStageFinished();
     } else if (enemyTankAppearRythmId_ == event->timerId()) {
         moveEnemyTankToBoard();
     } else if (enemyDriverRythmId_ == event->timerId()) {
@@ -43,9 +90,9 @@ void GameController::removeEnemyDriver()
 
 void GameController::admitDefeat()
 {
-    killTimer(gameRythmId_);
-    killTimer(enemyTankAppearRythmId_);
-    killTimer(enemyDriverRythmId_);
+    won_ = false;
+    informationPanel_->setLivesCount(0);
+    emit stageFinished();
 }
 
 void GameController::onPlayerTankDestroyed()
@@ -148,13 +195,6 @@ GameController::GameController(QObject *parent)
       informationPanel_(new InformationPanel)
 {
     setupRespawns();
-    setupStage();
-    setupPlayerTank();
-    moveEnemyTankToBoard();
-
-    gameRythmId_ = startTimer(GAME_TIMEOUT);
-    enemyTankAppearRythmId_ = startTimer(ENEMY_TANK_APPEAR_TIMEOUT);
-    enemyDriverRythmId_ = startTimer(ENEMY_DRIVER_TIMEOUT);
 
     connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
     connect(board_, SIGNAL(playerTankDestroyed()), this, SLOT(onPlayerTankDestroyed()));
@@ -176,6 +216,14 @@ void GameController::checkCollisions()
     collider_.checkCollisions(board_);
 }
 
+void GameController::checkStageFinished()
+{
+    if (informationPanel_->isEmpty() && board_->enemyTanks().isEmpty()) {
+        won_ = true;
+        emit stageFinished();
+    }
+}
+
 void GameController::updateEnemyDrivers()
 {
     for (auto driver : enemyDrivers_)
@@ -189,18 +237,6 @@ void GameController::setupRespawns()
     enemyRespawns_ << QPair<int, int>(0, 0);
     enemyRespawns_ << QPair<int, int>(0, 12);
     enemyRespawns_ << QPair<int, int>(0, 24);
-}
-
-void GameController::setupStage()
-{
-    QFile stageFile(":/stages/stage1.xml");
-    if (!stageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Cannot open stage file";
-        return;
-    }
-
-    BCSReader battleCityStageReader(this);
-    battleCityStageReader.read(&stageFile);
 }
 
 void GameController::setupPlayerTank()

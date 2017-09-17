@@ -2,7 +2,7 @@
 
 #include <QTimerEvent>
 
-static const int SHOW_INTERVAL = 45000;
+static const int SHOW_INTERVAL = 30000;
 static const int HIDE_INTERVAL = 15000;
 
 BonusTimer::BonusTimer(QObject *parent)

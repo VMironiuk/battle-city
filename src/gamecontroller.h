@@ -15,6 +15,7 @@ class GameController : public QObject
     friend class BCSReader;
 
     Q_OBJECT
+    Q_PROPERTY(bool won READ won WRITE setWon NOTIFY wonChanged)
 public:
     static GameController &instance();
     GameController(const GameController&) = delete;
@@ -22,6 +23,18 @@ public:
 
     Board *board() { return board_; }
     InformationPanel *informationPanel() { return informationPanel_; }
+
+    bool won() const { return won_; }
+    void setWon(bool won);
+
+    Q_INVOKABLE void setupStage();
+    Q_INVOKABLE void startStage();
+    Q_INVOKABLE void stopStage();
+    Q_INVOKABLE void freeStage();
+
+signals:
+    void stageFinished();
+    void wonChanged(bool won);
 
 protected:
     void timerEvent(QTimerEvent *event);
@@ -40,9 +53,9 @@ private:
     ~GameController();
 
     void checkCollisions();
+    void checkStageFinished();
     void updateEnemyDrivers();
     void setupRespawns();
-    void setupStage();
     void setupPlayerTank();
     void moveEnemyTankToBoard();
     void setStageNo(int stageNo);
@@ -61,6 +74,7 @@ private:
     int enemyDriverRythmId_;
     GameResult gameResult_;
     BonusTimer bonusTimer_;
+    bool won_;
 };
 
 #endif // GAMECONTROLLER_H

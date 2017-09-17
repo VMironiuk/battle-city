@@ -12,5 +12,9 @@
         <file>qml/Explosion.qml</file>
         <file>qml/EnemyMarker.qml</file>
         <file>qml/Bonus.qml</file>
+        <file>qml/StartPage.qml</file>
+        <file>qml/StagePage.qml</file>
+        <file>qml/StageResultPage.qml</file>
+        <file>qml/GameOverPage.qml</file>
     </qresource>
 </RCC>

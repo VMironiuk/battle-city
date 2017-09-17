@@ -49,6 +49,19 @@ QQmlListProperty<BaseItem> Board::bonusesProperty()
     return QQmlListProperty<BaseItem>(this, bonuses_);
 }
 
+void Board::clear()
+{
+    removeAllEnemyTanks();
+    removeAllProjectiles();
+    removeAllExplosions();
+    removeAllBonuses();
+
+    for (auto tile : tiles_)
+        tile->setMaterial(Tile::Free);
+
+    makeBase();
+}
+
 void Board::removePlayerTank(ShootableItem *playerTank)
 {
     int x = playerTank->x() - playerTank->width() / 6;
@@ -93,6 +106,14 @@ void Board::removeProjectile(MovableItem *projectile)
     delete projectile;
 }
 
+void Board::removeAllProjectiles()
+{
+    while (!projectiles_.isEmpty()) {
+        auto projectile = projectiles_.last();
+        removeProjectile(projectile);
+    }
+}
+
 void Board::removeExplosion(BaseItem *explosion)
 {
     explosions_.removeOne(explosion);
@@ -100,11 +121,27 @@ void Board::removeExplosion(BaseItem *explosion)
     delete explosion;
 }
 
+void Board::removeAllExplosions()
+{
+    while (!explosions_.isEmpty()) {
+        auto explosion = explosions_.last();
+        removeExplosion(explosion);
+    }
+}
+
 void Board::removeBonus(BaseItem *bonus)
 {
     bonuses_.removeOne(bonus);
     emit bonusesPropertyChanged(bonusesProperty());
     delete bonus;
+}
+
+void Board::removeAllBonuses()
+{
+    while (!bonuses_.isEmpty()) {
+        auto bonus = bonuses_.last();
+        removeBonus(bonus);
+    }
 }
 
 void Board::removeFirstBonus()
@@ -124,6 +161,11 @@ void Board::destroyEagle(BaseItem *eagle)
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
     eagle->setImageSource("qrc:/images/eagles/destroyed_eagle.png");
     emit eagleDestroyed();
+
+    if (!playerTanks_.isEmpty()) {
+        auto tank = playerTanks_.first();
+        removePlayerTank(tank);
+    }
 }
 
 void Board::setupTile(int row, int column, Tile::Material material)
@@ -179,6 +221,18 @@ void Board::onBonusReached(ShootableItem *playerTank, BaseItem *bonus)
 
     emit bonusReached(playerTank, bonusType);
     removeBonus(bonus);
+}
+
+void Board::updatePlayerTankPos(int row, int column)
+{
+    auto tank = playerTanks_.first();
+    auto tile = this->tile(row, column);
+    tank->setX(tile->x());
+    tank->setY(tile->y());
+    tank->setMovement(false);
+    tank->setShooting(false);
+    tank->setDirection(MovableItem::North);
+    tank->setRotation(0);
 }
 
 void Board::update()

@@ -27,5 +27,8 @@
         <file>images/bonuses/star.png</file>
         <file>images/bonuses/timer.png</file>
         <file>images/bonuses/tank.png</file>
+        <file>images/pages/stage_result.png</file>
+        <file>images/pages/start.png</file>
+        <file>images/pages/game_over.png</file>
     </qresource>
 </RCC>

@@ -11,6 +11,16 @@ InformationPanel::~InformationPanel()
     qDeleteAll(tanks_);
 }
 
+void InformationPanel::clear()
+{
+    removeAllEnemyMarkers();
+
+    qDeleteAll(tanks_);
+    tanks_.clear();
+
+    setLivesCount(2);
+}
+
 void InformationPanel::setStageNo(int stageNo)
 {
     if (stageNo_ == stageNo)
@@ -77,4 +87,10 @@ void InformationPanel::removeEnemyMarker()
     enemyMarkers_.removeLast();
     emit enemyMarkersPropertyChanged(enemyMarkersProperty());
     delete marker;
+}
+
+void InformationPanel::removeAllEnemyMarkers()
+{
+    while (!enemyMarkers_.isEmpty())
+        removeEnemyMarker();
 }

@@ -4,14 +4,15 @@ import battlecity.movableitem 1.0
 
 Window {
     visible: true
+    color: "black"
     maximumWidth: 1024
     minimumWidth: 1024
     maximumHeight: 896
     minimumHeight: 896
 
-    Playground {
+    Loader {
         anchors.fill: parent
-        width: parent.width
-        height: parent.height
+        source: "StartPage.qml"
+        focus: true
     }
 }

@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     InformationPanel *informationPanel = GameController::instance().informationPanel();
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("gameController", &GameController::instance());
     engine.rootContext()->setContextProperty("board", board);
     engine.rootContext()->setContextProperty("informationPanel", informationPanel);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
