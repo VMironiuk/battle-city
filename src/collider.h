@@ -35,6 +35,7 @@ private:
     void checkPlayerTanksHitting(Board *board, MovableItem *projectile);
 
     void checkTanksCollisions(Board *board);
+    void checkProjectiesCollisions(Board *board);
 
     void checkEagleHitting(Board *board);
     void checkEagleBoundaries(Board *board);

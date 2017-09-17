@@ -109,11 +109,18 @@ void Board::removeProjectile(MovableItem *projectile)
     delete projectile;
 }
 
+void Board::removeProjectileQuietly(MovableItem *projectile)
+{
+    projectiles_.removeOne(projectile);
+    emit projectilesPropertyChanged(projectilesProperty());
+    delete projectile;
+}
+
 void Board::removeAllProjectiles()
 {
     while (!projectiles_.isEmpty()) {
         auto projectile = projectiles_.last();
-        removeProjectile(projectile);
+        removeProjectileQuietly(projectile);
     }
 }
 

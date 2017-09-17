@@ -16,6 +16,7 @@ void Collider::checkCollisions(Board *board)
     checkEagleHitting(board);
     checkEagleBoundaries(board);
     checkBonusBoundaries(board);
+    checkProjectiesCollisions(board);
 }
 
 void Collider::checkBoardBoundaries(Board *board)
@@ -231,6 +232,30 @@ void Collider::checkTanksCollisions(Board *board)
                     }
                     break;
                 }
+            }
+        }
+    }
+}
+
+void Collider::checkProjectiesCollisions(Board *board)
+{
+    QList<MovableItem *> projectiles = board->projectiles();
+    for (int i = 0; i != projectiles.size(); ++i) {
+        auto p1 = projectiles.at(i);
+        if (p1 == nullptr)
+            continue;
+
+        for (int j = i + 1; j != projectiles.size(); ++j) {
+            auto p2 = projectiles.at(j);
+            if (p2 == nullptr)
+                continue;
+
+            if (checkCollision(p1, p2)) {
+                board->removeProjectileQuietly(p1);
+                board->removeProjectileQuietly(p2);
+                p1 = nullptr;
+                p2 = nullptr;
+                break;
             }
         }
     }
