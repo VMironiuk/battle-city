@@ -22,6 +22,14 @@ void BaseItem::setY(int y)
     emit yChanged(y_);
 }
 
+void BaseItem::setZ(int z)
+{
+    if (z_ == z)
+        return;
+    z_ = z;
+    emit zChanged(z_);
+}
+
 void BaseItem::setWidth(int width)
 {
     if (width_ == width)

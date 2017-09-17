@@ -178,6 +178,8 @@ void Board::setupTile(int row, int column, Tile::Material material)
 
     Tile *tile = this->tile(row, column);
     tile->setMaterial(material);
+    if (material == Tile::Bush)
+        tile->setZ(1);
 }
 
 void Board::addPlayerTank(int row, int column, ShootableItem *tank)
