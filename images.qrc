@@ -30,5 +30,6 @@
         <file>images/pages/stage_result.png</file>
         <file>images/pages/start.png</file>
         <file>images/pages/game_over.png</file>
+        <file>images/obstacles/bush.png</file>
     </qresource>
 </RCC>

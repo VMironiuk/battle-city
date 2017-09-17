@@ -55,10 +55,13 @@ void Board::clear()
     removeAllProjectiles();
     removeAllExplosions();
     removeAllBonuses();
+    clearMap();
+}
 
+void Board::clearMap()
+{
     for (auto tile : tiles_)
         tile->setMaterial(Tile::Free);
-
     makeBase();
 }
 

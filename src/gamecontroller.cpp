@@ -6,6 +6,7 @@
 
 #include "bcsreader.h"
 #include "global.h"
+#include "stageiterator.h"
 
 static const int GAME_TIMEOUT = 25;
 static const int ENEMY_TANK_APPEAR_TIMEOUT = 5000;
@@ -30,7 +31,7 @@ void GameController::setWon(bool won)
 
 void GameController::setupStage()
 {
-    QFile stageFile(":/stages/stage1.xml");
+    QFile stageFile(StageIterator::nextStageSrc());
     if (!stageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Cannot open stage file";
         return;
@@ -92,6 +93,7 @@ void GameController::admitDefeat()
 {
     won_ = false;
     informationPanel_->setLivesCount(0);
+    StageIterator::reset();
     emit stageFinished();
 }
 
@@ -220,6 +222,7 @@ void GameController::checkStageFinished()
 {
     if (informationPanel_->isEmpty() && board_->enemyTanks().isEmpty()) {
         won_ = true;
+        board_->clearMap();
         emit stageFinished();
     }
 }

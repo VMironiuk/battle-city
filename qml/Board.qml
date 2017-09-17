@@ -8,16 +8,16 @@ Rectangle {
         Tile { }
     }
     Repeater {
+        model: board.projectilesProperty
+        Projectile { }
+    }
+    Repeater {
         model: board.playerTanksProperty
         PlayerTank { }
     }
     Repeater {
         model: board.enemyTanksProperty
         EnemyTank { }
-    }
-    Repeater {
-        model: board.projectilesProperty
-        Projectile { }
     }
     Repeater {
         model: board.explosionsProperty

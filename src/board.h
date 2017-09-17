@@ -38,6 +38,7 @@ public:
     QList<BaseItem *> bonuses() const { return bonuses_; }
 
     void clear();
+    void clearMap();
     void removePlayerTank(ShootableItem *playerTank);
     void removeEnemyTank(ShootableItem *enemyTank);
     void removeAllEnemyTanks();

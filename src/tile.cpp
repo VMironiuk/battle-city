@@ -40,8 +40,10 @@ void Tile::updateImageSource(Material material)
     case Concrete:
         setImageSource("qrc:/images/obstacles/concrete.png");
         break;
-        // TODO: add image source below
     case Bush:
+        setImageSource("qrc:/images/obstacles/bush.png");
+        break;
+        // TODO: add image source below
     case Ice:
     case Water:
         // fall down
