@@ -2,8 +2,9 @@
 
 #include "global.h"
 
-BCSReader::BCSReader(GameController *controller)
-    : controller_(controller)
+BCSReader::BCSReader(Board *board, InformationPanel *informationPanel)
+    : board_(board),
+      informationPanel_(informationPanel)
 {
 }
 
@@ -67,7 +68,7 @@ bool BCSReader::readStageNo()
         return false;
     }
 
-    controller_->setStageNo(stageNo);
+    informationPanel_->setStageNo(stageNo);
     return true;
 }
 
@@ -102,7 +103,7 @@ bool BCSReader::readTile()
         }
     }
 
-    if (!controller_->setTile(row, column, material)) {
+    if (!board_->setupTile(row, column, material)) {
         xml_.raiseError("BCSreader: row or column value is invalid");
         return false;
     }
@@ -208,7 +209,7 @@ bool BCSReader::readTank()
         }
     }
 
-    controller_->addEnemyTank(tank);
+    informationPanel_->addTank(tank);
     return true;
 }
 

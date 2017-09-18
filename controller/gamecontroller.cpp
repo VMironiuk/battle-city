@@ -38,7 +38,7 @@ bool GameController::setupStage()
         return false;
     }
 
-    BCSReader battleCityStageReader(this);
+    BCSReader battleCityStageReader(board_, informationPanel_);
     if (!battleCityStageReader.read(&stageFile)) {
         setHasError(true);
         setErrorString(battleCityStageReader.errorString());
@@ -348,23 +348,6 @@ void GameController::moveEnemyTankToBoard()
         enemyDrivers_ << driver;
     }
     board_->addEnemyTank(respawnX, respawnY, tank);
-}
-
-void GameController::setStageNo(int stageNo)
-{
-    if (informationPanel_ != nullptr)
-        informationPanel_->setStageNo(stageNo);
-}
-
-bool GameController::setTile(int row, int column, Tile::Material material)
-{
-    return board_->setupTile(row, column, material);
-}
-
-void GameController::addEnemyTank(ShootableItem *tank)
-{
-    if (informationPanel_ != nullptr)
-        informationPanel_->addTank(tank);
 }
 
 void GameController::improvePlayerTank(ShootableItem *tank)

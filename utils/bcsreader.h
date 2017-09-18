@@ -4,13 +4,14 @@
 #include <QIODevice>
 #include <QXmlStreamReader>
 
-#include "gamecontroller.h"
+#include "board.h"
+#include "informationpanel.h"
 #include "tile.h"
 
 class BCSReader
 {
 public:
-    BCSReader(GameController *controller);
+    BCSReader(Board *board, InformationPanel *informationPanel);
 
     bool read(QIODevice *device);
     QString errorString() const;
@@ -27,7 +28,8 @@ private:
     int readTankStrength(bool *ok);
     int readTankValue(bool *ok);
 
-    GameController *controller_;
+    Board *board_;
+    InformationPanel *informationPanel_;
     QXmlStreamReader xml_;
 };
 

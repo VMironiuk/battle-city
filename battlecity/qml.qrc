@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/Board.qml</file>
+        <file>qml/Bonus.qml</file>
+        <file>qml/Eagle.qml</file>
+        <file>qml/EnemyMarker.qml</file>
+        <file>qml/EnemyTank.qml</file>
+        <file>qml/Explosion.qml</file>
+        <file>qml/GameOverPage.qml</file>
+        <file>qml/InformationPanel.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/PlayerTank.qml</file>
+        <file>qml/Playground.qml</file>
+        <file>qml/Projectile.qml</file>
+        <file>qml/StagePage.qml</file>
+        <file>qml/StageResultPage.qml</file>
+        <file>qml/StartPage.qml</file>
+        <file>qml/Tile.qml</file>
+    </qresource>
+</RCC>

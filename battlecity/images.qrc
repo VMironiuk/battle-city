@@ -1,0 +1,35 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/bonuses/grenade.png</file>
+        <file>images/bonuses/helmet.png</file>
+        <file>images/bonuses/shovel.png</file>
+        <file>images/bonuses/star.png</file>
+        <file>images/bonuses/tank.png</file>
+        <file>images/bonuses/timer.png</file>
+        <file>images/control_panel/enemy_marker.png</file>
+        <file>images/control_panel/flag.png</file>
+        <file>images/control_panel/player_marker.png</file>
+        <file>images/eagles/destroyed_eagle.png</file>
+        <file>images/eagles/normal_eagle.png</file>
+        <file>images/explosions/projectile_explosion.gif</file>
+        <file>images/explosions/tank_explosion.gif</file>
+        <file>images/obstacles/bricks.png</file>
+        <file>images/obstacles/bush.png</file>
+        <file>images/obstacles/concrete.png</file>
+        <file>images/pages/game_over.png</file>
+        <file>images/pages/stage_result.png</file>
+        <file>images/pages/start.png</file>
+        <file>images/projectiles/projectile.png</file>
+        <file>images/tanks/enemy/armored.png</file>
+        <file>images/tanks/enemy/armored_1_hit.png</file>
+        <file>images/tanks/enemy/armored_2_hit.png</file>
+        <file>images/tanks/enemy/armored_3_hit.png</file>
+        <file>images/tanks/enemy/bursting.png</file>
+        <file>images/tanks/enemy/fast.png</file>
+        <file>images/tanks/enemy/simple_tank.png</file>
+        <file>images/tanks/player/one_star_tank.png</file>
+        <file>images/tanks/player/simple_tank.png</file>
+        <file>images/tanks/player/three_stars_tank.png</file>
+        <file>images/tanks/player/two_stars_tank.png</file>
+    </qresource>
+</RCC>

@@ -11,8 +11,6 @@
 
 class GameController : public BCObject
 {
-    friend class BCSReader;
-
     Q_OBJECT
     Q_PROPERTY(bool won READ won WRITE setWon NOTIFY wonChanged)
 public:
@@ -58,9 +56,6 @@ private:
     void setupRespawns();
     void setupPlayerTank();
     void moveEnemyTankToBoard();
-    void setStageNo(int stageNo);
-    bool setTile(int row, int column, Tile::Material material);
-    void addEnemyTank(ShootableItem *tank);
     void improvePlayerTank(ShootableItem *tank);
 
     Board *board_;
