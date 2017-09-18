@@ -18,7 +18,7 @@ SOURCES += src/main.cpp \
     src/gameresult.cpp \
     src/bonustimer.cpp \
     src/stageiterator.cpp \
-    bcobject.cpp
+    src/bcobject.cpp
 
 RESOURCES += qml.qrc \
     images.qrc \
@@ -60,4 +60,4 @@ HEADERS += \
     src/gameresult.h \
     src/bonustimer.h \
     src/stageiterator.h \
-    bcobject.h
+    src/bcobject.h
