@@ -4,16 +4,17 @@
 #include <QIODevice>
 #include <QXmlStreamReader>
 
+#include "bcobject.h"
 #include "gamecontroller.h"
 #include "tile.h"
 
-class BCSReader
+class BCSReader : public BCObject
 {
 public:
-    BCSReader(GameController *controller);
+    BCSReader(GameController *controller, QObject *parent = nullptr);
 
     bool read(QIODevice *device);
-    QString errorString() const;
+//    QString errorString() const;
 
 private:
     bool readBSC();

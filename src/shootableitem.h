@@ -16,7 +16,7 @@ public:
         BurstShot,
         PowerfulShot
     };
-    ShootableItem(QObject *parent = nullptr);
+    explicit ShootableItem(QObject *parent = nullptr);
 
     virtual void shoot();
 

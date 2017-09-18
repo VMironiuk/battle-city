@@ -7,7 +7,7 @@ class BonusTimer : public QObject
 {
     Q_OBJECT
 public:
-    BonusTimer(QObject *parent = nullptr);
+    explicit BonusTimer(QObject *parent = nullptr);
 
     void reset();
 

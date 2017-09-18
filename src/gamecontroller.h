@@ -1,8 +1,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
-#include <QObject>
-
+#include "bcobject.h"
 #include "board.h"
 #include "bonustimer.h"
 #include "collider.h"
@@ -10,7 +9,7 @@
 #include "gameresult.h"
 #include "informationpanel.h"
 
-class GameController : public QObject
+class GameController : public BCObject
 {
     friend class BCSReader;
 
@@ -49,7 +48,7 @@ private slots:
     void onBonusReached(ShootableItem *playerTank, Constants::Bonus::BonusType bonusType);
 
 private:
-    GameController(QObject *parent = nullptr);
+    explicit GameController(QObject *parent = nullptr);
     ~GameController();
 
     void checkCollisions();

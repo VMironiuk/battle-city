@@ -2,8 +2,9 @@
 
 #include "global.h"
 
-BCSReader::BCSReader(GameController *controller)
-    : controller_(controller)
+BCSReader::BCSReader(GameController *controller, QObject *parent)
+    : BCObject(parent),
+      controller_(controller)
 {
 }
 
@@ -20,13 +21,13 @@ bool BCSReader::read(QIODevice *device)
     return !xml_.error();
 }
 
-QString BCSReader::errorString() const
-{
-    return QString("%1.\nLine %2, column %3")
-            .arg(xml_.errorString())
-            .arg(xml_.lineNumber())
-            .arg(xml_.columnNumber());
-}
+//QString BCSReader::errorString() const
+//{
+//    return QString("%1.\nLine %2, column %3")
+//            .arg(xml_.errorString())
+//            .arg(xml_.lineNumber())
+//            .arg(xml_.columnNumber());
+//}
 
 bool BCSReader::readBSC()
 {

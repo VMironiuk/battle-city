@@ -20,7 +20,7 @@ class Board : public BaseItem
     Q_PROPERTY(QQmlListProperty<BaseItem> bonusesProperty READ bonusesProperty NOTIFY bonusesPropertyChanged)
     Q_PROPERTY(BaseItem* eagle READ eagle CONSTANT)
 public:
-    explicit Board(int rows, int cols, int tileSize, QObject *parent = nullptr);
+    Board(int rows, int cols, int tileSize, QObject *parent = nullptr);
     ~Board();
 
     QQmlListProperty<Tile> tilesProperty();

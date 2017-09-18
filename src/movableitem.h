@@ -18,7 +18,7 @@ public:
     };
     Q_ENUMS(Direction)
 
-    MovableItem(QObject *parent = nullptr);
+    explicit MovableItem(QObject *parent = nullptr);
 
     virtual void move();
 

@@ -1,9 +1,9 @@
 #ifndef BASEITEM_H
 #define BASEITEM_H
 
-#include <QObject>
+#include "bcobject.h"
 
-class BaseItem : public QObject
+class BaseItem : public BCObject
 {
     Q_OBJECT
     Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)

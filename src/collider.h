@@ -14,7 +14,7 @@ class Collider : public QObject
 
     Q_OBJECT
 public:
-    Collider(QObject *parent = nullptr);
+    explicit Collider(QObject *parent = nullptr);
     Collider(const Collider&) = delete;
     Collider &operator=(const Collider&) = delete;
 

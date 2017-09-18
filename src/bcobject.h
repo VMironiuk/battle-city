@@ -7,7 +7,7 @@ class BCObject : public QObject
 {
     Q_OBJECT
 public:
-    BCObject(QObject *parent = nullptr);
+    explicit BCObject(QObject *parent = nullptr);
     ~BCObject();
 
     bool hasError() const { return hasError_; }

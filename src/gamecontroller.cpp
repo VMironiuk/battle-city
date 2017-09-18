@@ -192,7 +192,7 @@ void GameController::onBonusReached(ShootableItem *playerTank,
 }
 
 GameController::GameController(QObject *parent)
-    : QObject(parent),
+    : BCObject(parent),
       board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
       informationPanel_(new InformationPanel)
 {
