@@ -26,7 +26,7 @@ public:
     bool won() const { return won_; }
     void setWon(bool won);
 
-    Q_INVOKABLE void setupStage();
+    Q_INVOKABLE bool setupStage();
     Q_INVOKABLE void startStage();
     Q_INVOKABLE void stopStage();
     Q_INVOKABLE void freeStage();
@@ -51,6 +51,7 @@ private:
     explicit GameController(QObject *parent = nullptr);
     ~GameController();
 
+    bool check();
     void checkCollisions();
     void checkStageFinished();
     void updateEnemyDrivers();
@@ -58,7 +59,7 @@ private:
     void setupPlayerTank();
     void moveEnemyTankToBoard();
     void setStageNo(int stageNo);
-    void setTile(int row, int column, Tile::Material material);
+    bool setTile(int row, int column, Tile::Material material);
     void addEnemyTank(ShootableItem *tank);
     void improvePlayerTank(ShootableItem *tank);
 

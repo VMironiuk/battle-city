@@ -9,6 +9,9 @@ Collider::Collider(QObject *parent)
 
 void Collider::checkCollisions(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     checkBoardBoundaries(board);
     checkTileBoundaries(board);
     checkTanksHitting(board);
@@ -21,21 +24,33 @@ void Collider::checkCollisions(Board *board)
 
 void Collider::checkBoardBoundaries(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     QList<ShootableItem *> playerTanks = board->playerTanks();
-    for (auto tank : playerTanks)
-        checkBoardBoundariesForTank(board, tank);
+    for (auto tank : playerTanks) {
+        if (tank != nullptr)
+            checkBoardBoundariesForTank(board, tank);
+    }
 
     QList<ShootableItem *> enemyTanks = board->enemyTanks();
-    for (auto tank : enemyTanks)
-        checkBoardBoundariesForTank(board, tank);
+    for (auto tank : enemyTanks) {
+        if (tank != nullptr)
+            checkBoardBoundariesForTank(board, tank);
+    }
 
     QList<MovableItem *> projectiles = board->projectiles();
-    for (auto projectile : projectiles)
-        checkBoardBoundariesForProjectile(board, projectile);
+    for (auto projectile : projectiles) {
+        if (projectile != nullptr)
+            checkBoardBoundariesForProjectile(board, projectile);
+    }
 }
 
 void Collider::checkBoardBoundariesForTank(Board *board, MovableItem *tank)
 {
+    if (board == nullptr || tank == nullptr)
+        return;
+
     switch (tank->direction()) {
     case MovableItem::North:
         if (tank->top() <= board->y())
@@ -60,6 +75,9 @@ void Collider::checkBoardBoundariesForTank(Board *board, MovableItem *tank)
 
 void Collider::checkBoardBoundariesForProjectile(Board *board, MovableItem *projectile)
 {
+    if (board == nullptr || projectile == nullptr)
+        return;
+
     if (projectile->top() <= board->y()
             || board->height() <= projectile->bottom()
             || projectile->left() <= board->x()
@@ -70,30 +88,47 @@ void Collider::checkBoardBoundariesForProjectile(Board *board, MovableItem *proj
 
 void Collider::checkTileBoundaries(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     QList<ShootableItem *> playerTanks = board->playerTanks();
-    for (auto tank : playerTanks)
-        checkTileBoundariesForTank(board, tank);
+    for (auto tank : playerTanks) {
+        if (tank != nullptr)
+            checkTileBoundariesForTank(board, tank);
+    }
 
     QList<ShootableItem *> enemyTanks = board->enemyTanks();
-    for (auto tank : enemyTanks)
-        checkTileBoundariesForTank(board, tank);
+    for (auto tank : enemyTanks) {
+        if (tank != nullptr)
+            checkTileBoundariesForTank(board, tank);
+    }
 
     QList<MovableItem *> projectiles = board->projectiles();
-    for (auto projectile : projectiles)
-        checkTileBoundariesForProjectile(board, projectile);
+    for (auto projectile : projectiles) {
+        if (projectile != nullptr)
+            checkTileBoundariesForProjectile(board, projectile);
+    }
 }
 
 void Collider::checkTileBoundariesForTank(Board *board, MovableItem *tank)
 {
+    if (board == nullptr || tank == nullptr)
+        return;
+
     QList<Tile *> tiles = board->tiles();
     for (auto tile : tiles) {
-        if (!tile->isTankTraversable())
-            checkTileBoundariesForTank(tank, tile);
+        if (tile != nullptr) {
+            if (!tile->isTankTraversable())
+                checkTileBoundariesForTank(tank, tile);
+        }
     }
 }
 
 void Collider::checkTileBoundariesForTank(MovableItem *tank, Tile *tile)
 {
+    if (tank == nullptr || tile == nullptr)
+        return;
+
     int xOffset = 0;
     int yOffset = 0;
 
@@ -126,8 +161,14 @@ void Collider::checkTileBoundariesForTank(MovableItem *tank, Tile *tile)
 
 void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *projectile)
 {
+    if (board == nullptr || projectile == nullptr)
+        return;
+
     QList<Tile *> tiles = board->tiles();
     for (auto tile : tiles) {
+        if (tile == nullptr)
+            continue;
+
         if (!tile->isProjectileTraversable()) {
             if (checkCollision(projectile, tile)) {
                 if (tile->isProjectileBreakable()
@@ -143,8 +184,14 @@ void Collider::checkTileBoundariesForProjectile(Board *board, MovableItem *proje
 
 void Collider::checkTanksHitting(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     QList<MovableItem *> projectiles = board->projectiles();
     for (auto projectile : projectiles) {
+        if (projectile == nullptr)
+            continue;
+
         if (projectile->property(Constants::Property::Belligerent).toString()
                 == Constants::Belligerent::Player) {
             checkEnemyTanksHitting(board, projectile);
@@ -157,8 +204,14 @@ void Collider::checkTanksHitting(Board *board)
 
 void Collider::checkEnemyTanksHitting(Board *board, MovableItem *projectile)
 {
+    if (board == nullptr || projectile == nullptr)
+        return;
+
     QList<ShootableItem *> tanks = board->enemyTanks();
     for (auto tank : tanks) {
+        if (tank == nullptr)
+            continue;
+
         if (checkCollision(projectile, tank)) {
             if (tank->property(Constants::EnemyTank::Property::Type).toString()
                     == Constants::EnemyTank::Type::Armored) {
@@ -193,8 +246,14 @@ void Collider::checkEnemyTanksHitting(Board *board, MovableItem *projectile)
 
 void Collider::checkPlayerTanksHitting(Board *board, MovableItem *projectile)
 {
+    if (board == nullptr || projectile == nullptr)
+        return;
+
     QList<ShootableItem *> tanks = board->playerTanks();
     for (auto tank : tanks) {
+        if (tank == nullptr)
+            continue;
+
         if (checkCollision(projectile, tank)) {
             board->removePlayerTank(tank);
             board->removeProjectile(projectile);
@@ -205,6 +264,9 @@ void Collider::checkPlayerTanksHitting(Board *board, MovableItem *projectile)
 
 void Collider::checkTanksCollisions(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     QList<ShootableItem *> allTanks = board->playerTanks();
     allTanks += board->enemyTanks();
     for (int i = 0; i != allTanks.size(); ++i) {
@@ -239,6 +301,9 @@ void Collider::checkTanksCollisions(Board *board)
 
 void Collider::checkProjectiesCollisions(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     QList<MovableItem *> projectiles = board->projectiles();
     for (int i = 0; i != projectiles.size(); ++i) {
         auto p1 = projectiles.at(i);
@@ -263,9 +328,18 @@ void Collider::checkProjectiesCollisions(Board *board)
 
 void Collider::checkEagleHitting(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     BaseItem *eagle = board->eagle();
+    if (eagle == nullptr)
+        return;
+
     QList<MovableItem *> projectiles = board->projectiles();
     for (auto projectile : projectiles) {
+        if (projectile == nullptr)
+            continue;
+
         if (checkCollision(projectile, eagle)) {
             board->removeProjectile(projectile);
             board->destroyEagle(eagle);
@@ -276,27 +350,46 @@ void Collider::checkEagleHitting(Board *board)
 
 void Collider::checkEagleBoundaries(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     BaseItem *eagle = board->eagle();
+    if (eagle == nullptr)
+        return;
+
     QList<ShootableItem *> allTanks = board->playerTanks();
     allTanks += board->enemyTanks();
-    for (auto tank : allTanks)
-        checkCollision(tank, eagle);
+    for (auto tank : allTanks) {
+        if (tank != nullptr)
+            checkCollision(tank, eagle);
+    }
 }
 
 void Collider::checkBonusBoundaries(Board *board)
 {
+    if (board == nullptr)
+        return;
+
     QList<ShootableItem *> tanks = board->playerTanks();
     for (auto tank : tanks) {
+        if (tank == nullptr)
+            continue;
+
         QList<BaseItem *> bonuses = board->bonuses();
         for (auto bonus : bonuses) {
-            if (checkCollision(tank, bonus))
-                board->onBonusReached(tank, bonus);
+            if (bonus != nullptr) {
+                if (checkCollision(tank, bonus))
+                    board->onBonusReached(tank, bonus);
+            }
         }
     }
 }
 
 bool Collider::checkNorthDirectionCollision(BaseItem *source, BaseItem *target)
 {
+    if (source == nullptr || target == nullptr)
+        return false;
+
     if (source->top() < target->bottom() && source->top() > target->top()
             && ((source->left() >= target->left() && source->left() < target->right())
                 || (source->right() > target->left() && source->right() <= target->right()))) {
@@ -308,6 +401,9 @@ bool Collider::checkNorthDirectionCollision(BaseItem *source, BaseItem *target)
 
 bool Collider::checkSouthDirectionCollision(BaseItem *source, BaseItem *target)
 {
+    if (source == nullptr || target == nullptr)
+        return false;
+
     if (source->bottom() > target->top() && source->bottom() < target->bottom()
             && ((source->left() >= target->left() && source->left() < target->right())
                 || (source->right() > target->left() && source->right() <= target->right()))) {
@@ -319,6 +415,9 @@ bool Collider::checkSouthDirectionCollision(BaseItem *source, BaseItem *target)
 
 bool Collider::checkWestDirectionCollision(BaseItem *source, BaseItem *target)
 {
+    if (source == nullptr || target == nullptr)
+        return false;
+
     if (source->left() < target->right() && source->left() > target->left()
             && ((source->bottom() <= target->bottom() && source->bottom() > target->top())
                 || (source->top() < target->bottom() && source->top() >= target->top()))) {
@@ -330,6 +429,9 @@ bool Collider::checkWestDirectionCollision(BaseItem *source, BaseItem *target)
 
 bool Collider::checkEastDirectionCollision(BaseItem *source, BaseItem *target)
 {
+    if (source == nullptr || target == nullptr)
+        return false;
+
     if (source->right() > target->left() && source->right() < target->right()
             && ((source->bottom() <= target->bottom() && source->bottom() > target->top())
                 || (source->top() < target->bottom() && source->top() >= target->top()))) {
@@ -341,6 +443,9 @@ bool Collider::checkEastDirectionCollision(BaseItem *source, BaseItem *target)
 
 bool Collider::checkCollision(MovableItem *movable, BaseItem *target)
 {
+    if (movable == nullptr || target == nullptr)
+        return false;
+
     switch (movable->direction()) {
     case MovableItem::North:
         if (checkNorthDirectionCollision(movable, target))
@@ -366,6 +471,9 @@ bool Collider::checkCollision(MovableItem *movable, BaseItem *target)
 
 void Collider::adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset)
 {
+    if (movableItem == nullptr || tile == nullptr)
+        return;
+
     if (xOffset < tile->width() / 2)
         xOffset = -xOffset;
     else

@@ -60,13 +60,18 @@ void Board::clear()
 
 void Board::clearMap()
 {
-    for (auto tile : tiles_)
-        tile->setMaterial(Tile::Free);
+    for (auto tile : tiles_) {
+        if (tile != nullptr)
+            tile->setMaterial(Tile::Free);
+    }
     makeBase();
 }
 
 void Board::removePlayerTank(ShootableItem *playerTank)
 {
+    if (playerTank == nullptr)
+        return;
+
     int x = playerTank->x() - playerTank->width() / 6;
     int y = playerTank->y() - playerTank->height() / 6;
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
@@ -79,6 +84,9 @@ void Board::removePlayerTank(ShootableItem *playerTank)
 
 void Board::removeEnemyTank(ShootableItem *enemyTank)
 {
+    if (enemyTank == nullptr)
+        return;
+
     int x = enemyTank->x() - enemyTank->width() / 6;
     int y = enemyTank->y() - enemyTank->height() / 6;
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
@@ -93,6 +101,10 @@ void Board::removeAllEnemyTanks()
 {
     while (!enemyTanks_.isEmpty()) {
         auto tank = enemyTanks_.last();
+        if (tank == nullptr) {
+            enemyTanks_.removeLast();
+            continue;
+        }
         tank->setProperty(Constants::EnemyTank::Property::Value, 0);
         removeEnemyTank(tank);
     }
@@ -100,6 +112,9 @@ void Board::removeAllEnemyTanks()
 
 void Board::removeProjectile(MovableItem *projectile)
 {
+    if (projectile == nullptr)
+        return;
+
     int x = projectile->x() - projectile->width();
     int y = projectile->y() - projectile->height();
     makeExplosion(x, y, 44, 44, "qrc:/images/explosions/projectile_explosion.gif");
@@ -111,6 +126,9 @@ void Board::removeProjectile(MovableItem *projectile)
 
 void Board::removeProjectileQuietly(MovableItem *projectile)
 {
+    if (projectile == nullptr)
+        return;
+
     projectiles_.removeOne(projectile);
     emit projectilesPropertyChanged(projectilesProperty());
     delete projectile;
@@ -120,12 +138,19 @@ void Board::removeAllProjectiles()
 {
     while (!projectiles_.isEmpty()) {
         auto projectile = projectiles_.last();
+        if (projectile == nullptr) {
+            projectiles_.removeLast();
+            continue;
+        }
         removeProjectileQuietly(projectile);
     }
 }
 
 void Board::removeExplosion(BaseItem *explosion)
 {
+    if (explosion == nullptr)
+        return;
+
     explosions_.removeOne(explosion);
     emit explosionsPropertyChanged(explosionsProperty());
     delete explosion;
@@ -135,12 +160,19 @@ void Board::removeAllExplosions()
 {
     while (!explosions_.isEmpty()) {
         auto explosion = explosions_.last();
+        if (explosion == nullptr) {
+            explosions_.removeLast();
+            continue;
+        }
         removeExplosion(explosion);
     }
 }
 
 void Board::removeBonus(BaseItem *bonus)
 {
+    if (bonus == nullptr)
+        return;
+
     bonuses_.removeOne(bonus);
     emit bonusesPropertyChanged(bonusesProperty());
     delete bonus;
@@ -150,6 +182,10 @@ void Board::removeAllBonuses()
 {
     while (!bonuses_.isEmpty()) {
         auto bonus = bonuses_.last();
+        if (bonus == nullptr) {
+            bonuses_.removeLast();
+            continue;
+        }
         removeBonus(bonus);
     }
 }
@@ -166,6 +202,9 @@ void Board::removeFirstBonus()
 
 void Board::destroyEagle(BaseItem *eagle)
 {
+    if (eagle == nullptr)
+        return;
+
     int x = eagle->x() - eagle->width() / 6;
     int y = eagle->y() - eagle->height() / 6;
     makeExplosion(x, y, 76, 76, "qrc:/images/explosions/tank_explosion.gif");
@@ -174,24 +213,36 @@ void Board::destroyEagle(BaseItem *eagle)
 
     if (!playerTanks_.isEmpty()) {
         auto tank = playerTanks_.first();
+        if (tank == nullptr) {
+            playerTanks_.removeFirst();
+            return;
+        }
         removePlayerTank(tank);
     }
 }
 
-void Board::setupTile(int row, int column, Tile::Material material)
+bool Board::setupTile(int row, int column, Tile::Material material)
 {
-    Q_ASSERT(row >= 0 && row < rowCount_);
-    Q_ASSERT(column >= 0 && column < colCount_);
+    if (row < 0 || row >= rowCount_ || column < 0 || column >= colCount_)
+        return false;
 
     Tile *tile = this->tile(row, column);
     tile->setMaterial(material);
     if (material == Tile::Bush)
         tile->setZ(1);
+
+    return true;
 }
 
 void Board::addPlayerTank(int row, int column, ShootableItem *tank)
 {
+    if (tank == nullptr)
+        return;
+
     Tile *tile = this->tile(row, column);
+    if (tile == nullptr)
+        return;
+
     tank->setX(tile->x());
     tank->setY(tile->y());
     playerTanks_ << tank;
@@ -203,7 +254,13 @@ void Board::addPlayerTank(int row, int column, ShootableItem *tank)
 
 void Board::addEnemyTank(int row, int column, ShootableItem *tank)
 {
+    if (tank == nullptr)
+        return;
+
     Tile *tile = this->tile(row, column);
+    if (tile == nullptr)
+        return;
+
     tank->setX(tile->x());
     tank->setY(tile->y());
     enemyTanks_ << tank;
@@ -215,7 +272,13 @@ void Board::addEnemyTank(int row, int column, ShootableItem *tank)
 
 void Board::addBonus(int row, int column, BaseItem *bonus)
 {
+    if (bonus == nullptr)
+        return;
+
     Tile *tile = this->tile(row, column);
+    if (tile == nullptr)
+        return;
+
     bonus->setX(tile->x());
     bonus->setY(tile->y());
     bonus->setWidth(tileSize_ * 2);
@@ -227,6 +290,9 @@ void Board::addBonus(int row, int column, BaseItem *bonus)
 
 void Board::onBonusReached(ShootableItem *playerTank, BaseItem *bonus)
 {
+    if (playerTank == nullptr || bonus == nullptr)
+        return;
+
     Constants::Bonus::BonusType bonusType
             = static_cast<Constants::Bonus::BonusType>(
                 bonus->property(Constants::Bonus::Property::Type).toInt());
@@ -238,7 +304,13 @@ void Board::onBonusReached(ShootableItem *playerTank, BaseItem *bonus)
 void Board::updatePlayerTankPos(int row, int column)
 {
     auto tank = playerTanks_.first();
+    if (tank == nullptr)
+        return;
+
     auto tile = this->tile(row, column);
+    if (tile == nullptr)
+        return;
+
     tank->setX(tile->x());
     tank->setY(tile->y());
     tank->setMovement(false);
@@ -250,19 +322,28 @@ void Board::updatePlayerTankPos(int row, int column)
 void Board::update()
 {
     for (auto tank : playerTanks_) {
-        tank->move();
-        tank->shoot();
+        if (tank != nullptr) {
+            tank->move();
+            tank->shoot();
+        }
     }
     for (auto tank : enemyTanks_) {
-        tank->move();
-        tank->shoot();
+        if (tank != nullptr) {
+            tank->move();
+            tank->shoot();
+        }
     }
-    for (auto projectile : projectiles_)
-        projectile->move();
+    for (auto projectile : projectiles_) {
+        if (projectile != nullptr)
+            projectile->move();
+    }
 }
 
 void Board::addProjectile(MovableItem *projectile)
 {
+    if (projectile == nullptr)
+        return;
+
     projectiles_ << projectile;
     emit projectilesPropertyChanged(projectilesProperty());
 }
@@ -270,7 +351,7 @@ void Board::addProjectile(MovableItem *projectile)
 void Board::onExplosionTimeout()
 {
     BaseItem *explosion = qobject_cast<BaseItem *>(sender());
-    if (explosion)
+    if (explosion != nullptr)
         removeExplosion(explosion);
 }
 
@@ -279,17 +360,26 @@ void Board::initialize()
     setWidth(tileSize_ * colCount_);
     setHeight(tileSize_ * rowCount_);
 
-    makeTiles();
-    makeBase();
+    if (makeTiles())
+        makeBase();
 }
 
-void Board::makeTiles()
+bool Board::makeTiles()
 {
     for (int row = 0, currentY = 0; row != rowCount_;
          ++row, currentY += tileSize_) {
         for (int column =0, currentX = 0; column != colCount_;
              ++column, currentX += tileSize_) {
             Tile *tile = new Tile;
+
+            if (tile == nullptr) {
+                setHasError(true);
+                setErrorString("Board: cannot create tiles objects");
+                qDeleteAll(tiles_);
+                tiles_.clear();
+                return false;
+            }
+
             tile->setWidth(tileSize_);
             tile->setHeight(tileSize_);
             tile->setX(currentX);
@@ -298,6 +388,7 @@ void Board::makeTiles()
             tiles_.push_back(tile);
         }
     }
+    return true;
 }
 
 void Board::makeBase()
@@ -331,6 +422,9 @@ void Board::makeBase()
 void Board::makeExplosion(int x, int y, int w, int h, const QString &image)
 {
     BaseItem *explosion = new BaseItem;
+    if (explosion == nullptr)
+        return;
+
     explosion->setX(x);
     explosion->setY(y);
     explosion->setWidth(w);

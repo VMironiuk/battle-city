@@ -72,6 +72,9 @@ QQmlListProperty<BaseItem> InformationPanel::enemyMarkersProperty()
 void InformationPanel::createEnemyMarker()
 {
     BaseItem *marker = new BaseItem;
+    if (marker == nullptr)
+        // TODO: handle
+        return;
     marker->setImageSource("qrc:/images/control_panel/enemy_marker.png");
     enemyMarkers_ << marker;
     maxEnemiesCount_ = enemyMarkers_.count();

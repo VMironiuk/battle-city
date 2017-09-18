@@ -52,7 +52,7 @@ public:
     void removeFirstBonus();
     void destroyEagle(BaseItem *eagle);
 
-    void setupTile(int row, int column, Tile::Material material);
+    bool setupTile(int row, int column, Tile::Material material);
     void addPlayerTank(int row, int column, ShootableItem *tank);
     void addEnemyTank(int row, int column, ShootableItem *tank);
     void addBonus(int row, int column, BaseItem *bonus);
@@ -81,7 +81,7 @@ private slots:
 
 private:
     void initialize();
-    void makeTiles();
+    bool makeTiles();
     void makeBase();
     void makeExplosion(int x, int y, int w, int h, const QString &image);
     Tile *tile(int row, int column) const;

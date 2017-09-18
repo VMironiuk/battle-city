@@ -20,8 +20,11 @@ Item {
                 duration: 3000
 
                 onStopped: {
-                    gameController.setupStage()
-                    stageCompleted = true
+                    if (gameController.setupStage() === true)
+                        stageCompleted = true
+                    else
+                        console.log(gameController.errorString)
+                    // TODO: else show error
                 }
             }
         }

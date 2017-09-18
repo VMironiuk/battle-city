@@ -4,29 +4,28 @@
 #include <QIODevice>
 #include <QXmlStreamReader>
 
-#include "bcobject.h"
 #include "gamecontroller.h"
 #include "tile.h"
 
-class BCSReader : public BCObject
+class BCSReader
 {
 public:
-    BCSReader(GameController *controller, QObject *parent = nullptr);
+    BCSReader(GameController *controller);
 
     bool read(QIODevice *device);
-//    QString errorString() const;
+    QString errorString() const;
 
 private:
     bool readBSC();
-    void readStageNo();
-    void readTile();
-    int readTileRow();
-    int readTileColumn();
-    Tile::Material readTileMaterial();
-    void readTank();
-    QString readTankType();
-    int readTankStrength();
-    int readTankValue();
+    bool readStageNo();
+    bool readTile();
+    int readTileRow(bool *ok);
+    int readTileColumn(bool *ok);
+    Tile::Material readTileMaterial(bool *ok);
+    bool readTank();
+    QString readTankType(bool *ok);
+    int readTankStrength(bool *ok);
+    int readTankValue(bool *ok);
 
     GameController *controller_;
     QXmlStreamReader xml_;

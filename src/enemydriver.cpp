@@ -12,6 +12,9 @@ EnemyDriver::EnemyDriver(ShootableItem *tank, QObject *parent)
     : QObject(parent),
       tank_(tank)
 {
+    if (tank_ == nullptr)
+        return;
+
     tank_->setMovement(true);
     tank_->setShooting(true);
     tank_->setDirection(MovableItem::South);
@@ -26,6 +29,9 @@ EnemyDriver::EnemyDriver(ShootableItem *tank, QObject *parent)
 
 void EnemyDriver::update()
 {
+    if (tank_ == nullptr)
+        return;
+
     if (movementPeriodTime_.elapsed() < RANDOM_MOVEMENT_PERIOD) {
         moveRandomly();
     } else if (movementPeriodTime_.elapsed() > RANDOM_MOVEMENT_PERIOD
@@ -83,6 +89,9 @@ void EnemyDriver::update()
 
 void EnemyDriver::moveRandomly()
 {
+    if (tank_ == nullptr)
+        return;
+
     int direction = randomNumber(1, 100);
     if (direction <= 4)
         tank_->setDirection(static_cast<MovableItem::Direction>(direction));
@@ -90,12 +99,16 @@ void EnemyDriver::moveRandomly()
 
 void EnemyDriver::moveToPlayer()
 {
+    if (tank_ == nullptr)
+        return;
     // TODO: add implementation
     qDebug() << Q_FUNC_INFO;
 }
 
 void EnemyDriver::moveToEagle()
 {
+    if (tank_ == nullptr)
+        return;
     // TODO: add implementation
     qDebug() << Q_FUNC_INFO;
 }

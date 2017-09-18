@@ -29,22 +29,29 @@ void GameController::setWon(bool won)
     emit wonChanged(won_);
 }
 
-void GameController::setupStage()
+bool GameController::setupStage()
 {
     QFile stageFile(StageIterator::nextStageSrc());
     if (!stageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Cannot open stage file";
-        return;
+        setHasError(true);
+        setErrorString("GameController: cannot open stage file " + stageFile.fileName());
+        return false;
     }
 
     BCSReader battleCityStageReader(this);
-    battleCityStageReader.read(&stageFile);
+    if (!battleCityStageReader.read(&stageFile)) {
+        setHasError(true);
+        setErrorString(battleCityStageReader.errorString());
+        return false;
+    }
 
     moveEnemyTankToBoard();
     if (board_->playerTanks().isEmpty())
           setupPlayerTank();
     else
         board_->updatePlayerTankPos(playerRespawn_.first, playerRespawn_.second);
+
+    return true;
 }
 
 void GameController::startStage()
@@ -63,14 +70,18 @@ void GameController::stopStage()
 
 void GameController::freeStage()
 {
-    board_->clear();
-    informationPanel_->clear();
+    if (board_ != nullptr)
+        board_->clear();
+
+    if (informationPanel_ != nullptr)
+        informationPanel_->clear();
 }
 
 void GameController::timerEvent(QTimerEvent *event)
 {
     if (gameRythmId_ == event->timerId()) {
-        board_->update();
+        if (board_ != nullptr)
+            board_->update();
         checkCollisions();
         checkStageFinished();
     } else if (enemyTankAppearRythmId_ == event->timerId()) {
@@ -92,13 +103,17 @@ void GameController::removeEnemyDriver()
 void GameController::admitDefeat()
 {
     won_ = false;
-    informationPanel_->setLivesCount(0);
+    if (informationPanel_ != nullptr)
+        informationPanel_->setLivesCount(0);
     StageIterator::reset();
     emit stageFinished();
 }
 
 void GameController::onPlayerTankDestroyed()
 {
+    if (informationPanel_ == nullptr)
+        return;
+
     if (informationPanel_->livesCount() == 0) {
         admitDefeat();
         return;
@@ -116,6 +131,9 @@ void GameController::onEnemyTankDestroyed(int tankValue)
 void GameController::onShowBonusRequest()
 {
     BaseItem *bonus = new BaseItem;
+    if (bonus == nullptr)
+        return;
+
     Constants::Bonus::BonusType bonusType
             = static_cast<Constants::Bonus::BonusType>(randomNumber(0, 5));
     bonus->setProperty(Constants::Bonus::Property::Type, bonusType);
@@ -146,22 +164,28 @@ void GameController::onShowBonusRequest()
 
     int row = randomNumber(0, 21);
     int column = randomNumber(0, 24);
-    board_->addBonus(row, column, bonus);
+    if (board_ != nullptr)
+        board_->addBonus(row, column, bonus);
 }
 
 void GameController::onHideBonusRequest()
 {
-    board_->removeFirstBonus();
+    if (board_ != nullptr)
+        board_->removeFirstBonus();
 }
 
 void GameController::onBonusReached(ShootableItem *playerTank,
                                     Constants::Bonus::BonusType bonusType)
 {
+    if (playerTank == nullptr)
+        return;
+
     static const int bonusValue = 500;
     switch (bonusType) {
     case Constants::Bonus::Grenade:
         gameResult_.appendPoints(bonusValue);
-        board_->removeAllEnemyTanks();
+        if (board_ != nullptr)
+            board_->removeAllEnemyTanks();
         break;
     case Constants::Bonus::Helmet:
         gameResult_.appendPoints(bonusValue);
@@ -179,7 +203,8 @@ void GameController::onBonusReached(ShootableItem *playerTank,
         break;
     case Constants::Bonus::Tank:
         gameResult_.appendPoints(bonusValue);
-        informationPanel_->setLivesCount(informationPanel_->livesCount() + 1);
+        if (informationPanel_ != nullptr)
+            informationPanel_->setLivesCount(informationPanel_->livesCount() + 1);
         break;
     case Constants::Bonus::Timer:
         gameResult_.appendPoints(bonusValue);
@@ -196,6 +221,9 @@ GameController::GameController(QObject *parent)
       board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
       informationPanel_(new InformationPanel)
 {
+    if (!check())
+        return;
+
     setupRespawns();
 
     connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
@@ -213,6 +241,31 @@ GameController::~GameController()
     delete informationPanel_;
 }
 
+bool GameController::check()
+{
+    if (board_ == nullptr) {
+        setHasError(true);
+        setErrorString("GameController: cannot create Board object");
+        return false;
+    }
+
+    if (board_->hasError()) {
+        setHasError(board_->hasError());
+        setErrorString(board_->errorString());
+        delete board_;
+        return false;
+    }
+
+    if (informationPanel_ == nullptr) {
+        setHasError(true);
+        setErrorString("GameController: cannot create InformationPanel object");
+        delete board_;
+        return false;
+    }
+
+    return true;
+}
+
 void GameController::checkCollisions()
 {
     collider_.checkCollisions(board_);
@@ -220,6 +273,9 @@ void GameController::checkCollisions()
 
 void GameController::checkStageFinished()
 {
+    if (informationPanel_ == nullptr || board_ == nullptr)
+        return;
+
     if (informationPanel_->isEmpty() && board_->enemyTanks().isEmpty()) {
         won_ = true;
         board_->clearMap();
@@ -229,8 +285,10 @@ void GameController::checkStageFinished()
 
 void GameController::updateEnemyDrivers()
 {
-    for (auto driver : enemyDrivers_)
-        driver->update();
+    for (auto driver : enemyDrivers_) {
+        if (driver != nullptr)
+            driver->update();
+    }
 }
 
 void GameController::setupRespawns()
@@ -245,6 +303,9 @@ void GameController::setupRespawns()
 void GameController::setupPlayerTank()
 {
     ShootableItem *tank = new ShootableItem;
+    if (tank == nullptr)
+        return;
+
     tank->setWidth(BOARD_TILE_SIZE * 2);
     tank->setHeight(BOARD_TILE_SIZE * 2);
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
@@ -261,6 +322,9 @@ void GameController::setupPlayerTank()
 
 void GameController::moveEnemyTankToBoard()
 {
+    if (informationPanel_ == nullptr || board_ == nullptr)
+        return;
+
     static const int high = enemyRespawns_.count() - 1;
     static const int low = 0;
 
@@ -272,31 +336,42 @@ void GameController::moveEnemyTankToBoard()
     int respawnY = enemyRespawns_.at(index).second;
 
     ShootableItem *tank = informationPanel_->nextTank();
+    if (tank == nullptr)
+        return;
+
     tank->setWidth(BOARD_TILE_SIZE * 2);
     tank->setHeight(BOARD_TILE_SIZE * 2);
+
     EnemyDriver *driver = new EnemyDriver(tank);
-    connect(driver, SIGNAL(wannaDie()), this, SLOT(removeEnemyDriver()));
-    enemyDrivers_ << driver;
+    if (driver != nullptr) {
+        connect(driver, SIGNAL(wannaDie()), this, SLOT(removeEnemyDriver()));
+        enemyDrivers_ << driver;
+    }
     board_->addEnemyTank(respawnX, respawnY, tank);
 }
 
 void GameController::setStageNo(int stageNo)
 {
-    informationPanel_->setStageNo(stageNo);
+    if (informationPanel_ != nullptr)
+        informationPanel_->setStageNo(stageNo);
 }
 
-void GameController::setTile(int row, int column, Tile::Material material)
+bool GameController::setTile(int row, int column, Tile::Material material)
 {
-    board_->setupTile(row, column, material);
+    return board_->setupTile(row, column, material);
 }
 
 void GameController::addEnemyTank(ShootableItem *tank)
 {
-    informationPanel_->addTank(tank);
+    if (informationPanel_ != nullptr)
+        informationPanel_->addTank(tank);
 }
 
 void GameController::improvePlayerTank(ShootableItem *tank)
 {
+    if (tank == nullptr)
+        return;
+
     if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
             == Constants::PlayerTank::Improvement::NoStars) {
         tank->setProperty(Constants::PlayerTank::Property::Improvement,

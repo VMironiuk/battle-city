@@ -16,10 +16,14 @@ Item {
 
     Keys.onReturnPressed: {
         if (gameController.won == true) {
-            gameController.setupStage()
-            loader.source = "StagePage.qml"
-            loader.focus = true
-            root.focus = false
+            if (gameController.setupStage() === true) {
+                loader.source = "StagePage.qml"
+                loader.focus = true
+                root.focus = false
+            } else {
+                console.log(gameController.errorString)
+                // TODO: show error
+            }
         } else {
             loader.source = "GameOverPage.qml"
             loader.focus = true
