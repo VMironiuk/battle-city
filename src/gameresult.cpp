@@ -12,11 +12,11 @@ GameResult::GameResult()
     stageResults_[Constants::EnemyTank::Value::Armored] = 0;
 }
 
-void GameResult::accumulate(int value)
+void GameResult::accumulate(int TankValue)
 {
-    ++stageResults_[value];
+    ++stageResults_[TankValue];
     ++totalTanks_;
-    totalPoints_ += value;
+    totalPoints_ += TankValue;
 }
 
 void GameResult::appendPoints(int value)

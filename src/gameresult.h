@@ -5,12 +5,13 @@
 
 class GameResult
 {
+public:
     typedef int TankValue;
     typedef int TanksCount;
-public:
+
     GameResult();
 
-    void accumulate(int value);
+    void accumulate(int TankValue);
     void appendPoints(int value);
 
 private:
