@@ -15,6 +15,8 @@ static const int BOARD_ROWS = 26;
 static const int BOARD_COLS = 26;
 static const int BOARD_TILE_SIZE = 32;
 
+namespace Controller {
+
 GameController &GameController::instance()
 {
     static GameController gc;
@@ -31,14 +33,14 @@ void GameController::setWon(bool won)
 
 bool GameController::setupStage()
 {
-    QFile stageFile(StageIterator::nextStageSrc());
+    QFile stageFile(Utils::StageIterator::nextStageSrc());
     if (!stageFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         setHasError(true);
         setErrorString("GameController: cannot open stage file " + stageFile.fileName());
         return false;
     }
 
-    BCSReader battleCityStageReader(board_, informationPanel_);
+    Utils::BCSReader battleCityStageReader(board_, informationPanel_);
     if (!battleCityStageReader.read(&stageFile)) {
         setHasError(true);
         setErrorString(battleCityStageReader.errorString());
@@ -105,7 +107,7 @@ void GameController::admitDefeat()
     won_ = false;
     if (informationPanel_ != nullptr)
         informationPanel_->setLivesCount(0);
-    StageIterator::reset();
+    Utils::StageIterator::reset();
     emit stageFinished();
 }
 
@@ -130,31 +132,31 @@ void GameController::onEnemyTankDestroyed(int tankValue)
 
 void GameController::onShowBonusRequest()
 {
-    BaseItem *bonus = new BaseItem;
+    Base::BaseItem *bonus = new Base::BaseItem;
     if (bonus == nullptr)
         return;
 
-    Constants::Bonus::BonusType bonusType
-            = static_cast<Constants::Bonus::BonusType>(randomNumber(0, 5));
-    bonus->setProperty(Constants::Bonus::Property::Type, bonusType);
+    Base::Constants::Bonus::BonusType bonusType
+            = static_cast<Base::Constants::Bonus::BonusType>(randomNumber(0, 5));
+    bonus->setProperty(Base::Constants::Bonus::Property::Type, bonusType);
 
     switch (bonusType) {
-    case Constants::Bonus::Grenade:
+    case Base::Constants::Bonus::Grenade:
         bonus->setImageSource("qrc:/images/bonuses/grenade.png");
         break;
-    case Constants::Bonus::Helmet:
+    case Base::Constants::Bonus::Helmet:
         bonus->setImageSource("qrc:/images/bonuses/helmet.png");
         break;
-    case Constants::Bonus::Shovel:
+    case Base::Constants::Bonus::Shovel:
         bonus->setImageSource("qrc:/images/bonuses/shovel.png");
         break;
-    case Constants::Bonus::Star:
+    case Base::Constants::Bonus::Star:
         bonus->setImageSource("qrc:/images/bonuses/star.png");
         break;
-    case Constants::Bonus::Tank:
+    case Base::Constants::Bonus::Tank:
         bonus->setImageSource("qrc:/images/bonuses/tank.png");
         break;
-    case Constants::Bonus::Timer:
+    case Base::Constants::Bonus::Timer:
         bonus->setImageSource("qrc:/images/bonuses/timer.png");
         break;
     default:
@@ -174,39 +176,39 @@ void GameController::onHideBonusRequest()
         board_->removeFirstBonus();
 }
 
-void GameController::onBonusReached(ShootableItem *playerTank,
-                                    Constants::Bonus::BonusType bonusType)
+void GameController::onBonusReached(Base::ShootableItem *playerTank,
+                                    Base::Constants::Bonus::BonusType bonusType)
 {
     if (playerTank == nullptr)
         return;
 
     static const int bonusValue = 500;
     switch (bonusType) {
-    case Constants::Bonus::Grenade:
+    case Base::Constants::Bonus::Grenade:
         gameResult_.appendPoints(bonusValue);
         if (board_ != nullptr)
             board_->removeAllEnemyTanks();
         break;
-    case Constants::Bonus::Helmet:
+    case Base::Constants::Bonus::Helmet:
         gameResult_.appendPoints(bonusValue);
         // TODO: add implementation
         qDebug() << "This bonus not implemented yet";
         break;
-    case Constants::Bonus::Shovel:
+    case Base::Constants::Bonus::Shovel:
         gameResult_.appendPoints(bonusValue);
         // TODO: add implementation
         qDebug() << "This bonus not implemented yet";
         break;
-    case Constants::Bonus::Star:
+    case Base::Constants::Bonus::Star:
         gameResult_.appendPoints(bonusValue);
         improvePlayerTank(playerTank);
         break;
-    case Constants::Bonus::Tank:
+    case Base::Constants::Bonus::Tank:
         gameResult_.appendPoints(bonusValue);
         if (informationPanel_ != nullptr)
             informationPanel_->setLivesCount(informationPanel_->livesCount() + 1);
         break;
-    case Constants::Bonus::Timer:
+    case Base::Constants::Bonus::Timer:
         gameResult_.appendPoints(bonusValue);
         // TODO: add implementation
         qDebug() << "This bonus not implemented yet";
@@ -217,9 +219,9 @@ void GameController::onBonusReached(ShootableItem *playerTank,
 }
 
 GameController::GameController(QObject *parent)
-    : BCObject(parent),
-      board_(new Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
-      informationPanel_(new InformationPanel)
+    : Base::BCObject(parent),
+      board_(new Base::Board(BOARD_ROWS, BOARD_COLS, BOARD_TILE_SIZE)),
+      informationPanel_(new Base::InformationPanel)
 {
     if (!check())
         return;
@@ -229,8 +231,8 @@ GameController::GameController(QObject *parent)
     connect(board_, SIGNAL(eagleDestroyed()), this, SLOT(admitDefeat()));
     connect(board_, SIGNAL(playerTankDestroyed()), this, SLOT(onPlayerTankDestroyed()));
     connect(board_, SIGNAL(enemyTankDestroyed(int)), this, SLOT(onEnemyTankDestroyed(int)));
-    connect(board_, SIGNAL(bonusReached(ShootableItem*,Constants::Bonus::BonusType)),
-            this, SLOT(onBonusReached(ShootableItem*,Constants::Bonus::BonusType)));
+    connect(board_, SIGNAL(bonusReached(Base::ShootableItem*,Base::Constants::Bonus::BonusType)),
+            this, SLOT(onBonusReached(Base::ShootableItem*,Base::Constants::Bonus::BonusType)));
     connect(&bonusTimer_, SIGNAL(showBonusRequest()), this, SLOT(onShowBonusRequest()));
     connect(&bonusTimer_, SIGNAL(hideBonusRequest()), this, SLOT(onHideBonusRequest()));
 }
@@ -302,20 +304,21 @@ void GameController::setupRespawns()
 
 void GameController::setupPlayerTank()
 {
-    ShootableItem *tank = new ShootableItem;
+    Base::ShootableItem *tank = new Base::ShootableItem;
     if (tank == nullptr)
         return;
 
     tank->setWidth(BOARD_TILE_SIZE * 2);
     tank->setHeight(BOARD_TILE_SIZE * 2);
     tank->setImageSource("qrc:/images/tanks/player/simple_tank.png");
-    tank->setDirection(MovableItem::North);
+    tank->setDirection(Base::MovableItem::North);
     tank->setMovement(false);
     tank->setShooting(false);
     tank->setChargingInterval(250);
-    tank->setProperty(Constants::Property::Belligerent, Constants::Belligerent::Player);
-    tank->setProperty(Constants::PlayerTank::Property::Improvement,
-                      Constants::PlayerTank::Improvement::NoStars);
+    tank->setProperty(Base::Constants::Property::Belligerent,
+                      Base::Constants::Belligerent::Player);
+    tank->setProperty(Base::Constants::PlayerTank::Property::Improvement,
+                      Base::Constants::PlayerTank::Improvement::NoStars);
 
     board_->addPlayerTank(playerRespawn_.first, playerRespawn_.second, tank);
 }
@@ -335,7 +338,7 @@ void GameController::moveEnemyTankToBoard()
     int respawnX = enemyRespawns_.at(index).first;
     int respawnY = enemyRespawns_.at(index).second;
 
-    ShootableItem *tank = informationPanel_->nextTank();
+    Base::ShootableItem *tank = informationPanel_->nextTank();
     if (tank == nullptr)
         return;
 
@@ -350,28 +353,30 @@ void GameController::moveEnemyTankToBoard()
     board_->addEnemyTank(respawnX, respawnY, tank);
 }
 
-void GameController::improvePlayerTank(ShootableItem *tank)
+void GameController::improvePlayerTank(Base::ShootableItem *tank)
 {
     if (tank == nullptr)
         return;
 
-    if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
-            == Constants::PlayerTank::Improvement::NoStars) {
-        tank->setProperty(Constants::PlayerTank::Property::Improvement,
-                          Constants::PlayerTank::Improvement::OneStar);
+    if (tank->property(Base::Constants::PlayerTank::Property::Improvement).toString()
+            == Base::Constants::PlayerTank::Improvement::NoStars) {
+        tank->setProperty(Base::Constants::PlayerTank::Property::Improvement,
+                          Base::Constants::PlayerTank::Improvement::OneStar);
         tank->setImageSource("qrc:/images/tanks/player/one_star_tank.png");
-        tank->setShotMode(ShootableItem::FastShot);
-    } else if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
-               == Constants::PlayerTank::Improvement::OneStar) {
-        tank->setProperty(Constants::PlayerTank::Property::Improvement,
-                          Constants::PlayerTank::Improvement::TwoStars);
+        tank->setShotMode(Base::ShootableItem::FastShot);
+    } else if (tank->property(Base::Constants::PlayerTank::Property::Improvement).toString()
+               == Base::Constants::PlayerTank::Improvement::OneStar) {
+        tank->setProperty(Base::Constants::PlayerTank::Property::Improvement,
+                          Base::Constants::PlayerTank::Improvement::TwoStars);
         tank->setImageSource("qrc:/images/tanks/player/two_stars_tank.png");
-        tank->setShotMode(ShootableItem::BurstShot);
-    } else if (tank->property(Constants::PlayerTank::Property::Improvement).toString()
-               == Constants::PlayerTank::Improvement::TwoStars) {
-        tank->setProperty(Constants::PlayerTank::Property::Improvement,
-                          Constants::PlayerTank::Improvement::ThreeStars);
+        tank->setShotMode(Base::ShootableItem::BurstShot);
+    } else if (tank->property(Base::Constants::PlayerTank::Property::Improvement).toString()
+               == Base::Constants::PlayerTank::Improvement::TwoStars) {
+        tank->setProperty(Base::Constants::PlayerTank::Property::Improvement,
+                          Base::Constants::PlayerTank::Improvement::ThreeStars);
         tank->setImageSource("qrc:/images/tanks/player/three_stars_tank.png");
-        tank->setShotMode(ShootableItem::PowerfulShot);
+        tank->setShotMode(Base::ShootableItem::PowerfulShot);
     }
 }
+
+}  // namespace Controller

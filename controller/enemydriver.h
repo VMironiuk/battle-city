@@ -6,27 +6,31 @@
 
 #include "shootableitem.h"
 
+namespace Controller {
+
 class EnemyDriver : public QObject
 {
-    friend class GameController;
 
     Q_OBJECT
 public:
-    EnemyDriver(ShootableItem *tank, QObject *parent = nullptr);
+    EnemyDriver(Base::ShootableItem *tank, QObject *parent = nullptr);
+
+    void update();
 
 signals:
     void wannaDie();
 
 private:
-    void update();
     void moveRandomly();
     void moveToPlayer();
     void moveToEagle();
 
-    ShootableItem *tank_;
+    Base::ShootableItem *tank_;
     int previousTankPositionX_;
     int previousTankPositionY_;
     QTime movementPeriodTime_;
 };
+
+}  // namespace Controller
 
 #endif // ENEMYDRIVER_H

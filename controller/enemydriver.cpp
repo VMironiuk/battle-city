@@ -8,7 +8,9 @@ static const int RANDOM_MOVEMENT_PERIOD = 30000;
 static const int TO_PLAYER_MOVEMENT_PERIOD = RANDOM_MOVEMENT_PERIOD * 2;
 static const int TO_EAGLE_MOVEMENT_PERIOD = RANDOM_MOVEMENT_PERIOD * 3;
 
-EnemyDriver::EnemyDriver(ShootableItem *tank, QObject *parent)
+namespace Controller {
+
+EnemyDriver::EnemyDriver(Base::ShootableItem *tank, QObject *parent)
     : QObject(parent),
       tank_(tank)
 {
@@ -17,7 +19,7 @@ EnemyDriver::EnemyDriver(ShootableItem *tank, QObject *parent)
 
     tank_->setMovement(true);
     tank_->setShooting(true);
-    tank_->setDirection(MovableItem::South);
+    tank_->setDirection(Base::MovableItem::South);
 
     previousTankPositionX_ = tank_->x();
     previousTankPositionY_ = tank_->y();
@@ -43,40 +45,40 @@ void EnemyDriver::update()
     }
 
     switch (tank_->direction()) {
-    case MovableItem::North:
+    case Base::MovableItem::North:
         if (previousTankPositionY_ == tank_->y()) {
             int direction = randomNumber(1, 4);
-            if (static_cast<int>(MovableItem::North != direction))
-                tank_->setDirection(static_cast<MovableItem::Direction>(direction));
+            if (static_cast<int>(Base::MovableItem::North != direction))
+                tank_->setDirection(static_cast<Base::MovableItem::Direction>(direction));
             else
-                tank_->setDirection(MovableItem::South);
+                tank_->setDirection(Base::MovableItem::South);
         }
         break;
-    case MovableItem::South:
+    case Base::MovableItem::South:
         if (previousTankPositionY_ == tank_->y()) {
             int direction = randomNumber(1, 4);
-            if (static_cast<int>(MovableItem::South != direction))
-                tank_->setDirection(static_cast<MovableItem::Direction>(direction));
+            if (static_cast<int>(Base::MovableItem::South != direction))
+                tank_->setDirection(static_cast<Base::MovableItem::Direction>(direction));
             else
-                tank_->setDirection(MovableItem::North);
+                tank_->setDirection(Base::MovableItem::North);
         }
         break;
-    case MovableItem::West:
+    case Base::MovableItem::West:
         if (previousTankPositionX_ == tank_->x()) {
             int direction = randomNumber(1, 4);
-            if (static_cast<int>(MovableItem::West != direction))
-                tank_->setDirection(static_cast<MovableItem::Direction>(direction));
+            if (static_cast<int>(Base::MovableItem::West != direction))
+                tank_->setDirection(static_cast<Base::MovableItem::Direction>(direction));
             else
-                tank_->setDirection(MovableItem::East);
+                tank_->setDirection(Base::MovableItem::East);
         }
         break;
-    case MovableItem::East:
+    case Base::MovableItem::East:
         if (previousTankPositionX_ == tank_->x()) {
             int direction = randomNumber(1, 4);
-            if (static_cast<int>(MovableItem::East != direction))
-                tank_->setDirection(static_cast<MovableItem::Direction>(direction));
+            if (static_cast<int>(Base::MovableItem::East != direction))
+                tank_->setDirection(static_cast<Base::MovableItem::Direction>(direction));
             else
-                tank_->setDirection(MovableItem::West);
+                tank_->setDirection(Base::MovableItem::West);
         }
         break;
     default:
@@ -94,7 +96,7 @@ void EnemyDriver::moveRandomly()
 
     int direction = randomNumber(1, 100);
     if (direction <= 4)
-        tank_->setDirection(static_cast<MovableItem::Direction>(direction));
+        tank_->setDirection(static_cast<Base::MovableItem::Direction>(direction));
 }
 
 void EnemyDriver::moveToPlayer()
@@ -112,3 +114,5 @@ void EnemyDriver::moveToEagle()
     // TODO: add implementation
     qDebug() << Q_FUNC_INFO;
 }
+
+}  // namespace Controller

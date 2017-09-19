@@ -3,6 +3,8 @@
 
 #include "baseitem.h"
 
+namespace Base {
+
 class MovableItem : public BaseItem
 {
     Q_OBJECT
@@ -46,5 +48,7 @@ private:
     Direction direction_ = North;
     bool movement_ = true;
 };
+
+}  // namespace Base
 
 #endif // MOVABLEITEM_H

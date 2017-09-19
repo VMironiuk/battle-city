@@ -1,15 +1,15 @@
 #include "gameresult.h"
 
-#include <QDebug>
-
 #include "global.h"
+
+namespace Utils {
 
 GameResult::GameResult()
 {
-    stageResults_[Constants::EnemyTank::Value::Usual] = 0;
-    stageResults_[Constants::EnemyTank::Value::TroopCarrier] = 0;
-    stageResults_[Constants::EnemyTank::Value::Bursting] = 0;
-    stageResults_[Constants::EnemyTank::Value::Armored] = 0;
+    stageResults_[Base::Constants::EnemyTank::Value::Usual] = 0;
+    stageResults_[Base::Constants::EnemyTank::Value::TroopCarrier] = 0;
+    stageResults_[Base::Constants::EnemyTank::Value::Bursting] = 0;
+    stageResults_[Base::Constants::EnemyTank::Value::Armored] = 0;
 }
 
 void GameResult::accumulate(int TankValue)
@@ -23,3 +23,5 @@ void GameResult::appendPoints(int value)
 {
     totalPoints_ += value;
 }
+
+}  // namespace Utils

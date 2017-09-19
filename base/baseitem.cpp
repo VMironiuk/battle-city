@@ -1,5 +1,7 @@
 #include "baseitem.h"
 
+namespace Base {
+
 BaseItem::BaseItem(QObject *parent)
     : BCObject(parent)
 {
@@ -61,3 +63,5 @@ void BaseItem::setImageSource(const QString &imageSource)
     imageSource_ = imageSource;
     emit imageSourceChanged(imageSource_);
 }
+
+}  // namespace Base

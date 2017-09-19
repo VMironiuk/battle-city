@@ -5,6 +5,8 @@
 static const int SHOW_INTERVAL = 30000;
 static const int HIDE_INTERVAL = 15000;
 
+namespace Utils {
+
 BonusTimer::BonusTimer(QObject *parent)
     : QObject(parent)
 {
@@ -33,3 +35,5 @@ void BonusTimer::timerEvent(QTimerEvent *event)
         bonusShown_ = !bonusShown_;
     }
 }
+
+}  // namespace Utils

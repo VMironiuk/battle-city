@@ -3,6 +3,8 @@
 
 #include "bcobject.h"
 
+namespace Base {
+
 class BaseItem : public BCObject
 {
     Q_OBJECT
@@ -60,5 +62,7 @@ private:
     int rotation_ = 0;
     QString imageSource_;
 };
+
+}  // namespace Base
 
 #endif // BASEITEM_H

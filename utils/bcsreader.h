@@ -8,10 +8,12 @@
 #include "informationpanel.h"
 #include "tile.h"
 
+namespace Utils {
+
 class BCSReader
 {
 public:
-    BCSReader(Board *board, InformationPanel *informationPanel);
+    BCSReader(Base::Board *board, Base::InformationPanel *informationPanel);
 
     bool read(QIODevice *device);
     QString errorString() const;
@@ -22,15 +24,17 @@ private:
     bool readTile();
     int readTileRow(bool *ok);
     int readTileColumn(bool *ok);
-    Tile::Material readTileMaterial(bool *ok);
+    Base::Tile::Material readTileMaterial(bool *ok);
     bool readTank();
     QString readTankType(bool *ok);
     int readTankStrength(bool *ok);
     int readTankValue(bool *ok);
 
-    Board *board_;
-    InformationPanel *informationPanel_;
+    Base::Board *board_;
+    Base::InformationPanel *informationPanel_;
     QXmlStreamReader xml_;
 };
+
+}  // namespace Utils
 
 #endif // BCSREADER_H

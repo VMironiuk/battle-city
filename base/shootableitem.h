@@ -5,6 +5,8 @@
 
 #include "movableitem.h"
 
+namespace Base {
+
 class ShootableItem : public MovableItem
 {
     Q_OBJECT
@@ -49,5 +51,7 @@ private:
     QTime chargingTime_;
     ShotMode shotMode_ = SlowShot;
 };
+
+}  // namespace Base
 
 #endif // SHOOTABLEITEM_H

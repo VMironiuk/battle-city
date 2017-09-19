@@ -1,5 +1,7 @@
 #include "informationpanel.h"
 
+namespace Base {
+
 InformationPanel::InformationPanel(QObject *parent)
     : BaseItem(parent)
 {
@@ -97,3 +99,5 @@ void InformationPanel::removeAllEnemyMarkers()
     while (!enemyMarkers_.isEmpty())
         removeEnemyMarker();
 }
+
+}  // namespace Base

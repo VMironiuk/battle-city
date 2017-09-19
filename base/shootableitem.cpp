@@ -4,6 +4,8 @@
 
 #include "global.h"
 
+namespace Base {
+
 ShootableItem::ShootableItem(QObject *parent)
     : MovableItem(parent)
 {
@@ -118,3 +120,5 @@ bool ShootableItem::charged() const
         return chargingTime_.elapsed() > 250;
     return charge_ && chargingTime_.elapsed() > chargingInterval_;
 }
+
+}  // namespace Base

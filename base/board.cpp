@@ -1,5 +1,7 @@
 #include "board.h"
 
+namespace Base {
+
 Board::Board(int rows, int cols, int tileSize, QObject *parent)
     : BaseItem(parent),
       rowCount_(rows),
@@ -442,3 +444,5 @@ Tile *Board::tile(int row, int column) const
         return nullptr;
     return tiles_.at(index);
 }
+
+}  // namespace Base

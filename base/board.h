@@ -9,15 +9,17 @@
 #include "shootableitem.h"
 #include "tile.h"
 
+namespace Base {
+
 class Board : public BaseItem
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Tile> tilesProperty READ tilesProperty CONSTANT)
-    Q_PROPERTY(QQmlListProperty<ShootableItem> playerTanksProperty READ playerTanksProperty NOTIFY playerTanksPropertyChanged)
-    Q_PROPERTY(QQmlListProperty<ShootableItem> enemyTanksProperty READ enemyTanksProperty NOTIFY enemyTanksPropertyChanged)
-    Q_PROPERTY(QQmlListProperty<MovableItem> projectilesProperty READ projectilesProperty NOTIFY projectilesPropertyChanged)
-    Q_PROPERTY(QQmlListProperty<BaseItem> explosionsProperty READ explosionsProperty NOTIFY explosionsPropertyChanged)
-    Q_PROPERTY(QQmlListProperty<BaseItem> bonusesProperty READ bonusesProperty NOTIFY bonusesPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<Base::Tile> tilesProperty READ tilesProperty CONSTANT)
+    Q_PROPERTY(QQmlListProperty<Base::ShootableItem> playerTanksProperty READ playerTanksProperty NOTIFY playerTanksPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<Base::ShootableItem> enemyTanksProperty READ enemyTanksProperty NOTIFY enemyTanksPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<Base::MovableItem> projectilesProperty READ projectilesProperty NOTIFY projectilesPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<Base::BaseItem> explosionsProperty READ explosionsProperty NOTIFY explosionsPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<Base::BaseItem> bonusesProperty READ bonusesProperty NOTIFY bonusesPropertyChanged)
     Q_PROPERTY(BaseItem* eagle READ eagle CONSTANT)
 public:
     Board(int rows, int cols, int tileSize, QObject *parent = nullptr);
@@ -73,7 +75,8 @@ signals:
     void eagleDestroyed();
     void playerTankDestroyed();
     void enemyTankDestroyed(int tankValue);
-    void bonusReached(ShootableItem *playerTank, Constants::Bonus::BonusType bonusType);
+    void bonusReached(Base::ShootableItem *playerTank,
+                      Base::Constants::Bonus::BonusType bonusType);
 
 private slots:
     void addProjectile(MovableItem *projectile);
@@ -98,5 +101,7 @@ private:
     int colCount_;
     int tileSize_;
 };
+
+}  // namespace Base
 
 #endif // BOARD_H

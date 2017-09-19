@@ -1,5 +1,7 @@
 #include "stageiterator.h"
 
+namespace Utils {
+
 StageIterator *StageIterator::instance_ = nullptr;
 
 QString StageIterator::nextStageSrc()
@@ -31,3 +33,5 @@ StageIterator::StageIterator()
     stages_ << ":/stages/stage1.xml";
     stages_ << ":/stages/stage2.xml";
 }
+
+}  // namespace Utils

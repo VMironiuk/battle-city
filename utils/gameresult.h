@@ -3,6 +3,8 @@
 
 #include <QMap>
 
+namespace Utils {
+
 class GameResult
 {
 public:
@@ -19,5 +21,7 @@ private:
     int totalTanks_ = 0;
     int totalPoints_ = 0;
 };
+
+}  // namespace Utils
 
 #endif // GAMERESULT_H

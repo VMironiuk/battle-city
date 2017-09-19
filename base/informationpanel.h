@@ -7,13 +7,15 @@
 #include "baseitem.h"
 #include "shootableitem.h"
 
+namespace Base {
+
 class InformationPanel : public BaseItem
 {
     Q_OBJECT
     Q_PROPERTY(int stageNo READ stageNo WRITE setStageNo NOTIFY stageNoChanged)
     Q_PROPERTY(int livesCount READ livesCount WRITE setLivesCount NOTIFY livesCountChanged)
     Q_PROPERTY(int maxEnemiesCount READ maxEnemiesCount WRITE setMaxEnemiesCount NOTIFY maxEnemiesCountChanged)
-    Q_PROPERTY(QQmlListProperty<BaseItem> enemyMarkersProperty READ enemyMarkersProperty NOTIFY enemyMarkersPropertyChanged)
+    Q_PROPERTY(QQmlListProperty<Base::BaseItem> enemyMarkersProperty READ enemyMarkersProperty NOTIFY enemyMarkersPropertyChanged)
 public:
     explicit InformationPanel(QObject *parent = nullptr);
     ~InformationPanel();
@@ -54,5 +56,7 @@ private:
     QList<BaseItem *> enemyMarkers_;
     QQueue<ShootableItem *> tanks_;
 };
+
+}  // namespace Base
 
 #endif // INFORMATIONPANEL_H

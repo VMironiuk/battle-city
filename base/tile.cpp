@@ -1,5 +1,7 @@
 #include "tile.h"
 
+namespace Base {
+
 Tile::Tile(QObject *parent) : BaseItem(parent)
 {
 
@@ -52,3 +54,5 @@ void Tile::updateImageSource(Material material)
         setImageSource("");
     }
 }
+
+}  // namespace Base

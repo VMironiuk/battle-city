@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+namespace Base {
+
 class BCObject : public QObject
 {
     Q_OBJECT
@@ -26,5 +28,7 @@ private:
     bool hasError_ = false;
     QString errorString_;
 };
+
+}  // namespace Base
 
 #endif // BCOBJECT_H

@@ -13,16 +13,18 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<Tile>();
-    qmlRegisterType<MovableItem>("battlecity.movableitem", 1, 0, "MovableItem");
-    qmlRegisterType<ShootableItem>();
-    qmlRegisterType<BaseItem>();
+    qmlRegisterType<Base::Tile>();
+    qmlRegisterType<Base::MovableItem>("battlecity.movableitem", 1, 0, "MovableItem");
+    qmlRegisterType<Base::ShootableItem>();
+    qmlRegisterType<Base::BaseItem>();
 
-    Board *board = GameController::instance().board();
-    InformationPanel *informationPanel = GameController::instance().informationPanel();
+    Base::Board *board = Controller::GameController::instance().board();
+    Base::InformationPanel *informationPanel = Controller::GameController::instance()
+            .informationPanel();
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("gameController", &GameController::instance());
+    engine.rootContext()->setContextProperty("gameController",
+                                             &Controller::GameController::instance());
     engine.rootContext()->setContextProperty("board", board);
     engine.rootContext()->setContextProperty("informationPanel", informationPanel);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

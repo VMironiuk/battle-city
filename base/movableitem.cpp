@@ -1,5 +1,7 @@
 #include "movableitem.h"
 
+namespace Base {
+
 MovableItem::MovableItem(QObject *parent)
     : BaseItem(parent)
 {
@@ -75,3 +77,5 @@ void MovableItem::moveEast()
     setRotation(90);
     setX(x() + speed_);
 }
+
+}  // namespace Base

@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+namespace Utils {
+
 class BonusTimer : public QObject
 {
     Q_OBJECT
@@ -22,5 +24,7 @@ private:
     int intervalId_ = 0;
     bool bonusShown_ = false;
 };
+
+}  // namespace Utils
 
 #endif // BONUSTIMER_H

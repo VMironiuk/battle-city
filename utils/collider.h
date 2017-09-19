@@ -8,48 +8,50 @@
 #include "movableitem.h"
 #include "tile.h"
 
+namespace Utils {
+
 class Collider : public QObject
 {
-    friend class GameController;
-
     Q_OBJECT
 public:
     explicit Collider(QObject *parent = nullptr);
     Collider(const Collider&) = delete;
     Collider &operator=(const Collider&) = delete;
 
-private:
-    void checkCollisions(Board *board);
+    void checkCollisions(Base::Board *board);
 
-    void checkBoardBoundaries(Board *board);
-    void checkBoardBoundariesForTank(Board *board, MovableItem *tank);
-    void checkBoardBoundariesForProjectile(Board *board, MovableItem *projectile);
+    void checkBoardBoundaries(Base::Board *board);
+    void checkBoardBoundariesForTank(Base::Board *board, Base::MovableItem *tank);
+    void checkBoardBoundariesForProjectile(Base::Board *board, Base::MovableItem *projectile);
 
-    void checkTileBoundaries(Board *board);
-    void checkTileBoundariesForTank(Board *board, MovableItem *tank);
-    void checkTileBoundariesForTank(MovableItem *tank, Tile *tile);
-    void checkTileBoundariesForProjectile(Board *board, MovableItem *projectile);
+    void checkTileBoundaries(Base::Board *board);
+    void checkTileBoundariesForTank(Base::Board *board, Base::MovableItem *tank);
+    void checkTileBoundariesForTank(Base::MovableItem *tank, Base::Tile *tile);
+    void checkTileBoundariesForProjectile(Base::Board *board, Base::MovableItem *projectile);
 
-    void checkTanksHitting(Board *board);
-    void checkEnemyTanksHitting(Board *board, MovableItem *projectile);
-    void checkPlayerTanksHitting(Board *board, MovableItem *projectile);
+    void checkTanksHitting(Base::Board *board);
+    void checkEnemyTanksHitting(Base::Board *board, Base::MovableItem *projectile);
+    void checkPlayerTanksHitting(Base::Board *board, Base::MovableItem *projectile);
 
-    void checkTanksCollisions(Board *board);
-    void checkProjectiesCollisions(Board *board);
+    void checkTanksCollisions(Base::Board *board);
+    void checkProjectiesCollisions(Base::Board *board);
 
-    void checkEagleHitting(Board *board);
-    void checkEagleBoundaries(Board *board);
+    void checkEagleHitting(Base::Board *board);
+    void checkEagleBoundaries(Base::Board *board);
 
-    void checkBonusBoundaries(Board *board);
+    void checkBonusBoundaries(Base::Board *board);
 
-    bool checkNorthDirectionCollision(BaseItem *source, BaseItem *target);
-    bool checkSouthDirectionCollision(BaseItem *source, BaseItem *target);
-    bool checkWestDirectionCollision(BaseItem *source, BaseItem *target);
-    bool checkEastDirectionCollision(BaseItem *source, BaseItem *target);
+    bool checkNorthDirectionCollision(Base::BaseItem *source, Base::BaseItem *target);
+    bool checkSouthDirectionCollision(Base::BaseItem *source, Base::BaseItem *target);
+    bool checkWestDirectionCollision(Base::BaseItem *source, Base::BaseItem *target);
+    bool checkEastDirectionCollision(Base::BaseItem *source, Base::BaseItem *target);
 
-    bool checkCollision(MovableItem *movable, BaseItem *target);
+    bool checkCollision(Base::MovableItem *movable, Base::BaseItem *target);
 
-    void adjustMovableItemPos(MovableItem *movableItem, Tile *tile, int xOffset, int yOffset);
+    void adjustMovableItemPos(Base::MovableItem *movableItem, Base::Tile *tile, int xOffset,
+                              int yOffset);
 };
+
+}  // namespace Utils
 
 #endif // COLLIDER_H

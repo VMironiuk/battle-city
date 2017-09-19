@@ -3,6 +3,8 @@
 
 #include <QList>
 
+namespace Utils {
+
 class StageIterator
 {
 public:
@@ -18,5 +20,7 @@ private:
     QList<QString> stages_;
     int curr_ = 0;
 };
+
+}  // namespace Utils
 
 #endif // STAGEITERATOR_H

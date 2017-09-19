@@ -3,6 +3,8 @@
 
 #include "baseitem.h"
 
+namespace Base {
+
 class Tile : public BaseItem
 {
     Q_OBJECT
@@ -33,5 +35,7 @@ private:
 
     Material material_ = Free;
 };
+
+}  // namespace Base
 
 #endif // TILE_H

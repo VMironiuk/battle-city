@@ -1,5 +1,7 @@
 #include "bcobject.h"
 
+namespace Base {
+
 BCObject::BCObject(QObject *parent)
     : QObject(parent)
 {
@@ -24,3 +26,5 @@ void BCObject::setErrorString(const QString errorString)
     errorString_ = errorString;
     emit errorStringChanged(errorString_);
 }
+
+}  // namespace Base

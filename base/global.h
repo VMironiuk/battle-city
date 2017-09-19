@@ -1,6 +1,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+namespace Base {
+
 namespace Constants {
 namespace Property {
 extern const char *Belligerent;
@@ -62,6 +64,7 @@ enum Value {
 } // Constants::EnemyTank
 } // Constants
 
+}  // namespace Base
 int randomNumber(int min, int max);
 
 #endif // GLOBAL_H

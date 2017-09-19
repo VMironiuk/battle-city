@@ -2,7 +2,9 @@
 
 #include "global.h"
 
-BCSReader::BCSReader(Board *board, InformationPanel *informationPanel)
+namespace Utils {
+
+BCSReader::BCSReader(Base::Board *board, Base::InformationPanel *informationPanel)
     : board_(board),
       informationPanel_(informationPanel)
 {
@@ -76,7 +78,7 @@ bool BCSReader::readTile()
 {
     int row = 0;
     int column = 0;
-    Tile::Material material = Tile::Free;
+    Base::Tile::Material material = Base::Tile::Free;
 
     bool ok = true;
     while (xml_.readNextStartElement()) {
@@ -122,7 +124,6 @@ int BCSReader::readTileRow(bool *ok)
 
 int BCSReader::readTileColumn(bool *ok)
 {
-    Q_ASSERT(xml_.isStartElement() && xml_.name() == "column");
     if (!xml_.isStartElement() || xml_.name() != "column") {
         *ok = false;
         return  -1;
@@ -131,15 +132,14 @@ int BCSReader::readTileColumn(bool *ok)
     return xml_.readElementText().toInt(ok);
 }
 
-Tile::Material BCSReader::readTileMaterial(bool *ok)
+Base::Tile::Material BCSReader::readTileMaterial(bool *ok)
 {
-    Q_ASSERT(xml_.isStartElement() && xml_.name() == "material");
     if (!xml_.isStartElement() || xml_.name() != "material") {
         *ok = false;
-        return Tile::Free;
+        return Base::Tile::Free;
     }
 
-    return static_cast<Tile::Material>(xml_.readElementText().toInt(ok));
+    return static_cast<Base::Tile::Material>(xml_.readElementText().toInt(ok));
 }
 
 bool BCSReader::readTank()
@@ -151,54 +151,55 @@ bool BCSReader::readTank()
         return false;
     }
 
-    ShootableItem *tank = new ShootableItem;
+    Base::ShootableItem *tank = new Base::ShootableItem;
     if (tank == nullptr) {
         xml_.raiseError(errStr);
         return false;
     }
-    tank->setProperty(Constants::Property::Belligerent, Constants::Belligerent::Enemy);
+    tank->setProperty(Base::Constants::Property::Belligerent, Base::Constants::Belligerent::Enemy);
 
     bool ok = true;
     while (xml_.readNextStartElement()) {
-        if (xml_.name() == Constants::EnemyTank::Property::Type) {
+        if (xml_.name() == Base::Constants::EnemyTank::Property::Type) {
             QString type = readTankType(&ok);
             if (!ok) {
                 xml_.raiseError("BCSreader: cannot read 'type' element for tank");
                 delete tank;
                 return false;
             }
-            if (type == Constants::EnemyTank::Type::Usual) {
+            if (type == Base::Constants::EnemyTank::Type::Usual) {
                 tank->setImageSource("qrc:/images/tanks/enemy/simple_tank.png");
-                tank->setProperty(Constants::EnemyTank::Property::Type,
-                                  Constants::EnemyTank::Type::Usual);
-            } else if (type == Constants::EnemyTank::Type::TroopCarrier) {
+                tank->setProperty(Base::Constants::EnemyTank::Property::Type,
+                                  Base::Constants::EnemyTank::Type::Usual);
+            } else if (type == Base::Constants::EnemyTank::Type::TroopCarrier) {
                 tank->setImageSource("qrc:/images/tanks/enemy/fast.png");
                 tank->setSpeed(6);
-                tank->setProperty(Constants::EnemyTank::Property::Type,
-                                  Constants::EnemyTank::Type::TroopCarrier);
-            } else if (type == Constants::EnemyTank::Type::Bursting) {
+                tank->setProperty(Base::Constants::EnemyTank::Property::Type,
+                                  Base::Constants::EnemyTank::Type::TroopCarrier);
+            } else if (type == Base::Constants::EnemyTank::Type::Bursting) {
                 tank->setImageSource("qrc:/images/tanks/enemy/bursting.png");
-                tank->setShotMode(ShootableItem::BurstShot);
-                tank->setProperty(Constants::EnemyTank::Property::Type,
-                                  Constants::EnemyTank::Type::Bursting);
-            } else if (type == Constants::EnemyTank::Type::Armored) {
+                tank->setShotMode(Base::ShootableItem::BurstShot);
+                tank->setProperty(Base::Constants::EnemyTank::Property::Type,
+                                  Base::Constants::EnemyTank::Type::Bursting);
+            } else if (type == Base::Constants::EnemyTank::Type::Armored) {
                 tank->setImageSource("qrc:/images/tanks/enemy/armored.png");
-                tank->setProperty(Constants::EnemyTank::Property::Type,
-                                  Constants::EnemyTank::Type::Armored);
+                tank->setProperty(Base::Constants::EnemyTank::Property::Type,
+                                  Base::Constants::EnemyTank::Type::Armored);
             } else {
                 xml_.raiseError("BCSReader: invalid type of tank");
                 delete tank;
                 return false;
             }
-        } else if (xml_.name() == Constants::EnemyTank::Property::Strength) {
-            tank->setProperty(Constants::EnemyTank::Property::Strength, readTankStrength(&ok));
+        } else if (xml_.name() == Base::Constants::EnemyTank::Property::Strength) {
+            tank->setProperty(Base::Constants::EnemyTank::Property::Strength,
+                              readTankStrength(&ok));
             if (!ok) {
                 xml_.raiseError("BCSreader: cannot read 'strength' element for tank");
                 delete tank;
                 return false;
             }
-        } else if (xml_.name() == Constants::EnemyTank::Property::Value) {
-            tank->setProperty(Constants::EnemyTank::Property::Value, readTankValue(&ok));
+        } else if (xml_.name() == Base::Constants::EnemyTank::Property::Value) {
+            tank->setProperty(Base::Constants::EnemyTank::Property::Value, readTankValue(&ok));
             if (!ok) {
                 xml_.raiseError("BCSreader: cannot read 'value' element for tank");
                 delete tank;
@@ -242,3 +243,5 @@ int BCSReader::readTankValue(bool *ok)
 
     return xml_.readElementText().toInt(ok);
 }
+
+}  // namespace Utils

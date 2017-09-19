@@ -2,6 +2,8 @@
 
 #include <random>
 
+namespace Base {
+
 namespace Constants {
 namespace Property {
 const char *Belligerent = "belligerent";
@@ -48,6 +50,8 @@ const char *Armored = "armored";
 } // Constants::EnemyTank::Type
 } // Constants::EnemyTank
 } // Constants
+
+}  // namespace Base
 
 int randomNumber(int min, int max)
 {
