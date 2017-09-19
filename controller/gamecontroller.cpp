@@ -5,6 +5,7 @@
 #include <QTimerEvent>
 
 #include "bcsreader.h"
+#include "functions.h"
 #include "global.h"
 #include "stageiterator.h"
 
@@ -137,7 +138,7 @@ void GameController::onShowBonusRequest()
         return;
 
     Base::Constants::Bonus::BonusType bonusType
-            = static_cast<Base::Constants::Bonus::BonusType>(randomNumber(0, 5));
+            = static_cast<Base::Constants::Bonus::BonusType>(Utils::Functions::randomNumber(0, 5));
     bonus->setProperty(Base::Constants::Bonus::Property::Type, bonusType);
 
     switch (bonusType) {
@@ -164,8 +165,8 @@ void GameController::onShowBonusRequest()
         break;
     }
 
-    int row = randomNumber(0, 21);
-    int column = randomNumber(0, 24);
+    int row = Utils::Functions::randomNumber(0, 21);
+    int column = Utils::Functions::randomNumber(0, 24);
     if (board_ != nullptr)
         board_->addBonus(row, column, bonus);
 }
@@ -334,7 +335,7 @@ void GameController::moveEnemyTankToBoard()
     if (!informationPanel_->hasNextTank())
         return;
 
-    int index = randomNumber(low, high);
+    int index = Utils::Functions::randomNumber(low, high);
     int respawnX = enemyRespawns_.at(index).first;
     int respawnY = enemyRespawns_.at(index).second;
 

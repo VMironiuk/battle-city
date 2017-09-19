@@ -65,6 +65,5 @@ enum Value {
 } // Constants
 
 }  // namespace Base
-int randomNumber(int min, int max);
 
 #endif // GLOBAL_H

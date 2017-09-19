@@ -29,7 +29,8 @@ SOURCES += \
     collider.cpp \
     gameresult.cpp \
     stageiterator.cpp \
-    bcsreader.cpp
+    bcsreader.cpp \
+    functions.cpp
 
 HEADERS += \
         utils_global.h \ 
@@ -37,7 +38,8 @@ HEADERS += \
     collider.h \
     gameresult.h \
     stageiterator.h \
-    bcsreader.h
+    bcsreader.h \
+    functions.h
 
 unix {
     target.path = /usr/lib
