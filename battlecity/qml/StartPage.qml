@@ -1,34 +1,48 @@
 import QtQuick 2.0
 
-Item {
+Rectangle {
     id: root
     focus: true
+    color: "black"
     property bool stageCompleted: false
 
-    Rectangle {
-        color: "black"
-        anchors.fill: parent
+    Grid {
+        anchors.centerIn: parent
+        spacing: 50
+        columns: 1
+
+        Text {
+            text: "I -    " + gameResult.totalPoints + "  HI -    20000"
+            color: "white"
+            font.pixelSize: 36
+            font.bold: true
+        }
 
         Image {
-            x: parent.width / 2 - width / 2
-            y: parent.height / 2
             source: "qrc:/images/pages/start.png"
+        }
 
-            NumberAnimation on y {
-                from: 800
-                to: 200
-                duration: 3000
+        Text {
+            text: "Keyboard Layout:<br>
+                   <font color=\"red\"><b>Enter</b></font> - Pause/Continue
+                   <br><font color=\"red\"><b>X</b></font> - Shot"
+            color: "white"
+            font.pixelSize: 24
+        }
+    }
 
-                onStopped: {
-                    if (gameController.setupStage() === true) {
-                        stageCompleted = true
-                        console.log("I - " + gameResult.totalPoints)
-                        gameResult.resetAll()
-                    } else {
-                        console.log(gameController.errorString)
-                    // TODO: else show error
-                    }
-                }
+    NumberAnimation on y {
+        from: 800
+        to: 0
+        duration: 3000
+
+        onStopped: {
+            if (gameController.setupStage() === true) {
+                stageCompleted = true
+                gameResult.resetAll()
+            } else {
+                console.log(gameController.errorString)
+                // TODO: else show error
             }
         }
     }
