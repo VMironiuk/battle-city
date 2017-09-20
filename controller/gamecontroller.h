@@ -22,6 +22,7 @@ public:
 
     Base::Board *board() { return board_; }
     Base::InformationPanel *informationPanel() { return informationPanel_; }
+    Utils::GameResult *gameResult() { return &gameResult_; }
 
     bool won() const { return won_; }
     void setWon(bool won);

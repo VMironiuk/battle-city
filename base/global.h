@@ -55,12 +55,6 @@ extern const char *TroopCarrier;
 extern const char *Bursting;
 extern const char *Armored;
 } // Constants::EnemyTank::Type
-enum Value {
-    Usual = 100,
-    TroopCarrier = 200,
-    Bursting = 300,
-    Armored = 400
-};// Constants::EnemyTank::Value
 } // Constants::EnemyTank
 } // Constants
 

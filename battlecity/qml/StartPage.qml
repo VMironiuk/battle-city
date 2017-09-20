@@ -20,11 +20,14 @@ Item {
                 duration: 3000
 
                 onStopped: {
-                    if (gameController.setupStage() === true)
+                    if (gameController.setupStage() === true) {
                         stageCompleted = true
-                    else
+                        console.log("I - " + gameResult.totalPoints)
+                        gameResult.resetAll()
+                    } else {
                         console.log(gameController.errorString)
                     // TODO: else show error
+                    }
                 }
             }
         }

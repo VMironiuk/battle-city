@@ -128,7 +128,7 @@ void GameController::onPlayerTankDestroyed()
 
 void GameController::onEnemyTankDestroyed(int tankValue)
 {
-    gameResult_.accumulate(tankValue);
+    gameResult_.accumulateEnemyTanks(tankValue);
 }
 
 void GameController::onShowBonusRequest()
@@ -186,31 +186,31 @@ void GameController::onBonusReached(Base::ShootableItem *playerTank,
     static const int bonusValue = 500;
     switch (bonusType) {
     case Base::Constants::Bonus::Grenade:
-        gameResult_.appendPoints(bonusValue);
+        gameResult_.appendPointsForBonus(bonusValue);
         if (board_ != nullptr)
             board_->removeAllEnemyTanks();
         break;
     case Base::Constants::Bonus::Helmet:
-        gameResult_.appendPoints(bonusValue);
+        gameResult_.appendPointsForBonus(bonusValue);
         // TODO: add implementation
         qDebug() << "This bonus not implemented yet";
         break;
     case Base::Constants::Bonus::Shovel:
-        gameResult_.appendPoints(bonusValue);
+        gameResult_.appendPointsForBonus(bonusValue);
         // TODO: add implementation
         qDebug() << "This bonus not implemented yet";
         break;
     case Base::Constants::Bonus::Star:
-        gameResult_.appendPoints(bonusValue);
+        gameResult_.appendPointsForBonus(bonusValue);
         improvePlayerTank(playerTank);
         break;
     case Base::Constants::Bonus::Tank:
-        gameResult_.appendPoints(bonusValue);
+        gameResult_.appendPointsForBonus(bonusValue);
         if (informationPanel_ != nullptr)
             informationPanel_->setLivesCount(informationPanel_->livesCount() + 1);
         break;
     case Base::Constants::Bonus::Timer:
-        gameResult_.appendPoints(bonusValue);
+        gameResult_.appendPointsForBonus(bonusValue);
         // TODO: add implementation
         qDebug() << "This bonus not implemented yet";
         break;
