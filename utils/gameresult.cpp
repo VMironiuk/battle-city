@@ -13,10 +13,8 @@ GameResult::GameResult()
 
 void GameResult::accumulateEnemyTanks(int tankValue)
 {
-    if (!stageResults_.contains(static_cast<TankValue>(tankValue))) {
-        qDebug() << "invalid tank value";
+    if (!stageResults_.contains(static_cast<TankValue>(tankValue)))
         return;
-    }
 
     ++stageResults_[static_cast<TankValue>(tankValue)];
     totalPoints_ += tankValue;
