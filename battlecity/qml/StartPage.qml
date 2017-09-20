@@ -8,11 +8,11 @@ Rectangle {
 
     Grid {
         anchors.centerIn: parent
-        spacing: 50
+        spacing: 100
         columns: 1
 
         Text {
-            text: "I -    " + gameResult.totalPoints + "  HI -    20000"
+            text: "I -    " + "<font color=\"#ce6306\">" + gameResult.totalPoints + "</font>" + "  HI -    20000"
             color: "white"
             font.pixelSize: 36
             font.bold: true
@@ -23,8 +23,7 @@ Rectangle {
         }
 
         Text {
-            text: "Keyboard Layout:<br>
-                   <font color=\"red\"><b>Enter</b></font> - Pause/Continue
+            text: "<font color=\"red\"><b>Enter</b></font> - Pause/Continue
                    <br><font color=\"red\"><b>X</b></font> - Shot"
             color: "white"
             font.pixelSize: 24
